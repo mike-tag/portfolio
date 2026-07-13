@@ -1,0 +1,11 @@
+node_modules/
+.pnpm-store/
+dist/
+.vite/
+*.log
+.DS_Store
+
+# Source research stays local until publication rights and final content are approved.
+/*.pdf
+/*.docx
+/tmp/
