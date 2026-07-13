@@ -43,17 +43,13 @@ pnpm test
 
 The production site is generated in `dist/`.
 
-## GitHub Pages handoff
+## GitHub Pages deployment
 
-The project includes a deployment workflow at `.github/workflows/deploy.yml`. When the site is ready to publish:
+The public demo is deployed from the [`vav-public-demos`](https://github.com/mike-tag/vav-public-demos) repository at:
 
-1. Create and verify a GitHub account and enable two-factor authentication.
-2. Create an empty repository named `open-primaries-advocacy-workbench`. Do not add a README or `.gitignore` on GitHub because those files already exist here.
-3. Connect this local folder to that repository and push the `main` branch.
-4. In the repository, open **Settings → Pages** and choose **GitHub Actions** as the source.
-5. Run the deployment workflow or push another change to `main`.
+<https://mike-tag.github.io/vav-public-demos/>
 
-On GitHub Free, the repository must be public before GitHub Pages can publish it. The local source PDFs and Word documents are ignored by Git and are not included in the site.
+The workflow in `.github/workflows/deploy.yml` builds, tests, and publishes the site whenever a change is pushed to `main`. The repository can grow to include additional public demos over time. Local source PDFs and Word documents are ignored by Git and are not included in the site.
 
 ## Evidence status
 
