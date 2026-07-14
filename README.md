@@ -48,9 +48,9 @@ The production site is generated in `dist/`.
 
 ## GitHub Pages deployment
 
-The public demo is deployed from the [`vav-public-demos`](https://github.com/mike-tag/vav-public-demos) repository at:
+The public portfolio is deployed from the [`portfolio`](https://github.com/mike-tag/portfolio) repository at:
 
-<https://mike-tag.github.io/vav-public-demos/>
+<https://mike-tag.github.io/portfolio/>
 
 The workflow in `.github/workflows/deploy.yml` builds, tests, and publishes the site whenever a change is pushed to `main`. The repository can grow to include additional public demos over time. Local source PDFs and Word documents are ignored by Git and are not included in the site.
 
