@@ -9,7 +9,6 @@ const approaches = [
     id: "governance" as ApproachId,
     number: "A",
     Icon: Landmark,
-    label: "Governance + evidence",
     title: "Start with institutional purpose",
     summary: "Connect participation to effective, legitimate city government. Use evidence near the center, then make a focused ask.",
     strengths: ["Best for a formal public record", "Strong connection to the audience's job", "Evidence carries the middle of the argument"],
@@ -48,7 +47,6 @@ const approaches = [
     id: "values" as ApproachId,
     number: "B",
     Icon: HeartHandshake,
-    label: "Values + lived experience",
     title: "Start with service",
     summary: "Use veteran and community experience to make the human reason for reform clear, then connect that story to voter voice and trust.",
     strengths: ["Best for spoken testimony", "Strong personal credibility", "A memorable values-led opening"],
@@ -114,8 +112,7 @@ export function ExamplesPage() {
           <input id={inputId} type="radio" name="testimony-approach" value={approach.id} checked={isSelected} aria-labelledby={`${inputId}-title`} aria-describedby={`${inputId}-summary`} onChange={() => setSelectedId(approach.id)} />
           <label className={`example-card ${isSelected ? "featured" : ""}`} htmlFor={inputId}>
             <span className="example-icon" aria-hidden="true"><approach.Icon size={30} strokeWidth={1.7} /></span>
-            <span className="approach-choice">Approach {approach.number}{isSelected && <> <Check aria-hidden="true" size={13} /> Selected</>}</span>
-            <strong className="example-card-title" id={`${inputId}-title`}>{approach.title}</strong>
+            <strong className="example-card-title" id={`${inputId}-title`}>Approach {approach.number}: {approach.title}{isSelected && <> <Check aria-hidden="true" size={13} /> Selected</>}</strong>
             <span className="example-card-summary" id={`${inputId}-summary`}>{approach.summary}</span>
             <span className="example-card-strengths">{approach.strengths.map((strength) => <span className="example-card-strength" key={strength}><Check aria-hidden="true" size={14} strokeWidth={2} />{strength}</span>)}</span>
           </label>

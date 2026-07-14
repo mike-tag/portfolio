@@ -16,7 +16,7 @@ export function buildWorkPacket(state: WorkbenchState) {
     ? evidence
         .map(
           (item, index) =>
-            `${index + 1}. ${item.title}\n   Claim: ${item.claim}\n   Best use: ${item.bestUse}\n   Caveat: ${item.caveat}\n   Reform type: ${item.reformType || "Multiple or not specified"}\n   Verification: ${item.verificationStatus === "research_lead" ? "REFRESH NEEDED — verify the current or primary source before public use" : "SOURCE CHECKED — preserve the stated caveat"}\n${formatSources(item)}`,
+            `${index + 1}. ${item.title}\n   Claim: ${item.claim}\n   Best use: ${item.bestUse}\n   Caveat: ${item.caveat}\n   Reform type: ${item.reformType || "Multiple or not specified"}\n   Verification: ${item.verificationStatus === "research_lead" ? "Refresh needed — verify the current or primary source before public use" : "Source checked — preserve the stated caveat"}\n${formatSources(item)}`,
         )
         .join("\n\n")
     : "No evidence selected. Ask the writer to avoid factual claims until sources are added.";
@@ -59,7 +59,7 @@ ${valueNotes}
 - Possible opening: ${frame?.sampleOpening || fallback}
 
 ## Evidence notes
-${hasResearchLead ? "**Verification warning:** At least one selected record is marked REFRESH NEEDED. Do not use that claim publicly until its current or primary source is confirmed.\n\n" : ""}${evidenceNotes}
+${hasResearchLead ? "**Verification warning:** At least one selected record is marked Refresh needed. Do not use that claim publicly until its current or primary source is confirmed.\n\n" : ""}${evidenceNotes}
 
 ## Copyable drafting prompt
 You are helping a Veterans for All Voters volunteer prepare ${state.artifactType || "an advocacy artifact"} for ${state.targetName || "a public audience"}.

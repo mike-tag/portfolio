@@ -1,4 +1,4 @@
-export type PageId = "home" | "workbench" | "sources" | "method" | "examples" | "about";
+export type PageId = "home" | "advocacy" | "workbench" | "sources" | "method" | "examples" | "about" | "transformation";
 
 export type EvidenceCategory = "A" | "B" | "C" | "D";
 

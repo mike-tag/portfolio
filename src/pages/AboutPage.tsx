@@ -1,16 +1,16 @@
 import { ArrowRight, CircleSlash2, ClipboardCheck, Flag, Laptop, Layers, ListChecks } from "lucide-react";
 
 const roadmap = [
-  { when: "Today", title: "Open primaries pilot", description: "A guided NYC example, VAV message principles, an evidence library, and a copyable work packet.", Icon: Flag },
-  { when: "Next", title: "Volunteer testing", description: "Measure time to first useful draft, messaging consistency, evidence completeness, usability, and reviewer burden.", Icon: ClipboardCheck },
-  { when: "Later", title: "More issue playbooks", description: "Extend the same architecture to ranked-choice voting, unified primaries, election administration, and other VAV priorities.", Icon: Layers },
+  { title: "Today: Open primaries pilot", description: "A guided NYC example, VAV message principles, an evidence library, and a copyable work packet.", Icon: Flag },
+  { title: "Next: Volunteer testing", description: "Measure time to first useful draft, messaging consistency, evidence completeness, usability, and reviewer burden.", Icon: ClipboardCheck },
+  { title: "Later: More issue playbooks", description: "Extend the same architecture to ranked-choice voting, unified primaries, election administration, and other VAV priorities.", Icon: Layers },
 ];
 
 export function AboutPage() {
   return <section className="section-pad interior-page about-page">
     <div className="page-heading"><h1>A repeatable advocacy tool for VAV volunteers.</h1></div>
-    <div className="about-grid">{roadmap.map(({ when, title, description, Icon }) => <article key={when}>
-      <div className="about-card-top"><span className="concept-icon"><Icon aria-hidden="true" size={24} strokeWidth={1.8} /></span><span className="about-kicker">{when}</span></div>
+    <div className="about-grid">{roadmap.map(({ title, description, Icon }) => <article key={title}>
+      <div className="about-card-top"><span className="concept-icon"><Icon aria-hidden="true" size={24} strokeWidth={1.8} /></span></div>
       <h2>{title}</h2><p>{description}</p>
     </article>)}</div>
     <section className="promise-panel">

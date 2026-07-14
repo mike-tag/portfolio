@@ -117,7 +117,7 @@ export function WorkbenchPage() {
               <TextInput label="Issue" value={state.issue} onChange={(value) => update("issue", value)} placeholder="Open primaries, ranked-choice voting…" />
               <TextInput label="Jurisdiction" value={state.jurisdiction} onChange={(value) => update("jurisdiction", value)} placeholder="City, state, or district" />
               <SelectInput label="Where will you use it?" value={state.advocacyMoment} onChange={(value) => update("advocacyMoment", value)} options={["Public hearing", "Email outreach", "Legislative meeting", "Coalition briefing", "Editorial outreach"]} />
-              <SelectInput label="What do you need?" value={state.artifactType} onChange={(value) => update("artifactType", value)} options={["2-minute testimony", "90-second testimony", "Email to a decision-maker", "Meeting brief", "Talking points", "Op-ed outline"]} />
+              <SelectInput label="What do you need?" value={state.artifactType} onChange={(value) => update("artifactType", value)} options={["60-second testimony", "90-second testimony", "2-minute testimony", "Email to a decision-maker", "Meeting brief", "Talking points", "Op-ed outline"]} />
               <TextInput label="What should this accomplish?" value={state.goal} onChange={(value) => update("goal", value)} placeholder="Persuade, recruit, brief…" />
               <TextInput label="Length" value={state.length} onChange={(value) => update("length", value)} placeholder="2 minutes, 250 words…" />
             </div>
@@ -176,7 +176,7 @@ export function WorkbenchPage() {
                 return <label key={item.id} className={`evidence-choice ${selected ? "selected" : ""}`}>
                   <input type="checkbox" checked={selected} onChange={() => toggleEvidence(item.id)} />
                   <span className="evidence-check" aria-hidden="true">{selected && <Check size={14} strokeWidth={2.5} />}</span>
-                  <span className="evidence-choice-copy"><small>{item.categoryLabel}</small><strong>{item.title}</strong><span>{item.claim}</span><em><b>Keep in mind:</b> {item.caveat}</em><cite>{sources.map((source) => source.title).join("; ")} · {item.verificationStatus === "research_lead" ? "refresh needed" : "source checked"}</cite></span>
+                  <span className="evidence-choice-copy"><strong>{item.title}</strong><span>{item.claim}</span><em><b>Keep in mind:</b> {item.caveat}</em><cite>{sources.map((source) => source.title).join("; ")} · {item.verificationStatus === "research_lead" ? "refresh needed" : "source checked"}</cite></span>
                 </label>;
               })}
             </div>

@@ -2,6 +2,8 @@
 
 A founder-ready pilot that helps Veterans for All Voters volunteers turn a real advocacy assignment into a values-led, audience-aware, evidence-backed work packet.
 
+The same GitHub Pages site now includes a **Consulting Reformed** section for interview and portfolio audiences. It begins with a problem-first point of view on why AI deployments stall, then provides a guided Transformation Factory example that turns an illustrative Procurement Operations Manager posting into task hypotheses, transparent AI/O-ring judgments, a role-and-workflow design, and a downloadable pilot packet.
+
 Open primaries and the New York City commission scenario are the first complete playbook. The structure is intended to expand to additional election-reform issues after volunteer testing.
 
 ## What the pilot does
@@ -14,6 +16,7 @@ Open primaries and the New York City commission scenario are the first complete 
 - connects evidence claims to their best use and caveats;
 - produces a copyable and downloadable work packet;
 - includes an annotated NYC testimony example and method guide.
+- lets visitors switch between the advocacy experience and the Consulting Reformed Transformation Factory demonstration;
 
 ## What it does not do
 

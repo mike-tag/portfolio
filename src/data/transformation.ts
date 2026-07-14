@@ -1,0 +1,226 @@
+export type FutureState = "Automate" | "Accelerate" | "Copilot" | "Human-control" | "Human-only";
+
+export type TransformationTask = {
+  id: string;
+  task: string;
+  evidence: string;
+  onetLens: string;
+  exposureClass: "E0" | "E1" | "E2";
+  exposure: number;
+  exposureAssessment: string;
+  bottleneck: number;
+  complementarity: number;
+  bundle: number;
+  humanNecessity: number;
+  controlBurden: number;
+  economicValue: number;
+  variance: number;
+  futureState: FutureState;
+  rationale: string;
+  oRingJudgment: string;
+  requiredControl: string;
+  validationStatus: string;
+};
+
+export const illustrativePosting = {
+  title: "Procurement operations manager",
+  context: "Illustrative composite job posting · enterprise shared services",
+  summary: "Lead day-to-day procurement operations, improve supplier and purchasing workflows, maintain policy compliance, resolve exceptions, prepare performance reporting, and partner with finance, legal, business leaders, and vendors.",
+  responsibilities: [
+    "Review purchase requests for completeness, policy fit, and approval routing.",
+    "Prepare routine supplier communications and status updates.",
+    "Analyze spend and cycle-time data and produce monthly operating reports.",
+    "Resolve escalated exceptions involving policy, risk, or business urgency.",
+    "Facilitate supplier negotiations and advise business stakeholders.",
+    "Maintain procedures, controls, and audit-ready documentation.",
+  ],
+};
+
+export const transformationTasks: TransformationTask[] = [
+  {
+    id: "request-check",
+    task: "Validate purchase-request fields against policy and produce a routing recommendation.",
+    evidence: "Posting language: review requests, maintain compliance, route approvals.",
+    onetLens: "Information evaluation + administrative process",
+    exposureClass: "E2",
+    exposure: 5,
+    exposureAssessment: "High software-mediated exposure: reliable execution depends on policy retrieval, workflow data, validation, and routing logic.",
+    bottleneck: 4,
+    complementarity: 5,
+    bundle: 5,
+    humanNecessity: 2,
+    controlBurden: 4,
+    economicValue: 5,
+    variance: 3,
+    futureState: "Copilot",
+    rationale: "Workflow software can check fields and recommend routing, but policy exceptions and consequential approvals require accountable review.",
+    oRingJudgment: "High complementarity and bundle dependence: the value appears when validation, routing, communications, and escalation move together.",
+    requiredControl: "Use approved policy and system records; require named approval for exceptions and consequential routing decisions.",
+    validationStatus: "Illustrative hypothesis — validate against request samples, policy rules, approval matrices, and exception logs.",
+  },
+  {
+    id: "supplier-drafts",
+    task: "Draft routine supplier requests, reminders, and status updates from approved records.",
+    evidence: "Posting language: supplier communication and workflow coordination.",
+    onetLens: "Communicating with people outside the organization",
+    exposureClass: "E1",
+    exposure: 5,
+    exposureAssessment: "High direct exposure for routine drafts when the message is grounded in approved records and templates.",
+    bottleneck: 2,
+    complementarity: 3,
+    bundle: 2,
+    humanNecessity: 2,
+    controlBurden: 2,
+    economicValue: 3,
+    variance: 2,
+    futureState: "Automate",
+    rationale: "Approved templates and system facts support automation, with escalation for disputes, commitments, or nonstandard terms.",
+    oRingJudgment: "Useful as a standalone efficiency gain, but more valuable when linked to request status and routing events.",
+    requiredControl: "Restrict automation to approved message types; escalate disputes, commitments, and nonstandard commercial language.",
+    validationStatus: "Illustrative hypothesis — validate message volume, exception types, templates, and supplier communication policy.",
+  },
+  {
+    id: "reporting",
+    task: "Convert spend and cycle-time records into a monthly operating narrative and exception list.",
+    evidence: "Posting language: analyze performance and prepare operating reports.",
+    onetLens: "Analyzing data + documenting information",
+    exposureClass: "E2",
+    exposure: 5,
+    exposureAssessment: "High software-mediated exposure: data retrieval, calculations, and narrative generation must share governed definitions.",
+    bottleneck: 3,
+    complementarity: 4,
+    bundle: 4,
+    humanNecessity: 2,
+    controlBurden: 3,
+    economicValue: 4,
+    variance: 2,
+    futureState: "Accelerate",
+    rationale: "Retrieval, calculation, and narrative generation can be packaged; the manager validates definitions, anomalies, and the final interpretation.",
+    oRingJudgment: "The reporting task becomes more valuable when data preparation, anomaly detection, and narrative drafting operate as one package.",
+    requiredControl: "Lock metric definitions, retain source links, flag anomalies, and require manager approval of the final interpretation.",
+    validationStatus: "Illustrative hypothesis — validate against report samples, metric definitions, source systems, and known reconciliation issues.",
+  },
+  {
+    id: "exception-triage",
+    task: "Triage procurement exceptions and assemble the facts, policy references, and decision options.",
+    evidence: "Posting language: resolve escalations involving policy, risk, and urgency.",
+    onetLens: "Evaluating information to determine compliance",
+    exposureClass: "E2",
+    exposure: 4,
+    exposureAssessment: "Strong support potential, but reliable performance depends on retrieval, case assembly, policy matching, and uncertainty signaling.",
+    bottleneck: 5,
+    complementarity: 5,
+    bundle: 5,
+    humanNecessity: 4,
+    controlBurden: 5,
+    economicValue: 5,
+    variance: 5,
+    futureState: "Copilot",
+    rationale: "AI can prepare a grounded case file, but an accountable person must interpret ambiguity, accept risk, and own the decision.",
+    oRingJudgment: "This is a critical bottleneck with high variance. Automating adjacent preparation raises the value of expert human judgment rather than removing it.",
+    requiredControl: "Cite policy and case facts, expose uncertainty, prohibit autonomous approval, and route every material exception to an accountable owner.",
+    validationStatus: "Illustrative hypothesis — validate using exception logs, audit findings, decision rights, and interviews with process and risk owners.",
+  },
+  {
+    id: "negotiation",
+    task: "Negotiate supplier trade-offs and secure an acceptable commercial agreement.",
+    evidence: "Posting language: facilitate supplier negotiations.",
+    onetLens: "Negotiating with people outside the organization",
+    exposureClass: "E0",
+    exposure: 2,
+    exposureAssessment: "Low current end-to-end exposure for live negotiation; AI can support preparation but not reliably hold authority or relationship context.",
+    bottleneck: 5,
+    complementarity: 3,
+    bundle: 2,
+    humanNecessity: 5,
+    controlBurden: 4,
+    economicValue: 5,
+    variance: 5,
+    futureState: "Human-only",
+    rationale: "Preparation can be accelerated, but authority, relationship judgment, live adaptation, and accountability remain human.",
+    oRingJudgment: "Negotiation is a high-value human bottleneck. Better automated preparation may increase the value of the negotiator's judgment and time.",
+    requiredControl: "Keep negotiation authority and commitments with named people; use AI outputs only as preparation material subject to review.",
+    validationStatus: "Illustrative hypothesis — validate negotiation types, delegated authority, risk thresholds, and supplier relationship expectations.",
+  },
+  {
+    id: "stakeholder-advice",
+    task: "Advise business leaders on procurement choices, trade-offs, and escalation paths.",
+    evidence: "Posting language: partner with finance, legal, and business leaders.",
+    onetLens: "Providing consultation and advice to others",
+    exposureClass: "E1",
+    exposure: 3,
+    exposureAssessment: "Moderate direct support for preparing options and precedent; low exposure for accountable advice and stakeholder alignment.",
+    bottleneck: 4,
+    complementarity: 4,
+    bundle: 3,
+    humanNecessity: 5,
+    controlBurden: 4,
+    economicValue: 5,
+    variance: 4,
+    futureState: "Human-control",
+    rationale: "AI can prepare options and precedent, while the manager owns advice, organizational context, and stakeholder alignment.",
+    oRingJudgment: "As routine analysis moves, advisory judgment becomes a larger and more valuable share of the role.",
+    requiredControl: "Label AI-prepared options, preserve source traceability, and keep recommendations and stakeholder commitments human-owned.",
+    validationStatus: "Illustrative hypothesis — validate recurring advice scenarios, decision authority, stakeholder needs, and precedent sources.",
+  },
+  {
+    id: "procedure-maintenance",
+    task: "Update procedures and control documentation after approved policy or workflow changes.",
+    evidence: "Posting language: maintain procedures, controls, and audit-ready records.",
+    onetLens: "Documenting and recording information",
+    exposureClass: "E1",
+    exposure: 4,
+    exposureAssessment: "Strong drafting and comparison support, but the authoritative procedure requires controlled approval and release.",
+    bottleneck: 3,
+    complementarity: 4,
+    bundle: 3,
+    humanNecessity: 3,
+    controlBurden: 5,
+    economicValue: 3,
+    variance: 2,
+    futureState: "Accelerate",
+    rationale: "Drafting and cross-reference checks can be accelerated; the process owner approves authoritative language and effective dates.",
+    oRingJudgment: "Moderate complementarity: value rises when policy changes, procedure updates, training, and control testing remain synchronized.",
+    requiredControl: "Use approved source changes, track revisions, and require process-owner approval before publication or effective-date changes.",
+    validationStatus: "Illustrative hypothesis — validate change records, document controls, approval roles, and audit requirements.",
+  },
+];
+
+export const transformationSources = [
+  {
+    id: "onet",
+    title: "O*NET Content Model and database",
+    locator: "O*NET Resource Center · task statements, DWAs, and GWAs",
+    bestUse: "Normalize local tasks into a comparable work language.",
+    caveat: "The demo uses category-level lenses, not validated production mappings.",
+    reformType: "Task ontology",
+    verificationStatus: "Method source; current mapping must be refreshed before enterprise use.",
+  },
+  {
+    id: "gpts",
+    title: "GPTs are GPTs",
+    locator: "Eloundou et al. (2023), arXiv:2303.10130",
+    bestUse: "Distinguish direct model exposure from software-mediated exposure.",
+    caveat: "Technical exposure does not establish business value or substitutability.",
+    reformType: "Exposure method",
+    verificationStatus: "Cited in the project method; verify latest version for external publication.",
+  },
+  {
+    id: "oring",
+    title: "O-Ring Automation",
+    locator: "NBER Working Paper 34639",
+    bestUse: "Correct isolated task scores for bottlenecks, complements, and automation bundles.",
+    caveat: "The scoring rubric is an applied project interpretation, not a validated prediction model.",
+    reformType: "Economic correction",
+    verificationStatus: "Cited in the project method; validate interpretation with experts before consequential use.",
+  },
+  {
+    id: "frontier",
+    title: "Navigating the Jagged Technological Frontier",
+    locator: "Harvard Business School Working Paper 24-013",
+    bestUse: "Explain why speed and quality gains vary by task and can reverse outside the model frontier.",
+    caveat: "Results from consultant tasks do not guarantee effects in procurement work.",
+    reformType: "Enablement and risk evidence",
+    verificationStatus: "Mapped through the local literature survey; primary source should be checked before public claims.",
+  },
+];
