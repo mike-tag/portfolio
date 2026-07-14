@@ -23,21 +23,21 @@ export function SiteLayout({ page, children }: SiteLayoutProps) {
   const isTransformation = page === "transformation";
   const isAdvocacy = !isGateway && !isTransformation;
   const shellClass = isGateway ? "gateway-shell" : isTransformation ? "transformation-shell" : "";
-  const brandHref = isGateway ? "#/" : isTransformation ? "#/transformation" : "#/advocacy";
-  const brandLabel = isGateway ? "Mike Tagariello portfolio home" : isTransformation ? "Consulting Reformed home" : "VAV Advocacy Workbench home";
+  const brandHref = isTransformation ? "#/transformation" : "#/advocacy";
+  const brandLabel = isTransformation ? "Consulting Reformed home" : "VAV Advocacy Workbench home";
 
   return (
     <div className={`site-shell ${shellClass}`}>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <header className="site-header">
+      {!isGateway && <header className="site-header">
         <a className="brand" href={brandHref} aria-label={brandLabel}>
-          <span className="brand-mark" aria-hidden="true">{isGateway ? <MikeSigil /> : isTransformation ? "CR" : "V"}</span>
+          <span className="brand-mark" aria-hidden="true">{isTransformation ? "CR" : "V"}</span>
           <span>
-            <strong>{isGateway ? "Mike Tagariello" : isTransformation ? "Consulting Reformed" : "Advocacy Workbench"}</strong>
-            <small>{isGateway ? "AI transformation portfolio" : isTransformation ? "Transformation Factory" : "Open primaries pilot"}</small>
+            <strong>{isTransformation ? "Consulting Reformed" : "Advocacy Workbench"}</strong>
+            <small>{isTransformation ? "Transformation Factory" : "Open primaries pilot"}</small>
           </span>
         </a>
-        {!isGateway && <div className="header-actions">
+        <div className="header-actions">
           {isAdvocacy && <nav className="site-nav" aria-label="Advocacy navigation">
             {navItems.map(({ id, label, Icon }) => (
               <a key={id} href={`#/${id}`} aria-current={page === id ? "page" : undefined}>
@@ -46,8 +46,8 @@ export function SiteLayout({ page, children }: SiteLayoutProps) {
             ))}
           </nav>}
           <a className="all-demos-link" href="#/"><LayoutGrid aria-hidden="true" size={15} />All demos</a>
-        </div>}
-      </header>
+        </div>
+      </header>}
       <main id="main-content">{children}</main>
       <footer className="site-footer">
         <div>
