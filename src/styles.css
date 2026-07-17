@@ -1335,6 +1335,14 @@
   margin-bottom: 0;
 }
 
+.portfolio-section-label {
+  margin-bottom: 0.85rem;
+  color: #5fe7da;
+  font-size: 0.95rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
 .portfolio-work-heading h2 {
   max-width: none;
   color: #fff;
@@ -1411,10 +1419,6 @@
 
 .portfolio-work .experience-card-advocacy h3 {
   font-size: clamp(2rem, 3vw, 3.15rem);
-}
-
-.portfolio-work .experience-card > p {
-  margin-bottom: clamp(2rem, 4vw, 3.3rem);
 }
 
 .portfolio-work .experience-card-advocacy .experience-journey-step {
@@ -5570,14 +5574,6 @@ p {
   letter-spacing: -0.055em;
 }
 
-.experience-card > p {
-  max-width: 53ch;
-  margin-bottom: clamp(2rem, 4vw, 3.3rem);
-  color: inherit;
-  font-size: 0.92rem;
-  opacity: 0.76;
-}
-
 .experience-journey {
   display: grid;
   margin-bottom: clamp(2rem, 4vw, 3.3rem);
@@ -5594,7 +5590,7 @@ p {
   padding: 1rem 0.6rem;
   place-items: center;
   align-content: center;
-  gap: 0.65rem;
+  gap: 0.45rem;
   border-right: 1px solid currentColor;
   text-align: center;
 }
@@ -5605,14 +5601,13 @@ p {
 
 .experience-journey-step > span {
   display: grid;
-  width: 2.65rem;
-  height: 2.65rem;
   place-items: center;
-  border: 1px solid currentColor;
+  line-height: 0;
 }
 
 .experience-journey-step strong {
-  font-size: 0.7rem;
+  font-size: clamp(0.8125rem, 0.78rem + 0.12vw, 0.875rem);
+  line-height: 1.25;
 }
 
 .experience-journey-arrow {

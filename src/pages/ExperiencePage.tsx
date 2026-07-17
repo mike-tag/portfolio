@@ -17,7 +17,6 @@ import type { LucideIcon } from "lucide-react";
 type Experience = {
   id: "transformation" | "advocacy" | "skills";
   product: string;
-  organization: string;
   problem: string;
   description: string;
   href: string;
@@ -29,7 +28,6 @@ const experiences: Experience[] = [
   {
     id: "transformation",
     product: "Consulting Reformed",
-    organization: "Featured project · Transformation Factory",
     problem: "I need to turn AI potential into a practical role redesign.",
     description: "Explore an interactive method for turning a job posting into a task map, governed role design, and practical pilot plan.",
     href: "#/transformation",
@@ -43,11 +41,10 @@ const experiences: Experience[] = [
   {
     id: "skills",
     product: "Skills market",
-    organization: "Reusable agent workflows",
     problem: "I need an AI collaborator that understands design principles and leaves me with a usable plan.",
     description: "Try a short simulation, see the design principles behind the workflow, and install the published skill from GitHub.",
     href: "#/skills",
-    cta: "Browse the skills market",
+    cta: "Explore and install skills",
     journey: [
       { label: "Inspect", Icon: SearchCheck },
       { label: "Decide", Icon: Store },
@@ -57,7 +54,6 @@ const experiences: Experience[] = [
   {
     id: "advocacy",
     product: "Advocacy Workbench",
-    organization: "Veterans for All Voters",
     problem: "I need to make a clear 60-second case for voter reform.",
     description: "See how values, audience, story, and qualified evidence become a structured prompt for testimony and outreach.",
     href: "#/workbench",
@@ -81,8 +77,8 @@ export function ExperiencePage() {
         />
 
         <div className="portfolio-intro">
-          <h1 id="portfolio-title"><span>Mike Tagariello</span>I turn generative AI into systems that stick.</h1>
-          <p className="portfolio-summary">I lead transformation from objectives to impact—aligning senior leaders, turning strategy into hands-on workflows, and leading value measurement.</p>
+          <h1 id="portfolio-title"><span>Mike Tagariello</span>I turn AI capabilities into better work and lasting value.</h1>
+          <p className="portfolio-summary">I align senior leaders, redesign workflows with the people doing the work, and lead adoption and value measurement from objectives to impact.</p>
           <div className="portfolio-actions">
             <a
               className="portfolio-linkedin"
@@ -118,7 +114,8 @@ export function ExperiencePage() {
 
       <section className="portfolio-work section-pad" aria-labelledby="work-title">
         <div className="portfolio-work-heading">
-          <h2 id="work-title">Selected work: Start with the problem you want to solve</h2>
+          <p className="portfolio-section-label">Selected work</p>
+          <h2 id="work-title">Start with the problem you want to solve</h2>
         </div>
 
         <div className="experience-grid">
@@ -127,14 +124,9 @@ export function ExperiencePage() {
               className={`experience-card experience-card-${experience.id}`}
               href={experience.href}
               key={experience.id}
-              aria-label={`${experience.problem} Explore ${experience.product}`}
+              aria-label={`${experience.problem} ${experience.description} ${experience.cta}: ${experience.product}`}
             >
-              <span className="experience-product">
-                <strong>{experience.product}</strong>
-                <small>{experience.organization}</small>
-              </span>
               <h3>“{experience.problem}”</h3>
-              <p>{experience.description}</p>
               <span className="experience-journey" aria-hidden="true">
                 {experience.journey.map(({ label, Icon }, index) => (
                   <span className="experience-journey-step" key={label}>

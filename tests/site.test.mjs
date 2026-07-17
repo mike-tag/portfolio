@@ -39,12 +39,12 @@ test("the front page routes each problem to a focused demonstration", async () =
   assert.match(app, /page === "advocacy"/);
   assert.match(chooser, /I need to turn AI potential into a practical role redesign/);
   assert.match(chooser, /I need to make a clear 60-second case for voter reform/);
-  assert.match(chooser, /I turn generative AI into systems that stick/);
+  assert.match(chooser, /I turn AI capabilities into better work and lasting value/);
   assert.match(chooser, /mike-tagariello-headshot-illustrated\.png/);
   assert.doesNotMatch(chooser, /Professional headshot forthcoming/);
-  assert.match(chooser, /lead transformation from objectives to impact/);
-  assert.match(chooser, /aligning senior leaders/);
-  assert.match(chooser, /leading value measurement/);
+  assert.match(chooser, /lead adoption and value measurement from objectives to impact/);
+  assert.match(chooser, /align senior leaders/);
+  assert.match(chooser, /redesign workflows with the people doing the work/);
   assert.match(chooser, /<strong>10\+<\/strong><span>Years making technology work for people/);
   assert.match(chooser, /<strong>10<\/strong><span>AI projects in 3 years/);
   assert.match(chooser, /<strong>50k\+<\/strong><span>People reached in just one project/);
@@ -58,7 +58,7 @@ test("the front page routes each problem to a focused demonstration", async () =
   assert.match(chooser, /href: "#\/transformation"/);
   assert.match(chooser, /href: "#\/workbench"/);
   assert.match(chooser, /href: "#\/skills"/);
-  assert.match(chooser, /Browse the skills market/);
+  assert.match(chooser, /Explore and install skills/);
   assert.match(chooser, /I need an AI collaborator that understands design principles and leaves me with a usable plan/);
   assert.match(layout, /All demos/);
   assert.match(layout, /Consulting Reformed/);
