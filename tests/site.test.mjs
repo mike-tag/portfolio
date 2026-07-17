@@ -3,12 +3,33 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+const readBuffer = (path) => readFile(new URL(`../${path}`, import.meta.url));
 
 test("production output is GitHub Pages safe", async () => {
   const html = await read("dist/index.html");
-  assert.match(html, /<title>Mike Tagariello \| Generative AI transformation portfolio<\/title>/);
+  assert.match(html, /<title>Mike Tagariello \| AI transformation portfolio<\/title>/);
   assert.match(html, /(?:src|href)="\.\/assets\//);
   assert.doesNotMatch(html, /OPENAI_API_KEY/);
+});
+
+test("link-sharing metadata is production-ready", async () => {
+  const html = await read("dist/index.html");
+  const previewImage = await readBuffer("public/mike-tagariello-portfolio-preview.png");
+  const previewUrl = "https://mike-tag.github.io/portfolio/mike-tagariello-portfolio-preview.png";
+  assert.equal(previewImage.readUInt32BE(16), 1200);
+  assert.equal(previewImage.readUInt32BE(20), 630);
+  assert.match(html, /<link rel="canonical" href="https:\/\/mike-tag\.github\.io\/portfolio\/"/);
+  assert.match(html, /<meta[\s\S]*name="description"[\s\S]*content="Selected work by Mike Tagariello in AI transformation, reusable agent skills, and evidence-led advocacy\."/);
+  assert.match(html, /<meta property="og:url" content="https:\/\/mike-tag\.github\.io\/portfolio\/"/);
+  assert.match(html, /<meta property="og:title" content="Mike Tagariello \| AI transformation portfolio"/);
+  assert.match(html, /<meta property="og:description" content="Selected public work in transformation systems, reusable agent skills, and evidence-led advocacy\."/);
+  assert.match(html, new RegExp(`<meta property="og:image" content="${previewUrl.replace(/[/.]/g, "\\$&")}"`));
+  assert.match(html, /<meta property="og:image:width" content="1200"/);
+  assert.match(html, /<meta property="og:image:height" content="630"/);
+  assert.match(html, /<meta property="og:image:alt" content="Mike Tagariello portfolio preview/);
+  assert.match(html, /<meta name="twitter:card" content="summary_large_image"/);
+  assert.match(html, new RegExp(`<meta name="twitter:image" content="${previewUrl.replace(/[/.]/g, "\\$&")}"`));
+  assert.doesNotMatch(html, /content="\.\/og-/);
 });
 
 test("visible interface copy uses sentence case without eyebrow tiers", async () => {
@@ -54,7 +75,7 @@ test("the front page routes each problem to a focused demonstration", async () =
   assert.match(chooser, /Connect with Mike on LinkedIn/);
   assert.match(chooser, /\.\/mike-tagariello-resume\.pdf/);
   assert.match(chooser, /download="Mike-Tagariello-Resume\.pdf"/);
-  assert.match(chooser, /Download résumé/);
+  assert.match(chooser, /Download (?:resume|r.sum.)/);
   assert.match(chooser, /href: "#\/transformation"/);
   assert.match(chooser, /href: "#\/workbench"/);
   assert.match(chooser, /href: "#\/skills"/);

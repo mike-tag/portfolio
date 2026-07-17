@@ -14,7 +14,7 @@ import type { PageId } from "./types";
 const pages: PageId[] = ["home", "skills", "advocacy", "workbench", "sources", "method", "examples", "about", "transformation"];
 
 const pageTitles: Record<PageId, string> = {
-  home: "Mike Tagariello | Generative AI transformation portfolio",
+  home: "Mike Tagariello | AI transformation portfolio",
   skills: "Skills market | Mike Tagariello",
   advocacy: "Advocacy Workbench case study | Mike Tagariello",
   workbench: "Build your advocacy prompt | Advocacy Workbench",
