@@ -157,7 +157,7 @@ This packet demonstrates a method. Its mappings, scores, controls, and role reco
       <section className="tf-hero tf-problem-hero section-pad">
         <div className="tf-hero-copy">
           <p className="tf-byline">A Consulting Reformed point of view by Mike Tagariello.</p>
-          <h1>AI deployments do not have an AI problem. They have a work-design problem.</h1>
+          <h1>AI transformation starts with redesigning how work gets done.</h1>
           <button className="tf-button" type="button" onClick={() => document.querySelector("#factory-demo")?.scrollIntoView()}>See the method in practice <ArrowRight aria-hidden="true" size={18} /></button>
         </div>
 
@@ -181,9 +181,12 @@ This packet demonstrates a method. Its mappings, scores, controls, and role reco
         <div className="tf-factory-sequence" aria-label="Transformation Factory sequence">
           <div className="tf-system-label"><Factory aria-hidden="true" size={20} />Transformation Factory</div>
           <ol>
-            {["Work evidence", "Atomic tasks", "Exposure + O-ring", "Role + controls", "Pilot decision"].map((stage, index) => <li key={stage}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage}</strong>{index < 4 && <ArrowRight aria-hidden="true" size={17} />}</li>)}
+            {["Work evidence", "Atomic tasks", "Exposure + O-ring", "Role + controls", "Pilot decision"].map((stage, index) => <li className={index === 2 ? "tf-oring-step" : undefined} key={stage}><span>{String(index + 1).padStart(2, "0")}</span><strong>{stage}</strong>{index < 4 && <ArrowRight aria-hidden="true" size={17} />}</li>)}
           </ol>
-          <div className="tf-decision-record tf-question-answer"><Scale aria-hidden="true" size={24} /><div><strong>What does “O-ring” mean here?</strong><p>One weak or unautomated link can constrain the whole workflow. O-ring judgment accounts for bottlenecks, complementary tasks, and bundle dependencies before a role is redesigned.</p></div></div>
+          <div className="tf-oring-explainer">
+            <div className="tf-oring-explainer-step" aria-hidden="true"><span>03</span><small>O-ring correction</small></div>
+            <div className="tf-oring-explainer-copy"><strong>One weak link can constrain the whole workflow.</strong><p>Before redesigning the role, O-ring judgment tests whether value depends on a bottleneck, a complementary task, or several tasks moving together.</p><div className="tf-oring-factors" aria-label="O-ring factors"><span>Bottlenecks</span><span>Complements</span><span>Bundles</span></div></div>
+          </div>
         </div>
 
         <div className="tf-lenses-grid">

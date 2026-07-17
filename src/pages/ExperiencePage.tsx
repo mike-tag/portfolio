@@ -75,7 +75,7 @@ function PortfolioActions() {
         target="_blank"
         rel="noreferrer"
       >
-        <span className="linkedin-mark" aria-hidden="true">in</span>
+        <img className="linkedin-mark" src="./linkedin-logo-initials.png" alt="" />
         Connect with Mike on LinkedIn
         <ExternalLink aria-hidden="true" size={15} strokeWidth={2} />
       </a>
@@ -120,8 +120,7 @@ export function ExperiencePage() {
 
       <section className="portfolio-work section-pad" aria-labelledby="work-title">
         <div className="portfolio-work-heading">
-          <p className="portfolio-section-label">What I make with AI</p>
-          <h2 id="work-title">Here are some projects I’m currently working on</h2>
+          <h2 id="work-title">How I think and build with AI</h2>
         </div>
 
         <div className="experience-grid">
