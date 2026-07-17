@@ -2,16 +2,20 @@ import {
   ArrowRight,
   BookOpenCheck,
   BriefcaseBusiness,
+  Download,
   ExternalLink,
   HeartHandshake,
   Mic2,
   Network,
+  PackageOpen,
+  SearchCheck,
+  Store,
   Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type Experience = {
-  id: "transformation" | "advocacy";
+  id: "transformation" | "advocacy" | "skills";
   product: string;
   organization: string;
   problem: string;
@@ -37,6 +41,20 @@ const experiences: Experience[] = [
     ],
   },
   {
+    id: "skills",
+    product: "Skills market",
+    organization: "Reusable agent workflows",
+    problem: "I need an AI collaborator that understands design principles and leaves me with a usable plan.",
+    description: "Try a short simulation, see the design principles behind the workflow, and install the published skill from GitHub.",
+    href: "#/skills",
+    cta: "Browse the skills market",
+    journey: [
+      { label: "Inspect", Icon: SearchCheck },
+      { label: "Decide", Icon: Store },
+      { label: "Reuse", Icon: PackageOpen },
+    ],
+  },
+  {
     id: "advocacy",
     product: "Advocacy Workbench",
     organization: "Veterans for All Voters",
@@ -58,28 +76,40 @@ export function ExperiencePage() {
       <section className="portfolio-hero" aria-labelledby="portfolio-title">
         <img
           className="portfolio-portrait"
-          src="./mike-tagariello-headshot.png"
+          src="./mike-tagariello-headshot-illustrated.png"
           alt="Mike Tagariello"
         />
 
         <div className="portfolio-intro">
           <h1 id="portfolio-title"><span>Mike Tagariello</span>I turn generative AI into systems that stick.</h1>
           <p className="portfolio-summary">I lead transformation from objectives to impact—aligning senior leaders, turning strategy into hands-on workflows, and leading value measurement.</p>
-          <a
-            className="portfolio-linkedin"
-            href="https://www.linkedin.com/in/miketagariello/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="linkedin-mark" aria-hidden="true">in</span>
-            Connect with Mike on LinkedIn
-            <ExternalLink aria-hidden="true" size={15} strokeWidth={2} />
-          </a>
+          <div className="portfolio-actions">
+            <a
+              className="portfolio-linkedin"
+              href="https://www.linkedin.com/in/miketagariello/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="linkedin-mark" aria-hidden="true">in</span>
+              Connect with Mike on LinkedIn
+              <ExternalLink aria-hidden="true" size={15} strokeWidth={2} />
+            </a>
+            <a
+              className="portfolio-linkedin portfolio-resume"
+              href="./mike-tagariello-resume.pdf"
+              download="Mike-Tagariello-Resume.pdf"
+              type="application/pdf"
+            >
+              <Download aria-hidden="true" size={18} strokeWidth={2} />
+              Download résumé
+              <span className="portfolio-file-type" aria-hidden="true">PDF</span>
+            </a>
+          </div>
         </div>
       </section>
 
       <section className="portfolio-proof" aria-label="Professional experience highlights">
-        <div><strong>10+</strong><span>Years bridging strategy and operations with technology solutions</span></div>
+        <div><strong>10+</strong><span>Years making technology work for people</span></div>
         <div><strong>10</strong><span>AI projects in 3 years</span></div>
         <div><strong>50k+</strong><span>People reached in just one project</span></div>
       </section>

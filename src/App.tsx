@@ -6,14 +6,16 @@ import { ExamplesPage } from "./pages/ExamplesPage";
 import { ExperiencePage } from "./pages/ExperiencePage";
 import { MethodPage } from "./pages/MethodPage";
 import { SourcesPage } from "./pages/SourcesPage";
+import { SkillsMarketPage } from "./pages/SkillsMarketPage";
 import { TransformationPage } from "./pages/TransformationPage";
 import { WorkbenchPage } from "./pages/WorkbenchPage";
 import type { PageId } from "./types";
 
-const pages: PageId[] = ["home", "advocacy", "workbench", "sources", "method", "examples", "about", "transformation"];
+const pages: PageId[] = ["home", "skills", "advocacy", "workbench", "sources", "method", "examples", "about", "transformation"];
 
 const pageTitles: Record<PageId, string> = {
   home: "Mike Tagariello | Generative AI transformation portfolio",
+  skills: "Skills market | Mike Tagariello",
   advocacy: "Advocacy Workbench case study | Mike Tagariello",
   workbench: "Build your advocacy prompt | Advocacy Workbench",
   sources: "Evidence | Advocacy Workbench",
@@ -55,6 +57,7 @@ export default function App() {
   return (
     <SiteLayout page={page}>
       {page === "home" && <ExperiencePage />}
+      {page === "skills" && <SkillsMarketPage />}
       {page === "advocacy" && <AdvocacyCaseStudyPage />}
       {page === "workbench" && <WorkbenchPage />}
       {page === "sources" && <SourcesPage />}

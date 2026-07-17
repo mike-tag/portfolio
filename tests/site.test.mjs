@@ -40,20 +40,26 @@ test("the front page routes each problem to a focused demonstration", async () =
   assert.match(chooser, /I need to turn AI potential into a practical role redesign/);
   assert.match(chooser, /I need to make a clear 60-second case for voter reform/);
   assert.match(chooser, /I turn generative AI into systems that stick/);
-  assert.match(chooser, /mike-tagariello-headshot\.png/);
+  assert.match(chooser, /mike-tagariello-headshot-illustrated\.png/);
   assert.doesNotMatch(chooser, /Professional headshot forthcoming/);
   assert.match(chooser, /lead transformation from objectives to impact/);
   assert.match(chooser, /aligning senior leaders/);
   assert.match(chooser, /leading value measurement/);
-  assert.match(chooser, /<strong>10\+<\/strong><span>Years bridging strategy and operations with technology solutions/);
+  assert.match(chooser, /<strong>10\+<\/strong><span>Years making technology work for people/);
   assert.match(chooser, /<strong>10<\/strong><span>AI projects in 3 years/);
   assert.match(chooser, /<strong>50k\+<\/strong><span>People reached in just one project/);
   assert.match(chooser, /U\.S\. Air Force veteran/);
   assert.match(chooser, /Columbia University graduate/);
   assert.match(chooser, /https:\/\/www\.linkedin\.com\/in\/miketagariello\//);
   assert.match(chooser, /Connect with Mike on LinkedIn/);
+  assert.match(chooser, /\.\/mike-tagariello-resume\.pdf/);
+  assert.match(chooser, /download="Mike-Tagariello-Resume\.pdf"/);
+  assert.match(chooser, /Download résumé/);
   assert.match(chooser, /href: "#\/transformation"/);
   assert.match(chooser, /href: "#\/workbench"/);
+  assert.match(chooser, /href: "#\/skills"/);
+  assert.match(chooser, /Browse the skills market/);
+  assert.match(chooser, /I need an AI collaborator that understands design principles and leaves me with a usable plan/);
   assert.match(layout, /All demos/);
   assert.match(layout, /Consulting Reformed/);
   assert.match(layout, /MikeSigil/);
@@ -76,6 +82,43 @@ test("the front page routes each problem to a focused demonstration", async () =
   assert.match(data, /Illustrative composite job posting/);
   for (const field of ["exposureAssessment", "oRingJudgment", "requiredControl", "validationStatus"]) assert.match(data, new RegExp(field));
   for (const state of ["Automate", "Accelerate", "Copilot", "Human-control", "Human-only"]) assert.match(data, new RegExp(state));
+  assert.doesNotMatch(`${page}\n${data}`, /fetch\s*\(|api\.openai\.com|OPENAI_API_KEY/);
+});
+
+test("the skills market explains, demonstrates, and distributes each published skill", async () => {
+  const [app, layout, page, data] = await Promise.all([
+    read("src/App.tsx"),
+    read("src/components/SiteLayout.tsx"),
+    read("src/pages/SkillsMarketPage.tsx"),
+    read("src/data/skills.ts"),
+  ]);
+  assert.match(app, /SkillsMarketPage/);
+  assert.match(app, /page === "skills"/);
+  assert.match(layout, /Skills market/);
+  assert.match(page, /The problem/);
+  assert.match(page, /The solution/);
+  assert.match(page, /Short simulation/);
+  assert.match(page, /Use the real skill/);
+  assert.match(page, /design-planning-scout\.png/);
+  assert.match(page, /Design Planning asks/);
+  assert.match(page, /Design Planning delivers/);
+  assert.match(page, /step\.question/);
+  assert.match(page, /step\.deliverableSections/);
+  assert.match(page, /scrollIntoView/);
+  assert.match(page, /prefers-reduced-motion/);
+  assert.match(page, /Good agent work should make judgment easier to inspect/);
+  assert.match(page, /decisions you can review and implement with your builder agent/);
+  assert.doesNotMatch(page, /href="#design-planning"/);
+  assert.doesNotMatch(page, /One skill available now/);
+  assert.match(page, /navigator\.clipboard\.writeText/);
+  assert.match(page, /Finished-looking work can conceal unfinished thinking/);
+  assert.match(data, /https:\/\/github\.com\/mike-tag\/shared-agent-skills/);
+  assert.match(data, /codex plugin marketplace add mike-tag\/shared-agent-skills/);
+  assert.match(data, /\/plugin marketplace add mike-tag\/shared-agent-skills/);
+  assert.match(data, /plan-design-decisions/);
+  assert.equal((data.match(/question: "/g) || []).length, 4);
+  assert.equal((data.match(/label: "(?:Inspect|Clarify|Compare|Validate|Output)"/g) || []).length, 5);
+  assert.match(data, /Review and refine the plan, then hand it to your builder agent to implement/);
   assert.doesNotMatch(`${page}\n${data}`, /fetch\s*\(|api\.openai\.com|OPENAI_API_KEY/);
 });
 
