@@ -112,7 +112,7 @@ export function ExperiencePage() {
 
       <section className="portfolio-proof" aria-label="Professional experience highlights">
         <div><strong>10+</strong><span>Years making technology work for people</span></div>
-        <div><strong>10</strong><span>AI projects in 3 years</span></div>
+        <div><strong>10</strong><span>Clients helped with AI in three years</span></div>
         <div><strong>50k+</strong><span>People reached in just one project</span></div>
       </section>
 
@@ -120,8 +120,8 @@ export function ExperiencePage() {
 
       <section className="portfolio-work section-pad" aria-labelledby="work-title">
         <div className="portfolio-work-heading">
-          <p className="portfolio-section-label">Selected work</p>
-          <h2 id="work-title">Start with the problem you want to solve</h2>
+          <p className="portfolio-section-label">What I make with AI</p>
+          <h2 id="work-title">Here are some projects I’m currently working on</h2>
         </div>
 
         <div className="experience-grid">

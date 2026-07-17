@@ -67,7 +67,7 @@ test("the front page routes each problem to a focused demonstration", async () =
   assert.match(chooser, /align senior leaders/);
   assert.match(chooser, /redesign workflows with the people doing the work/);
   assert.match(chooser, /<strong>10\+<\/strong><span>Years making technology work for people/);
-  assert.match(chooser, /<strong>10<\/strong><span>AI projects in 3 years/);
+  assert.match(chooser, /<strong>10<\/strong><span>Clients helped with AI in three years/);
   assert.match(chooser, /<strong>50k\+<\/strong><span>People reached in just one project/);
   assert.match(chooser, /U\.S\. Air Force veteran/);
   assert.match(chooser, /Columbia University graduate/);
