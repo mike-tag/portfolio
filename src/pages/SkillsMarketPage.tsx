@@ -61,7 +61,7 @@ export function SkillsMarketPage() {
           <p>How I think</p>
           <h2 id="skills-beliefs-title">Good agent work should make judgment easier to inspect—not harder.</h2>
         </div>
-        <p className="skills-beliefs-copy">I build reusable agent workflows for moments when a polished answer is not enough. Each skill begins by inspecting context, keeps facts and assumptions distinct from recommendations, and makes consequential tradeoffs reviewable. The result is a method you can inspect, challenge, and use in your own AI tool.</p>
+        <p className="skills-beliefs-copy">I build reusable agent workflows for moments when a polished answer is not enough. Each skill inspects context before asking for more, keeps facts and assumptions distinct from recommendations, and explains why a direction fits before exposing what it gives up. The result is a method you can inspect, challenge, and use in your own AI tool.</p>
       </section>
 
       <article className="market-skill" id="design-planning" aria-labelledby="design-planning-title">
@@ -82,7 +82,7 @@ export function SkillsMarketPage() {
           </section>
           <section>
             <span>The solution</span>
-            <h3>Turn ambiguity into decisions you can review and implement with your builder agent.</h3>
+            <h3>Turn ambiguity into justified decisions you can review and implement with your builder agent.</h3>
             <p>{skill.solution}</p>
           </section>
         </div>
@@ -126,7 +126,24 @@ export function SkillsMarketPage() {
                   <img src="./design-planning-scout.png" alt="Scout, the Design Planning border collie" />
                   <div>
                     <span><strong>Scout</strong><small>Design Planning asks</small></span>
-                    <p>{step.question}</p>
+                    <p className="simulation-question-context">{step.context}</p>
+                    <div className="simulation-question-heading">
+                      <strong>{step.questionNumber}.</strong>
+                      <h4>{step.question}</h4>
+                    </div>
+                    <ul className="simulation-options">
+                      {step.options.map((option) => (
+                        <li className={option.recommended ? "is-recommended" : ""} key={option.title}>
+                          <div className="simulation-option-title">
+                            <h5>{option.title}</h5>
+                            {option.recommended && <span>Recommended</span>}
+                          </div>
+                          <p>{option.description}</p>
+                          {option.rationale && <p><strong>Why this is recommended:</strong> {option.rationale}</p>}
+                          <p><strong>Tradeoff:</strong> {option.tradeoff}</p>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </blockquote>
               ) : (

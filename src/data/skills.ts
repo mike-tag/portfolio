@@ -4,8 +4,22 @@ type SkillSimulationStepBase = {
   outcome: string;
 };
 
+type SkillSimulationOption = {
+  title: string;
+  description: string;
+  tradeoff: string;
+  recommended?: boolean;
+  rationale?: string;
+};
+
 export type SkillSimulationStep = SkillSimulationStepBase & (
-  | { kind: "question"; question: string }
+  | {
+      kind: "question";
+      questionNumber: number;
+      context: string;
+      question: string;
+      options: SkillSimulationOption[];
+    }
   | {
       kind: "output";
       deliverableTitle: string;
@@ -38,36 +52,110 @@ export const marketSkills: MarketSkill[] = [
     commandName: "plan-design-decisions",
     availability: "Available now",
     problem: "Ambiguous design requests often jump straight to production. The result can look finished while hiding assumptions, unresolved tradeoffs, and unclear measures of success.",
-    solution: "An adaptive interview that inspects what already exists, asks only the questions that can change the direction, and turns the answers into an implementation-ready plan with decisions, acceptance criteria, validation, and risks.",
+    solution: "An adaptive interview that inspects what already exists, asks only the questions that can change the direction, and makes its recommendations, rationale, and tradeoffs explicit before producing an implementation-ready plan.",
     scenario: "Help me redesign our employee onboarding experience. It feels scattered and people keep missing important steps.",
     simulation: [
       {
         kind: "question",
         label: "Inspect",
-        action: "The skill starts with the available brief, product, and constraints instead of opening with a generic questionnaire.",
-        question: "I found three required onboarding systems, a 30-day checklist, and a mobile-accessibility requirement. Which outcome should matter most in the first week: fewer missed steps, faster time-to-productivity, or a stronger sense of belonging?",
-        outcome: "Known context is preserved; the first question earns its place.",
+        action: "The skill inspects the available brief, product, and constraints before asking a numbered question that earns its place.",
+        questionNumber: 1,
+        context: "I found three required onboarding systems, a 30-day checklist, and a mobile-accessibility requirement.",
+        question: "Which outcome should anchor the first-week experience?",
+        options: [
+          {
+            title: "Fewer missed steps",
+            description: "Make required actions unmistakable and sequence them around the new hire's first week.",
+            recommended: true,
+            rationale: "The brief names missed steps as the clearest current failure, so this gives the first release a direct problem to solve.",
+            tradeoff: "Time-to-productivity and belonging remain important, but become secondary measures for this release.",
+          },
+          {
+            title: "Faster time-to-productivity",
+            description: "Optimize the experience around reaching independent contribution sooner.",
+            tradeoff: "Speed could obscure required steps that do not immediately affect productivity.",
+          },
+          {
+            title: "A stronger sense of belonging",
+            description: "Prioritize relationships, culture, and confidence during the first week.",
+            tradeoff: "The experience may feel better without resolving the operational misses named in the brief.",
+          },
+        ],
+        outcome: "The recommendation is grounded in known context, and its tradeoff stays visible.",
       },
       {
         kind: "question",
         label: "Clarify",
         action: "It asks one focused question whose answer would materially change the plan.",
-        question: "You chose fewer missed steps. Which failure is most important to prevent first: an incomplete compliance task, a missed manager handoff, or uncertainty about where to get help?",
-        outcome: "A broad goal becomes a concrete failure the design must prevent.",
+        questionNumber: 2,
+        context: "You chose fewer missed steps as the primary outcome.",
+        question: "Which failure should the first release prevent first?",
+        options: [
+          {
+            title: "An incomplete required task",
+            description: "Surface deadlines, ownership, and completion state for mandatory work.",
+            recommended: true,
+            rationale: "Required tasks carry the clearest operational consequence and give the pilot an observable completion measure.",
+            tradeoff: "This narrows the first release around compliance and may underrepresent relationship-based problems.",
+          },
+          {
+            title: "A missed manager handoff",
+            description: "Make manager actions and timing part of the same guided path.",
+            tradeoff: "Success depends on manager participation, which the new-hire interface alone cannot guarantee.",
+          },
+          {
+            title: "Uncertainty about where to get help",
+            description: "Prioritize findable support and escalation routes.",
+            tradeoff: "Better support can help people recover without preventing the missed step itself.",
+          },
+        ],
+        outcome: "A broad goal becomes a concrete, measurable failure the design must prevent.",
       },
       {
         kind: "question",
         label: "Compare",
-        action: "It connects a recommended direction to the audience need and names a credible alternative.",
-        question: "A guided first-week path would reduce missed steps; a dashboard would preserve more flexibility. Should first-time clarity take priority over self-navigation in this release?",
+        action: "It leads with a recommendation, explains why it fits the brief, and keeps credible alternatives reviewable.",
+        questionNumber: 3,
+        context: "The first release needs to prevent incomplete required tasks across several systems.",
+        question: "Which interaction model should organize the experience?",
+        options: [
+          {
+            title: "A guided first-week path",
+            description: "Sequence required actions by moment, owner, and completion state.",
+            recommended: true,
+            rationale: "A guided path reduces navigation decisions for first-time users and directly supports the goal of fewer missed steps.",
+            tradeoff: "Experienced users have less freedom to jump around, so shortcuts should follow after the core path works.",
+          },
+          {
+            title: "A flexible dashboard",
+            description: "Let people scan and choose from all onboarding activity at once.",
+            tradeoff: "Flexibility increases the chance that a first-time user overlooks an important action.",
+          },
+        ],
         outcome: "The decision and its tradeoff can be challenged constructively.",
       },
       {
         kind: "question",
         label: "Validate",
-        action: "It closes the interview by defining ownership, success, and what evidence should trigger revision.",
-        question: "Before I turn these decisions into the plan, who must approve the first release, what evidence would trigger a revision, and what must be true for you to call the pilot successful?",
-        outcome: "The final decision gates are ready to carry into the plan.",
+        action: "It closes with one focused validation decision and makes the cost of each evidence threshold clear.",
+        questionNumber: 4,
+        context: "The guided path is the proposed direction for a small first-week pilot.",
+        question: "What evidence should trigger a design revision before wider release?",
+        options: [
+          {
+            title: "Two of five participants miss the same required step",
+            description: "Treat a repeated failure in a small task-based test as enough evidence to revisit the flow.",
+            recommended: true,
+            rationale: "It is a small, reversible check that can expose a consequential usability problem before implementation expands.",
+            tradeoff: "The sample is directional rather than representative, so findings still require judgment.",
+          },
+          {
+            title: "A measurable increase in support requests",
+            description: "Use real pilot behavior to identify where the path creates confusion.",
+            tradeoff: "The signal arrives later and asks pilot participants to experience the problem first.",
+          },
+        ],
+        outcome: "The plan leaves with an explicit revision trigger instead of a vague promise to test.",
       },
       {
         kind: "output",
@@ -76,7 +164,7 @@ export const marketSkills: MarketSkill[] = [
         deliverableTitle: "Implementation-ready design plan",
         deliverableSections: [
           "Outcome + decision brief",
-          "Design decisions + tradeoffs",
+          "Recommendations + rationale + tradeoffs",
           "Implementation sequence",
           "Acceptance criteria + validation",
           "Risks + owned open questions",

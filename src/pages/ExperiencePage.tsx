@@ -66,6 +66,33 @@ const experiences: Experience[] = [
   },
 ];
 
+function PortfolioActions() {
+  return (
+    <div className="portfolio-actions">
+      <a
+        className="portfolio-linkedin"
+        href="https://www.linkedin.com/in/miketagariello/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span className="linkedin-mark" aria-hidden="true">in</span>
+        Connect with Mike on LinkedIn
+        <ExternalLink aria-hidden="true" size={15} strokeWidth={2} />
+      </a>
+      <a
+        className="portfolio-linkedin portfolio-resume"
+        href="./mike-tagariello-resume.pdf"
+        download="Mike-Tagariello-Resume.pdf"
+        type="application/pdf"
+      >
+        <Download aria-hidden="true" size={18} strokeWidth={2} />
+        Download resume
+        <span className="portfolio-file-type" aria-hidden="true">PDF</span>
+      </a>
+    </div>
+  );
+}
+
 export function ExperiencePage() {
   return (
     <div className="portfolio-page">
@@ -79,28 +106,7 @@ export function ExperiencePage() {
         <div className="portfolio-intro">
           <h1 id="portfolio-title"><span>Mike Tagariello</span>I turn AI capabilities into better work and lasting value.</h1>
           <p className="portfolio-summary">I align senior leaders, redesign workflows with the people doing the work, and lead adoption and value measurement from objectives to impact.</p>
-          <div className="portfolio-actions">
-            <a
-              className="portfolio-linkedin"
-              href="https://www.linkedin.com/in/miketagariello/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span className="linkedin-mark" aria-hidden="true">in</span>
-              Connect with Mike on LinkedIn
-              <ExternalLink aria-hidden="true" size={15} strokeWidth={2} />
-            </a>
-            <a
-              className="portfolio-linkedin portfolio-resume"
-              href="./mike-tagariello-resume.pdf"
-              download="Mike-Tagariello-Resume.pdf"
-              type="application/pdf"
-            >
-              <Download aria-hidden="true" size={18} strokeWidth={2} />
-              Download résumé
-              <span className="portfolio-file-type" aria-hidden="true">PDF</span>
-            </a>
-          </div>
+          <PortfolioActions />
         </div>
       </section>
 
@@ -140,6 +146,10 @@ export function ExperiencePage() {
             </a>
           ))}
         </div>
+      </section>
+
+      <section className="portfolio-closing-actions" aria-label="Connect with Mike">
+        <PortfolioActions />
       </section>
     </div>
   );

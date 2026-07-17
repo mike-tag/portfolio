@@ -35,3 +35,15 @@
 - Decision and rationale: Steps 01–04 show Scout asking questions; step 05 changes to a light document-style output card listing the plan's sections. The visual change marks the transition from conversation to artifact.
 - Tradeoffs or risks: The simulated document is representative rather than a complete plan. It lists the real plan structure and keeps the static-walkthrough qualification nearby.
 - Verification: Confirm step 05 is labeled Output, the document sections are readable, and the review–refine–builder-agent handoff appears inside the output card.
+
+## Decision: Make recommendation quality visible in the simulation
+
+- Status: accepted
+- Artifact or area: Design Planning simulation, steps 01-04
+- Date: 2026-07-17
+- Audience and need: Visitors evaluating the skill need to see how it reaches a recommendation, not merely that it asks questions or produces a polished plan.
+- Evidence or known facts: The revised Design Planning skill requires numbered user-facing questions, visibly labeled recommendations, an immediate rationale grounded in the brief, and a concise tradeoff for every option.
+- Options considered: Summarize the revised behavior in the solution copy; demonstrate the full question, recommendation, rationale, and tradeoff pattern inside each simulation stage.
+- Decision and rationale: Preserve the five-stage walkthrough and make steps 01-04 representative choice prompts spoken by Scout. Each stage asks one numbered question, leads with a recommended option, explains why it fits the known brief, and keeps credible alternatives and tradeoffs visible. This lets visitors inspect the skill's judgment before installing it.
+- Tradeoffs or risks: Showing options adds density and makes each simulation stage taller. Compact cards, progressive disclosure through the existing stage controls, and a consistent label hierarchy keep the decision readable without turning the walkthrough into a full transcript.
+- Verification: Confirm all four questions are numbered, each has exactly one visible recommendation and rationale, every option names a tradeoff, step 05 remains the final output, build succeeds, tests pass, and the responsive page is reviewed in the local browser.

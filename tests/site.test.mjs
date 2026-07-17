@@ -123,12 +123,14 @@ test("the skills market explains, demonstrates, and distributes each published s
   assert.match(page, /design-planning-scout\.png/);
   assert.match(page, /Design Planning asks/);
   assert.match(page, /Design Planning delivers/);
-  assert.match(page, /step\.question/);
+  assert.match(page, /step\.questionNumber/);
+  assert.match(page, /step\.options/);
+  assert.match(page, /Why this is recommended/);
   assert.match(page, /step\.deliverableSections/);
   assert.match(page, /scrollIntoView/);
   assert.match(page, /prefers-reduced-motion/);
   assert.match(page, /Good agent work should make judgment easier to inspect/);
-  assert.match(page, /decisions you can review and implement with your builder agent/);
+  assert.match(page, /justified decisions you can review and implement with your builder agent/);
   assert.doesNotMatch(page, /href="#design-planning"/);
   assert.doesNotMatch(page, /One skill available now/);
   assert.match(page, /navigator\.clipboard\.writeText/);
@@ -139,6 +141,8 @@ test("the skills market explains, demonstrates, and distributes each published s
   assert.match(data, /plan-design-decisions/);
   assert.equal((data.match(/question: "/g) || []).length, 4);
   assert.equal((data.match(/label: "(?:Inspect|Clarify|Compare|Validate|Output)"/g) || []).length, 5);
+  assert.equal((data.match(/recommended: true/g) || []).length, 4);
+  assert.match(data, /Recommendations \+ rationale \+ tradeoffs/);
   assert.match(data, /Review and refine the plan, then hand it to your builder agent to implement/);
   assert.doesNotMatch(`${page}\n${data}`, /fetch\s*\(|api\.openai\.com|OPENAI_API_KEY/);
 });

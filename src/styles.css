@@ -1249,6 +1249,18 @@
   transform: translateY(-2px);
 }
 
+.portfolio-closing-actions {
+  display: flex;
+  width: min(100% - clamp(2.5rem, 8vw, 8rem), 1312px);
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 5.5rem) 0;
+  justify-content: center;
+}
+
+.portfolio-closing-actions .portfolio-actions {
+  justify-content: center;
+}
+
 .portfolio-file-type {
   margin-left: 0.3rem;
   color: #68766f;
@@ -1805,6 +1817,91 @@
   margin: 0.7rem 0 0;
   color: #fff;
   line-height: 1.65;
+}
+
+.simulation-response .simulation-question .simulation-question-context {
+  color: #b8c6c3;
+  font-size: 0.9rem;
+}
+
+.simulation-question-heading {
+  display: grid;
+  margin-top: 1rem;
+  align-items: start;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.55rem;
+}
+
+.simulation-question-heading > strong {
+  color: #63d2c8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.simulation-question-heading h4 {
+  margin: 0;
+  color: #fff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.08rem, 2vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.simulation-options {
+  display: grid;
+  margin-top: 1.15rem;
+  padding: 0;
+  gap: 0.7rem;
+  list-style: none;
+}
+
+.simulation-options li {
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 25, 38, 0.32);
+}
+
+.simulation-options li.is-recommended {
+  border-color: rgba(99, 210, 200, 0.72);
+  background: rgba(99, 210, 200, 0.09);
+}
+
+.simulation-option-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.simulation-option-title h5 {
+  margin: 0;
+  color: #fff;
+  font-size: 0.88rem;
+}
+
+.simulation-response .simulation-question .simulation-option-title span {
+  display: inline-flex;
+  padding: 0.25rem 0.45rem;
+  border-radius: 999px;
+  flex: 0 0 auto;
+  color: #082131;
+  background: #63d2c8;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.simulation-response .simulation-question .simulation-options p {
+  margin-top: 0.42rem;
+  color: #b8c6c3;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.simulation-response .simulation-question .simulation-options p strong {
+  color: #e5efed;
 }
 
 .simulation-deliverable {
