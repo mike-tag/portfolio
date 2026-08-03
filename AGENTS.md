@@ -38,6 +38,8 @@ This project is a static, values-led advocacy workbench for Veterans for All Vot
 ## Review handoff
 
 - After completing each major edit, start or reuse the local development server and include a clickable link to the exact local preview route in the final response so the user can review it in the Codex browser.
+- Probe `http://127.0.0.1:5173/` before starting another server. Reuse it when it returns this portfolio; otherwise use `pnpm run dev:detached -Route "#/<route>"`. Do not launch a long-running Vite process in the foreground of a blocking shell call.
+- Keep visual QA bounded to the routes and breakpoints changed in the task. Use targeted state checks, cap waits, and report a browser-connection failure rather than entering an open-ended retry loop.
 - When the edited experience has a direct hash route, link to that local route rather than only to the local homepage. For example, use a URL ending in `#/transformation` for Consulting Reformed and `#/workbench` for the Advocacy Workbench.
 - Do not include the deployed GitHub Pages URL in routine edit-completion responses.
 - Include the deployed site URL only in the output of a deployment or publishing workflow, after the deployment has completed successfully.

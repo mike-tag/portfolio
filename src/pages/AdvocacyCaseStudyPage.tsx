@@ -6,127 +6,143 @@ import {
   FileText,
   HeartHandshake,
   LayoutTemplate,
-  Route,
   Sparkles,
   UserRoundCheck,
   UsersRound,
 } from "lucide-react";
+import { PortfolioCaseClosing } from "../components/PortfolioCaseClosing";
 
 const workflowStages = [
   {
-    number: "01",
-    title: "Personal ChatGPT workflow",
-    description: "Source collection, audience analysis, message framing, and iterative drafting lived in one project workspace.",
+    title: "The process lived in one ChatGPT project.",
+    description: "Research, audience analysis, message framing, and drafting worked for me, but the judgment behind each step was implicit.",
     Icon: FileText,
   },
   {
-    number: "02",
-    title: "Structured advocacy workbench",
-    description: "The repeatable decisions became four guided steps: assignment, audience and story, message and evidence, then handoff.",
+    title: "I turned the judgment into four visible decisions.",
+    description: "The workbench guides assignment, audience and story, message and evidence, then the final handoff.",
     Icon: LayoutTemplate,
   },
   {
-    number: "03",
-    title: "Volunteer-ready handoff",
-    description: "The user gets a sourced AI prompt, preserved caveats, a fact-check list, and an explicit human review before use.",
+    title: "The handoff keeps the advocate in control.",
+    description: "A sourced prompt, preserved caveats, fact-check list, and explicit human review make the output ready to inspect—not ready to send.",
     Icon: ClipboardCheck,
   },
 ];
 
 const productDecisions = [
   {
-    title: "Values before mechanics",
-    description: "Service, voter voice, trust, common ground, and authentic stories shape the message before policy detail does.",
+    title: "Start with VAV values, not policy mechanics.",
+    description: "Service, voter voice, trust, authentic stories, common ground, accountability, and practical action shape the message.",
     Icon: HeartHandshake,
   },
   {
-    title: "Audience context",
-    description: "Known public facts stay distinct from strategic judgment about what may matter to a decision-maker.",
+    title: "Separate public facts from strategic judgment.",
+    description: "The tool distinguishes what is known about an audience from an advocate's interpretation of what may resonate.",
     Icon: UsersRound,
   },
   {
-    title: "Evidence discipline",
-    description: "Claims carry their underlying source, locator, best use, caveat, reform type, and verification status.",
+    title: "Carry the conditions with every claim.",
+    description: "Evidence retains its source locator, best use, caveat, reform type, and verification status instead of becoming an unqualified promise.",
     Icon: BookOpenCheck,
   },
   {
-    title: "Human ownership",
-    description: "The volunteer integrates their story, checks every fact, and makes the final decision about what to present.",
+    title: "Make human review part of the product.",
+    description: "The advocate owns the personal story, checks every fact, and decides what is appropriate to present.",
     Icon: UserRoundCheck,
   },
 ];
 
 export function AdvocacyCaseStudyPage() {
   return (
-    <div className="advocacy-case-study">
-      <section className="acs-hero section-pad">
-        <div className="acs-hero-copy">
-          <h1>Volunteers know why they care. Turning that conviction into a clear, evidence-backed message is harder.</h1>
-          <p className="acs-hero-lead">I turned a repeatable advocacy workflow I had developed in ChatGPT into a guided tool another advocate can use.</p>
-          <a className="acs-text-link" href="#advocacy-workflow">See the workflow transformation <ArrowDown aria-hidden="true" size={18} /></a>
+    <div className="avcase-page">
+      <section className="avcase-hero" aria-labelledby="avcase-title">
+        <div className="avcase-hero-copy">
+          <h1 id="avcase-title">I turn judgment-heavy workflows into usable systems.</h1>
+          <p>This case study shows how I turned an advocacy workflow—not just its final prompt—into a system that keeps values, audience context, evidence, and human judgment connected.</p>
+          <div className="avcase-hero-actions">
+            <button
+              className="avcase-primary-action"
+              type="button"
+              onClick={() => document.getElementById("advocacy-structure")?.scrollIntoView()}
+            >
+              Read the case study
+              <ArrowDown aria-hidden="true" size={18} />
+            </button>
+            <a className="avcase-secondary-action" href="#/workbench">
+              Jump to the working prototype
+              <ArrowRight aria-hidden="true" size={19} />
+            </a>
+          </div>
         </div>
 
-        <figure className="acs-hero-visual">
-          <img src="./volunteer-advocate.png" alt="Illustration of a veteran volunteer preparing notes at a public hearing microphone" />
-          <figcaption>This is an independent pilot and portfolio case study—not an official Veterans for All Voters production service.</figcaption>
+        <figure className="avcase-hero-visual">
+          <img src="./volunteer-advocate.png" alt="A veteran volunteer preparing notes at a public hearing microphone" />
+          <figcaption>
+            This is an independent pilot and portfolio case study, not an official Veterans for All Voters service. The static prototype creates a work packet; it does not send information or replace fact-checking.
+          </figcaption>
         </figure>
       </section>
 
-      <section className="acs-workflow section-pad" id="advocacy-workflow" aria-labelledby="workflow-heading">
-        <header className="acs-section-heading">
-          <h2 id="workflow-heading">A repeatable structure turns a personal process into a product another advocate can use.</h2>
-        </header>
+      <section className="avcase-structure" id="advocacy-structure" aria-labelledby="avcase-structure-title">
+        <div className="avcase-section-heading">
+          <h2 id="avcase-structure-title">A repeatable structure makes the work transferable.</h2>
+        </div>
 
-        <ol className="acs-workflow-stages">
-          {workflowStages.map(({ number, title, description, Icon }, index) => (
+        <ol className="avcase-workflow">
+          {workflowStages.map(({ title, description, Icon }, index) => (
             <li key={title}>
-              <span className="acs-stage-number">{number}</span>
-              <span className="acs-stage-icon"><Icon aria-hidden="true" size={27} strokeWidth={1.65} /></span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-              {index < workflowStages.length - 1 && <span className="acs-stage-arrow" aria-hidden="true"><ArrowRight size={22} strokeWidth={1.8} /></span>}
+              <div className="avcase-workflow-marker" aria-hidden="true">
+                <span>{index + 1}</span>
+                <Icon size={25} strokeWidth={1.7} />
+              </div>
+              <div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
             </li>
           ))}
         </ol>
       </section>
 
-      <section className="acs-decisions section-pad" aria-labelledby="decisions-heading">
-        <header className="acs-section-heading">
-          <h2 id="decisions-heading">The product is the structure around the prompt.</h2>
-        </header>
+      <section className="avcase-decisions" aria-labelledby="avcase-decisions-title">
+        <div className="avcase-decisions-intro">
+          <h2 id="avcase-decisions-title">I designed the judgment around the prompt, not just the prompt.</h2>
+          <p><strong>My contribution:</strong> Product strategy, research synthesis, workflow design, UX direction, and agent-assisted prototyping with Codex.</p>
+        </div>
 
-        <div className="acs-decisions-layout">
-          <div className="acs-decision-grid">
-            {productDecisions.map(({ title, description, Icon }) => (
-              <article key={title}>
-                <span><Icon aria-hidden="true" size={24} strokeWidth={1.7} /></span>
+        <div className="avcase-decision-list">
+          {productDecisions.map(({ title, description, Icon }) => (
+            <article key={title}>
+              <Icon aria-hidden="true" size={24} strokeWidth={1.7} />
+              <div>
                 <h3>{title}</h3>
                 <p>{description}</p>
-              </article>
-            ))}
-          </div>
-
-          <aside className="acs-role-card">
-            <h2>My contribution: Turning the workflow into a usable system.</h2>
-            <p>Product strategy, research synthesis, workflow design, UX direction, and agent-assisted prototyping with Codex.</p>
-            <dl>
-              <div><dt>Kept human</dt><dd>Message judgment, personal story, factual verification, and final approval</dd></div>
-              <div><dt>Made repeatable</dt><dd>Audience framing, value selection, evidence handling, prompt construction, and review</dd></div>
-            </dl>
-          </aside>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="acs-inspect section-pad" aria-labelledby="inspect-heading">
+      <section className="avcase-proof" aria-labelledby="avcase-proof-title">
         <div>
-          <h2 id="inspect-heading">Review how the system handles evidence and human judgment, then try the tool.</h2>
+          <h2 id="avcase-proof-title">The workbench is the proof.</h2>
+          <p>Build a sample work packet to see how values, audience context, personal story, qualified evidence, and human review stay connected.</p>
+          <a className="avcase-primary-action avcase-proof-action" href="#/workbench">
+            Explore the working prototype
+            <Sparkles aria-hidden="true" size={19} />
+          </a>
         </div>
-        <nav className="acs-inspect-actions" aria-label="Advocacy case study paths">
-          <a className="acs-action-card" href="#/sources"><BookOpenCheck aria-hidden="true" size={24} /><strong>Review the evidence</strong><ArrowRight aria-hidden="true" size={20} /></a>
-          <a className="acs-action-card" href="#/method"><Route aria-hidden="true" size={24} /><strong>See the design method</strong><ArrowRight aria-hidden="true" size={20} /></a>
-          <a className="acs-action-card acs-action-card-secondary" href="#/workbench"><Sparkles aria-hidden="true" size={24} /><strong>Explore the workbench</strong><ArrowRight aria-hidden="true" size={20} /></a>
-        </nav>
+
+        <p className="avcase-depth-links">
+          For supporting detail, <a href="#/sources">review the evidence</a>, <a href="#/method">see the design method</a>, or <a href="#/examples">compare two testimony approaches</a>.
+        </p>
       </section>
+
+      <PortfolioCaseClosing
+        heading="I turn responsible AI judgment into tools people can use."
+        description="If your team needs practical transformation that keeps people in control, connect with Mike or download his resume."
+      />
     </div>
   );
 }

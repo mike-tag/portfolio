@@ -1,0 +1,52 @@
+.portfolio-case-closing {
+  display: grid;
+  width: min(100% - 2.5rem, 1240px);
+  margin: clamp(3rem, 7vw, 7rem) auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1.5rem 3rem;
+  color: #f8f6ef;
+  background: #102332;
+}
+
+.portfolio-case-closing h2 {
+  max-width: 18ch;
+  margin: 0;
+  color: inherit;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.portfolio-case-closing p {
+  max-width: 58ch;
+  margin: 1rem 0 0;
+  color: #c8d2d4;
+}
+
+.portfolio-case-closing .portfolio-actions {
+  margin: 0;
+}
+
+.portfolio-case-back {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  color: #d7bc83;
+  font-size: 0.82rem;
+  font-weight: 750;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 760px) {
+  .portfolio-case-closing {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-case-closing-actions {
+    width: 100%;
+  }
+}

@@ -1,0 +1,112 @@
+.workbench-page .select-card {
+  min-height: 0;
+  padding: 1rem;
+}
+
+.workbench-page .values-selection {
+  gap: 0.65rem;
+}
+
+.workbench-page .frame-card {
+  min-height: 0;
+}
+
+.frame-guidance-details {
+  margin-top: 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.frame-guidance-details > summary {
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.frame-guidance-details .frame-guidance {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.frame-guidance-details .frame-guidance > div {
+  min-height: 0;
+}
+
+.evidence-choice-record {
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.evidence-choice-record.selected {
+  border-color: var(--olive);
+  box-shadow: inset 4px 0 0 var(--brass);
+}
+
+.evidence-choice-record .evidence-choice {
+  border: 0;
+  box-shadow: none;
+}
+
+.evidence-choice-record > details {
+  margin-left: 3.7rem;
+  border-top: 1px solid var(--line);
+}
+
+.evidence-choice-record > details summary {
+  padding: 0.75rem 1rem 0.75rem 0;
+  color: var(--olive);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.evidence-choice-record > details > p {
+  margin: 0 1rem 0.75rem 0;
+  font-size: 0.72rem;
+}
+
+.evidence-choice-record > details ul {
+  margin: 0;
+  padding: 0 1rem 0.8rem 0;
+  list-style: none;
+}
+
+.evidence-choice-record > details li {
+  display: grid;
+  padding: 0.55rem 0;
+  gap: 0.2rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.68rem;
+}
+
+.evidence-choice-record > details li span {
+  color: var(--muted);
+}
+
+.workbench-handoff-intro {
+  display: flex;
+  margin-bottom: 1.25rem;
+  padding: 1.1rem;
+  align-items: flex-start;
+  gap: 0.8rem;
+  color: #fff;
+  background: var(--forest);
+}
+
+.workbench-handoff-intro svg {
+  flex: 0 0 auto;
+  color: var(--brass-light);
+}
+
+.workbench-handoff-intro p {
+  margin: 0;
+  color: #dce1d6;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.workbench-handoff-intro strong {
+  color: #fff;
+}

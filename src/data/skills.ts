@@ -4,21 +4,33 @@ type SkillSimulationStepBase = {
   outcome: string;
 };
 
-type SkillSimulationOption = {
+type SkillConversationTurn = {
+  speaker: "skill" | "product-owner";
+  label: string;
+  role: string;
+  message: string;
+};
+
+export type SkillDecisionChoice = {
+  id: string;
   title: string;
   description: string;
   tradeoff: string;
   recommended?: boolean;
-  rationale?: string;
 };
 
 export type SkillSimulationStep = SkillSimulationStepBase & (
   | {
-      kind: "question";
-      questionNumber: number;
-      context: string;
+      kind: "inspection";
+      findings: string[];
+      nextQuestion: string;
+    }
+  | {
+      kind: "recommendation";
+      conversation: SkillConversationTurn[];
       question: string;
-      options: SkillSimulationOption[];
+      choices: SkillDecisionChoice[];
+      confirmation: string;
     }
   | {
       kind: "output";
@@ -33,8 +45,9 @@ export type MarketSkill = {
   name: string;
   commandName: string;
   availability: string;
-  problem: string;
-  solution: string;
+  summary: string;
+  before: string;
+  after: string;
   scenario: string;
   simulation: SkillSimulationStep[];
   repositoryUrl: string;
@@ -51,117 +64,77 @@ export const marketSkills: MarketSkill[] = [
     name: "Design Planning",
     commandName: "plan-design-decisions",
     availability: "Available now",
-    problem: "Ambiguous design requests often jump straight to production. The result can look finished while hiding assumptions, unresolved tradeoffs, and unclear measures of success.",
-    solution: "An adaptive interview that inspects what already exists, asks only the questions that can change the direction, and makes its recommendations, rationale, and tradeoffs explicit before producing an implementation-ready plan.",
+    summary: "An adaptive interview that turns an ambiguous design request into decisions a team can review, challenge, and implement.",
+    before: "An ambiguous request jumps straight to production, so a finished-looking artifact can hide assumptions, unresolved tradeoffs, and no shared measure of success.",
+    after: "The workflow inspects existing context, asks only what could change the direction, and records the rationale and tradeoffs in an implementation-ready plan.",
     scenario: "Help me redesign our employee onboarding experience. It feels scattered and people keep missing important steps.",
     simulation: [
       {
-        kind: "question",
-        label: "Inspect",
-        action: "The skill inspects the available brief, product, and constraints before asking a numbered question that earns its place.",
-        questionNumber: 1,
-        context: "I found three required onboarding systems, a 30-day checklist, and a mobile-accessibility requirement.",
-        question: "Which outcome should anchor the first-week experience?",
-        options: [
-          {
-            title: "Fewer missed steps",
-            description: "Make required actions unmistakable and sequence them around the new hire's first week.",
-            recommended: true,
-            rationale: "The brief names missed steps as the clearest current failure, so this gives the first release a direct problem to solve.",
-            tradeoff: "Time-to-productivity and belonging remain important, but become secondary measures for this release.",
-          },
-          {
-            title: "Faster time-to-productivity",
-            description: "Optimize the experience around reaching independent contribution sooner.",
-            tradeoff: "Speed could obscure required steps that do not immediately affect productivity.",
-          },
-          {
-            title: "A stronger sense of belonging",
-            description: "Prioritize relationships, culture, and confidence during the first week.",
-            tradeoff: "The experience may feel better without resolving the operational misses named in the brief.",
-          },
+        kind: "inspection",
+        label: "Inspect context",
+        action: "The skill starts with what is already known before asking for another decision.",
+        findings: [
+          "Three required systems shape the onboarding path.",
+          "Missed required tasks are the clearest failure in the brief.",
+          "Mobile accessibility is a stated constraint.",
         ],
-        outcome: "The recommendation is grounded in known context, and its tradeoff stays visible.",
+        nextQuestion: "Which outcome should anchor the first-week experience?",
+        outcome: "The next question is grounded in evidence from the brief instead of starting from a blank slate.",
       },
       {
-        kind: "question",
-        label: "Clarify",
-        action: "It asks one focused question whose answer would materially change the plan.",
-        questionNumber: 2,
-        context: "You chose fewer missed steps as the primary outcome.",
-        question: "Which failure should the first release prevent first?",
-        options: [
+        kind: "recommendation",
+        label: "Recommend a direction",
+        action: "The skill works like a UX design partner: it asks, listens, narrows the decision, and makes a recommendation.",
+        conversation: [
           {
-            title: "An incomplete required task",
-            description: "Surface deadlines, ownership, and completion state for mandatory work.",
-            recommended: true,
-            rationale: "Required tasks carry the clearest operational consequence and give the pilot an observable completion measure.",
-            tradeoff: "This narrows the first release around compliance and may underrepresent relationship-based problems.",
+            speaker: "skill",
+            label: "Design Planning",
+            role: "UX design partner",
+            message: "Which outcome should anchor the first week: fewer missed steps, faster productivity, or stronger belonging?",
           },
           {
-            title: "A missed manager handoff",
-            description: "Make manager actions and timing part of the same guided path.",
-            tradeoff: "Success depends on manager participation, which the new-hire interface alone cannot guarantee.",
+            speaker: "product-owner",
+            label: "Product owner",
+            role: "Sets the priority",
+            message: "Fewer missed required steps. New hires are overlooking actions spread across three systems.",
           },
           {
-            title: "Uncertainty about where to get help",
-            description: "Prioritize findable support and escalation routes.",
-            tradeoff: "Better support can help people recover without preventing the missed step itself.",
+            speaker: "skill",
+            label: "Design Planning",
+            role: "Frames the decision",
+            message: "That makes first-time clarity the priority. I recommend a guided path, but here are three credible directions and the cost of each.",
           },
         ],
-        outcome: "A broad goal becomes a concrete, measurable failure the design must prevent.",
-      },
-      {
-        kind: "question",
-        label: "Compare",
-        action: "It leads with a recommendation, explains why it fits the brief, and keeps credible alternatives reviewable.",
-        questionNumber: 3,
-        context: "The first release needs to prevent incomplete required tasks across several systems.",
-        question: "Which interaction model should organize the experience?",
-        options: [
+        question: "Which direction should anchor the first release?",
+        choices: [
           {
-            title: "A guided first-week path",
-            description: "Sequence required actions by moment, owner, and completion state.",
+            id: "guided-path",
+            title: "Guided first-week path",
+            description: "Sequences required actions across all three systems so first-time hires always know what comes next.",
+            tradeoff: "Experienced users have less freedom to jump around until shortcuts are added.",
             recommended: true,
-            rationale: "A guided path reduces navigation decisions for first-time users and directly supports the goal of fewer missed steps.",
-            tradeoff: "Experienced users have less freedom to jump around, so shortcuts should follow after the core path works.",
           },
           {
-            title: "A flexible dashboard",
-            description: "Let people scan and choose from all onboarding activity at once.",
-            tradeoff: "Flexibility increases the chance that a first-time user overlooks an important action.",
+            id: "flexible-dashboard",
+            title: "Flexible dashboard",
+            description: "Puts every task and system in one place while letting each person choose their own route.",
+            tradeoff: "More navigation decisions make it easier for a new hire to miss a required step.",
+          },
+          {
+            id: "checklist-hub",
+            title: "Checklist hub",
+            description: "Creates the lightest-weight overview without changing the underlying system experiences.",
+            tradeoff: "Fastest to release, but it surfaces fragmented work instead of resolving it.",
           },
         ],
-        outcome: "The decision and its tradeoff can be challenged constructively.",
-      },
-      {
-        kind: "question",
-        label: "Validate",
-        action: "It closes with one focused validation decision and makes the cost of each evidence threshold clear.",
-        questionNumber: 4,
-        context: "The guided path is the proposed direction for a small first-week pilot.",
-        question: "What evidence should trigger a design revision before wider release?",
-        options: [
-          {
-            title: "Two of five participants miss the same required step",
-            description: "Treat a repeated failure in a small task-based test as enough evidence to revisit the flow.",
-            recommended: true,
-            rationale: "It is a small, reversible check that can expose a consequential usability problem before implementation expands.",
-            tradeoff: "The sample is directional rather than representative, so findings still require judgment.",
-          },
-          {
-            title: "A measurable increase in support requests",
-            description: "Use real pilot behavior to identify where the path creates confusion.",
-            tradeoff: "The signal arrives later and asks pilot participants to experience the problem first.",
-          },
-        ],
-        outcome: "The plan leaves with an explicit revision trigger instead of a vague promise to test.",
+        confirmation: "I’ll record this choice, its rationale, and its trade-off in the final plan.",
+        outcome: "You make the decision with the skill’s judgment visible, then carry the rationale forward without reconstructing the conversation.",
       },
       {
         kind: "output",
-        label: "Output",
-        action: "The skill packages the decisions into a structured plan with enough detail for implementation.",
-        deliverableTitle: "Implementation-ready design plan",
+        label: "Deliver the plan",
+        action: "The skill writes the agreed decisions into a complete plan of action.",
+        deliverableTitle: "Written, implementation-ready design plan",
         deliverableSections: [
           "Outcome + decision brief",
           "Recommendations + rationale + tradeoffs",
@@ -169,8 +142,8 @@ export const marketSkills: MarketSkill[] = [
           "Acceptance criteria + validation",
           "Risks + owned open questions",
         ],
-        handoff: "Review and refine the plan, then hand it to your builder agent to implement.",
-        outcome: "You leave with a reviewable plan and a clear next handoff.",
+        handoff: "Take the written plan into Codex, Claude Code, or another builder agent and execute it.",
+        outcome: "You leave with the decisions and next actions already written out—not another conversation to reconstruct.",
       },
     ],
     repositoryUrl: "https://github.com/mike-tag/shared-agent-skills",

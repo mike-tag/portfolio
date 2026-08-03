@@ -1,5 +1,7 @@
 # Consulting Reformed design decisions
 
+> Status update, 2026-07-25: The problem-first direction remains implemented. The shared [portfolio subpage decisions](./portfolio-subpage-design-decisions.md) refine it by placing one representative task proof near the top, using one canonical four-stage walkthrough, and treating formulas and governance mechanics as optional depth.
+
 ## Decision: Lead with the deployment problem and prove the method
 
 - Status: implemented

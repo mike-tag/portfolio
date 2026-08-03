@@ -2,8 +2,7 @@ import {
   ArrowRight,
   BookOpenCheck,
   BriefcaseBusiness,
-  Download,
-  ExternalLink,
+  Building2,
   HeartHandshake,
   Mic2,
   Network,
@@ -13,6 +12,7 @@ import {
   Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { PortfolioActions } from "../components/PortfolioActions";
 
 type Experience = {
   id: "transformation" | "advocacy" | "skills";
@@ -56,8 +56,8 @@ const experiences: Experience[] = [
     product: "Advocacy Workbench",
     problem: "I need to make a clear 60-second case for voter reform.",
     description: "See how values, audience, story, and qualified evidence become a structured prompt for testimony and outreach.",
-    href: "#/workbench",
-    cta: "Build an advocacy prompt",
+    href: "#/advocacy",
+    cta: "Try the advocacy workflow",
     journey: [
       { label: "Story", Icon: HeartHandshake },
       { label: "Evidence", Icon: BookOpenCheck },
@@ -66,32 +66,23 @@ const experiences: Experience[] = [
   },
 ];
 
-function PortfolioActions() {
-  return (
-    <div className="portfolio-actions">
-      <a
-        className="portfolio-linkedin"
-        href="https://www.linkedin.com/in/miketagariello/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <img className="linkedin-mark" src="./linkedin-logo-initials.png" alt="" />
-        Connect with Mike on LinkedIn
-        <ExternalLink aria-hidden="true" size={15} strokeWidth={2} />
-      </a>
-      <a
-        className="portfolio-linkedin portfolio-resume"
-        href="./mike-tagariello-resume.pdf"
-        download="Mike-Tagariello-Resume.pdf"
-        type="application/pdf"
-      >
-        <Download aria-hidden="true" size={18} strokeWidth={2} />
-        Download resume
-        <span className="portfolio-file-type" aria-hidden="true">PDF</span>
-      </a>
-    </div>
-  );
-}
+const portfolioDepth = [
+  {
+    level: "Organization",
+    detail: "Align people, roles, and governance",
+    Icon: Building2,
+  },
+  {
+    level: "Workflow",
+    detail: "Redesign how work gets done",
+    Icon: Workflow,
+  },
+  {
+    level: "Task",
+    detail: "Make expert methods reusable",
+    Icon: PackageOpen,
+  },
+];
 
 export function ExperiencePage() {
   return (
@@ -120,8 +111,17 @@ export function ExperiencePage() {
 
       <section className="portfolio-work section-pad" aria-labelledby="work-title">
         <div className="portfolio-work-heading">
-          <h2 id="work-title">How I think and build with AI</h2>
+          <h2 id="work-title">How I work with AI</h2>
         </div>
+
+        <ul className="portfolio-depth-map" aria-label="Three independent levels of AI integration">
+          {portfolioDepth.map(({ level, detail, Icon }) => (
+            <li key={level}>
+              <span className="portfolio-depth-level"><Icon aria-hidden="true" size={21} strokeWidth={1.7} />{level}</span>
+              <span className="portfolio-depth-detail">{detail}</span>
+            </li>
+          ))}
+        </ul>
 
         <div className="experience-grid">
           {experiences.map((experience) => (

@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BookOpenCheck, Check, CircleCheckBig, ClipboardCheck, ClipboardCopy, ClipboardPaste, Download, FilePlus, MapPinned, MessageSquareQuote, PencilLine, Quote, Sparkles, Target, TriangleAlert, UserRoundCheck, UsersRound } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, CircleCheckBig, ClipboardCheck, ClipboardCopy, Download, FilePlus, MapPinned, MessageSquareQuote, PencilLine, Quote, Sparkles, Target, TriangleAlert, UsersRound } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ValueIcon } from "../components/ValueIcon";
@@ -159,13 +159,13 @@ export function WorkbenchPage() {
                 const selected = state.selectedFrame === frame.id;
                 return <button key={frame.id} type="button" className={`frame-card ${selected ? "selected" : ""}`} onClick={() => setState((current) => ({ ...current, selectedFrame: frame.id }))} aria-pressed={selected}>
                   <span className="frame-radio" aria-hidden="true">{selected ? "●" : "○"}</span>
-                  <span><strong>{frame.label}</strong><small>{frame.summary}</small><em>Works well for: {frame.bestFor}</em></span>
+                  <span><strong>{frame.label}</strong><small>{frame.summary}</small></span>
                 </button>;
               })}
             </div>
             {state.selectedFrame && (() => {
               const frame = advocacyFrames.find((item) => item.id === state.selectedFrame)!;
-              return <div className="frame-guidance"><div><span><Quote aria-hidden="true" size={15} />Possible opening</span><p>“{frame.sampleOpening}”</p></div><div><span><TriangleAlert aria-hidden="true" size={15} />Avoid</span><p>{frame.watchOut}</p></div></div>;
+              return <details className="frame-guidance-details"><summary>Review why this frame fits</summary><div className="frame-guidance"><div><span><Quote aria-hidden="true" size={15} />Possible opening</span><p>“{frame.sampleOpening}”</p></div><div><span><UsersRound aria-hidden="true" size={15} />Works well for</span><p>{frame.bestFor}</p></div><div><span><TriangleAlert aria-hidden="true" size={15} />Keep in mind</span><p>{frame.watchOut}</p></div></div></details>;
             })()}
 
             <h3 className="form-section-title">Choose the evidence that helps</h3>
@@ -173,11 +173,14 @@ export function WorkbenchPage() {
               {evidenceClaims.map((item) => {
                 const selected = state.selectedEvidence.includes(item.id);
                 const sources = getEvidenceSourcesForClaim(item);
-                return <label key={item.id} className={`evidence-choice ${selected ? "selected" : ""}`}>
-                  <input type="checkbox" checked={selected} onChange={() => toggleEvidence(item.id)} />
-                  <span className="evidence-check" aria-hidden="true">{selected && <Check size={14} strokeWidth={2.5} />}</span>
-                  <span className="evidence-choice-copy"><strong>{item.title}</strong><span>{item.claim}</span><em><b>Keep in mind:</b> {item.caveat}</em><cite>{sources.map((source) => source.title).join("; ")} · {item.verificationStatus === "research_lead" ? "refresh needed" : "source checked"}</cite></span>
-                </label>;
+                return <div key={item.id} className={`evidence-choice-record ${selected ? "selected" : ""}`}>
+                  <label className={`evidence-choice ${selected ? "selected" : ""}`}>
+                    <input type="checkbox" checked={selected} onChange={() => toggleEvidence(item.id)} />
+                    <span className="evidence-check" aria-hidden="true">{selected && <Check size={14} strokeWidth={2.5} />}</span>
+                    <span className="evidence-choice-copy"><strong>{item.title}</strong><span>{item.claim}</span><em><b>Keep in mind:</b> {item.caveat}</em><cite>{item.verificationStatus === "research_lead" ? "Refresh needed before public use" : "Source and locator checked"}</cite></span>
+                  </label>
+                  <details><summary>Review sources and reform type</summary><p><strong>Reform type:</strong> {item.reformType || "Multiple or not specified"}</p><ul>{sources.map((source) => <li key={source.id}><cite>{source.title}</cite><span>{source.locator}</span></li>)}</ul></details>
+                </div>;
               })}
             </div>
           </StepSection>
@@ -185,19 +188,9 @@ export function WorkbenchPage() {
 
         {step === 3 && (
           <StepSection headingRef={stepHeadingRef} icon={stepIcons[3]} title="Use this prompt to create your draft.">
-            <ol className="handoff-steps">
-              <li><span>1</span><div><ClipboardCopy className="handoff-action-icon" aria-hidden="true" size={22} strokeWidth={1.8} /><strong>Copy the work packet.</strong><p>It contains your audience, story, message, evidence, and drafting instructions.</p></div></li>
-              <li><span>2</span><div><ClipboardPaste className="handoff-action-icon" aria-hidden="true" size={22} strokeWidth={1.8} /><strong>Paste it into the AI writing tool you use.</strong><p>Send the entire packet as one prompt and let the tool create the first draft.</p></div></li>
-              <li><span>3</span><div><UserRoundCheck className="handoff-action-icon" aria-hidden="true" size={22} strokeWidth={1.8} /><strong>Make the draft yours.</strong><p>Use the three checks below before you present or send anything.</p></div></li>
-            </ol>
-
-            <div className="packet-summary-grid">
-              <article><span><UsersRound aria-hidden="true" size={16} />Audience</span><strong>{state.targetName || "Not supplied"}</strong><p>{state.targetRole || "Add a public role"}</p></article>
-              <article><span><MessageSquareQuote aria-hidden="true" size={16} />Main message</span><strong>{advocacyFrames.find((item) => item.id === state.selectedFrame)?.label || "Not selected"}</strong><p>{state.selectedValues.length} VAV values included</p></article>
-              <article><span><BookOpenCheck aria-hidden="true" size={16} />Evidence</span><strong>{state.selectedEvidence.length} claim{state.selectedEvidence.length === 1 ? "" : "s"}</strong><p>Source notes and cautions included</p></article>
-            </div>
+            <div className="workbench-handoff-intro"><ClipboardCopy aria-hidden="true" size={24} /><p><strong>Copy the complete packet into the AI writing tool you use.</strong> It carries your audience, story, message, evidence, caveats, and drafting instructions. Then use the three checks below to make the draft accurate and unmistakably yours.</p></div>
             {hasResearchLead && <div className="research-warning" role="alert"><TriangleAlert aria-hidden="true" size={21} strokeWidth={1.8} /><div><strong>One or more facts need to be updated.</strong><p>The prompt identifies them. Confirm the latest primary source before using them publicly.</p></div></div>}
-            <div className="export-actions"><button className="button button-primary" type="button" onClick={copyPacket}><ClipboardCopy aria-hidden="true" size={17} />Copy for your AI tool</button><button className="button button-quiet" type="button" onClick={downloadPacket}><Download aria-hidden="true" size={17} />Save a copy</button><span className="copy-status" role="status">{copyStatus}</span></div>
+            <div className="export-actions"><button className="button button-primary" type="button" onClick={copyPacket}><ClipboardCopy aria-hidden="true" size={17} />Copy work packet</button><button className="button button-quiet" type="button" onClick={downloadPacket}><Download aria-hidden="true" size={17} />Save a copy</button><span className="copy-status" role="status">{copyStatus}</span></div>
             <details className="packet-details"><summary><ClipboardCheck aria-hidden="true" size={17} />See exactly what will be copied</summary><pre>{packet}</pre></details>
 
             <fieldset className="review-fieldset"><legend><ClipboardCheck aria-hidden="true" size={17} />Before you present or send the draft</legend>

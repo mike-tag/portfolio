@@ -1,16 +1,19 @@
-import { BookOpenCheck, House, Info, LayoutGrid, Mic2, PencilLine, Route, ShieldCheck } from "lucide-react";
+import { BookOpenCheck, House, PencilLine, ShieldCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { routeDefinitions } from "../routes";
 import type { PageId } from "../types";
-import { MikeSigil } from "./MikeSigil";
 
-const navItems: Array<{ id: PageId; label: string; Icon: LucideIcon }> = [
-  { id: "advocacy", label: "Home", Icon: House },
-  { id: "workbench", label: "Workbench", Icon: PencilLine },
+const advocacyNavItems: Array<{ id: PageId; label: string; Icon: LucideIcon }> = [
+  { id: "advocacy", label: "Case study", Icon: House },
+  { id: "workbench", label: "Try the workbench", Icon: PencilLine },
   { id: "sources", label: "Evidence", Icon: BookOpenCheck },
-  { id: "method", label: "Method", Icon: Route },
-  { id: "examples", label: "Examples", Icon: Mic2 },
-  { id: "about", label: "About", Icon: Info },
+];
+
+const portfolioNavItems: Array<{ id: PageId; level: string; project: string }> = [
+  { id: "transformation", level: "Organization", project: "Role redesign" },
+  { id: "advocacy", level: "Workflow", project: "Advocacy Workbench" },
+  { id: "skills", level: "Task", project: "Design Planning" },
 ];
 
 type SiteLayoutProps = {
@@ -19,44 +22,71 @@ type SiteLayoutProps = {
 };
 
 export function SiteLayout({ page, children }: SiteLayoutProps) {
-  const isGateway = page === "home";
-  const isSkillsMarket = page === "skills";
-  const isPortfolio = isGateway || isSkillsMarket;
-  const isTransformation = page === "transformation";
-  const isAdvocacy = !isPortfolio && !isTransformation;
-  const shellClass = isPortfolio ? "gateway-shell" : isTransformation ? "transformation-shell" : "";
-  const brandHref = isSkillsMarket ? "#/" : isTransformation ? "#/transformation" : "#/advocacy";
-  const brandLabel = isSkillsMarket ? "Mike Tagariello portfolio home" : isTransformation ? "Consulting Reformed home" : "VAV Advocacy Workbench home";
+  const route = routeDefinitions[page];
+  const isPortfolioHome = route.surface === "portfolio-home";
+  const isPortfolioCase = route.surface === "portfolio-case";
+  const isAdvocacyProduct = route.surface === "advocacy-product";
+  const shellClass = [
+    isPortfolioHome ? "gateway-shell" : "",
+    isPortfolioCase ? "portfolio-case-shell" : "",
+    page === "transformation" ? "transformation-shell" : "",
+  ].filter(Boolean).join(" ");
 
   return (
     <div className={`site-shell ${shellClass}`}>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      {!isGateway && <header className="site-header">
-        <a className="brand" href={brandHref} aria-label={brandLabel}>
-          <span className="brand-mark" aria-hidden="true">{isSkillsMarket ? <MikeSigil /> : isTransformation ? "CR" : "V"}</span>
-          <span>
-            <strong>{isSkillsMarket ? "Mike Tagariello" : isTransformation ? "Consulting Reformed" : "Advocacy Workbench"}</strong>
-            <small>{isSkillsMarket ? "Skills market" : isTransformation ? "Transformation Factory" : "Open primaries pilot"}</small>
-          </span>
-        </a>
+      {!isPortfolioHome && <header className={`site-header ${isPortfolioCase ? "portfolio-case-header" : ""}`}>
+        {isPortfolioCase ? (
+          <a className="brand portfolio-case-brand" href="#/" aria-label="Mike Tagariello portfolio home">
+            <span className="brand-mark portfolio-profile-mark" aria-hidden="true">
+              <img src="./mike-tagariello-headshot-illustrated.png" alt="" />
+            </span>
+            <span>
+              <strong>Mike Tagariello</strong>
+              <small>{route.projectLabel}</small>
+            </span>
+          </a>
+        ) : (
+          <a className="brand" href="#/advocacy" aria-label="Advocacy Workbench case study">
+            <span className="brand-mark" aria-hidden="true">V</span>
+            <span>
+              <strong>Advocacy Workbench</strong>
+              <small>Open primaries pilot</small>
+            </span>
+          </a>
+        )}
         <div className="header-actions">
-          {isAdvocacy && <nav className="site-nav" aria-label="Advocacy navigation">
-            {navItems.map(({ id, label, Icon }) => (
+          {isPortfolioCase && <nav className="portfolio-case-nav" aria-label="Portfolio projects">
+            <a href="#/">Portfolio home</a>
+            {portfolioNavItems.map(({ id, level, project }) => (
+              <a key={id} href={`#/${id}`} aria-current={page === id ? "page" : undefined}>
+                <strong>{level}</strong>
+                <small>{project}</small>
+              </a>
+            ))}
+          </nav>}
+          {isAdvocacyProduct && <nav className="site-nav" aria-label="Advocacy navigation">
+            {advocacyNavItems.map(({ id, label, Icon }) => (
               <a key={id} href={`#/${id}`} aria-current={page === id ? "page" : undefined}>
                 <Icon aria-hidden="true" size={15} strokeWidth={1.9} />{label}
               </a>
             ))}
           </nav>}
-          <a className="all-demos-link" href="#/"><LayoutGrid aria-hidden="true" size={15} />{isSkillsMarket ? "Portfolio home" : "All demos"}</a>
         </div>
       </header>}
       <main id="main-content">{children}</main>
       <footer className="site-footer">
         <div>
-          <span className="footer-mark" aria-hidden="true">{isPortfolio ? <MikeSigil /> : isTransformation ? "CR" : "V"}</span>
-          <p><strong>{isPortfolio ? "Mike Tagariello" : isTransformation ? "Consulting Reformed" : "Veterans for All Voters Advocacy Workbench"}</strong><br />{isPortfolio ? "Practical systems for complex change" : isTransformation ? "Transformation Factory demonstration" : "Open primaries example"}</p>
+          {isPortfolioHome || isPortfolioCase ? (
+            <span className="footer-profile" aria-hidden="true">
+              <img src="./mike-tagariello-headshot-illustrated.png" alt="" />
+            </span>
+          ) : (
+            <span className="footer-mark" aria-hidden="true">V</span>
+          )}
+          <p><strong>{isPortfolioHome || isPortfolioCase ? "Mike Tagariello" : "Veterans for All Voters Advocacy Workbench"}</strong><br />{isPortfolioHome || isPortfolioCase ? "Practical systems for complex change" : "Open primaries example"}</p>
         </div>
-        <p className="footer-privacy"><ShieldCheck aria-hidden="true" size={20} strokeWidth={1.7} /><span>{isPortfolio ? "These static demonstrations make no network calls." : isTransformation ? "This static demonstration uses illustrative data and makes no network calls." : "This beta creates a work packet and drafting prompt. It does not send your information anywhere."}</span></p>
+        <p className="footer-privacy"><ShieldCheck aria-hidden="true" size={20} strokeWidth={1.7} /><span>{isPortfolioHome || isPortfolioCase ? "These static demonstrations make no network calls." : "This beta creates a work packet and drafting prompt. It does not send your information anywhere."}</span></p>
       </footer>
     </div>
   );

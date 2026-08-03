@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Check,
   Clipboard,
@@ -8,22 +7,12 @@ import {
   GitBranch,
   PackageCheck,
 } from "lucide-react";
+import { PortfolioCaseClosing } from "../components/PortfolioCaseClosing";
 import { marketSkills } from "../data/skills";
+import type { MarketSkill } from "../data/skills";
 
 export function SkillsMarketPage() {
-  const skill = marketSkills[0];
-  const [activeStep, setActiveStep] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
-  const step = skill.simulation[activeStep];
-
-  function exploreSkill() {
-    const skillArticle = document.getElementById("design-planning");
-    const skillHeading = document.getElementById("design-planning-title");
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    skillArticle?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
-    skillHeading?.setAttribute("tabindex", "-1");
-    skillHeading?.focus({ preventScroll: true });
-  }
 
   async function copyCommand(id: string, value: string) {
     try {
@@ -47,161 +36,257 @@ export function SkillsMarketPage() {
   }
 
   return (
-    <div className="skills-market-page">
-      <section className="skills-hero" aria-labelledby="skills-title">
-        <a className="skills-back-link" href="#/"><ArrowLeft aria-hidden="true" size={16} />Back to portfolio</a>
-        <div className="skills-hero-grid">
-          <h1 id="skills-title">Skills that make the thinking visible.</h1>
-          <button className="skills-hero-action" type="button" onClick={exploreSkill}>Explore the first skill<ArrowRight aria-hidden="true" size={18} /></button>
-        </div>
+    <div className="skills-collection-page">
+      <section className="skills-collection-hero" aria-labelledby="skills-collection-title">
+        <h1 id="skills-collection-title">I turn task-level expertise into reusable AI skills.</h1>
+        <figure className="skills-collection-lifecycle">
+          <figcaption>How expertise becomes a shared skill</figcaption>
+          <ol>
+            <li>
+              <span aria-hidden="true">01</span>
+              <div><strong>Find the judgment</strong><small>Start with a recurring task shaped by expert choices.</small></div>
+            </li>
+            <li>
+              <span aria-hidden="true">02</span>
+              <div><strong>Encode the method</strong><small>Capture its questions, rules, trade-offs, and output.</small></div>
+            </li>
+            <li>
+              <span aria-hidden="true">03</span>
+              <div><strong>Publish the skill</strong><small>Share inspectable source and clear installation steps.</small></div>
+            </li>
+            <li>
+              <span aria-hidden="true">04</span>
+              <div><strong>Learn through reuse</strong><small>Others install, apply, and improve the method.</small></div>
+            </li>
+          </ol>
+        </figure>
       </section>
 
-      <section className="skills-beliefs" aria-labelledby="skills-beliefs-title">
-        <div className="skills-beliefs-heading">
-          <p>How I think</p>
-          <h2 id="skills-beliefs-title">Good agent work should make judgment easier to inspect—not harder.</h2>
-        </div>
-        <p className="skills-beliefs-copy">I build reusable agent workflows for moments when a polished answer is not enough. Each skill inspects context before asking for more, keeps facts and assumptions distinct from recommendations, and explains why a direction fits before exposing what it gives up. The result is a method you can inspect, challenge, and use in your own AI tool.</p>
-      </section>
+      <div className="skills-collection-list" aria-label={`${marketSkills.length} published ${marketSkills.length === 1 ? "skill" : "skills"}`}>
+        {marketSkills.map((skill) => (
+          <SkillShowcase
+            copied={copied}
+            key={skill.id}
+            onCopy={copyCommand}
+            skill={skill}
+          />
+        ))}
+      </div>
 
-      <article className="market-skill" id="design-planning" aria-labelledby="design-planning-title">
-        <header className="market-skill-header">
-          <div className="market-skill-number" aria-hidden="true">01</div>
-          <div>
-            <p><PackageCheck aria-hidden="true" size={17} />{skill.availability}</p>
-            <h2 id="design-planning-title">{skill.name}</h2>
+      <aside className="skills-collection-credit" aria-label="Research credit">
+        <p>
+          <strong>Research credit.</strong> Design Planning draws on ideas from Tom Greever, author of <cite>Articulating Design Decisions</cite>. His published resources informed the skill&apos;s approach to recommendations, rationale, and tradeoffs.
+          <a href="https://tomgreever.com/resources/" target="_blank" rel="noreferrer">
+            Explore Tom Greever&apos;s resources
+            <ExternalLink aria-hidden="true" size={14} />
+          </a>
+        </p>
+        <p className="skills-collection-repository-note">
+          <strong>Repository.</strong> The skill is open source, MIT licensed, and includes marketplace support for Codex and Claude Code.
+        </p>
+      </aside>
+
+      <PortfolioCaseClosing
+        heading="Want this kind of judgment in your AI transformation work?"
+        description="Connect with Mike or download his résumé after inspecting the working skill and its decision process."
+      />
+    </div>
+  );
+}
+
+type SkillShowcaseProps = {
+  skill: MarketSkill;
+  copied: string | null;
+  onCopy: (id: string, value: string) => void;
+};
+
+function SkillShowcase({ skill, copied, onCopy }: SkillShowcaseProps) {
+  const [activeStep, setActiveStep] = useState(0);
+  const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
+  const step = skill.simulation[activeStep];
+  const panelId = `${skill.id}-simulation-panel`;
+  const isDecisionPending = step.kind === "recommendation" && selectedChoiceId === null;
+
+  return (
+    <article className="skills-collection-skill" id={skill.id} aria-labelledby={`${skill.id}-title`}>
+      <header className="skills-collection-skill-header">
+        <div>
+          <p className="skills-collection-status">
+            <PackageCheck aria-hidden="true" size={18} />
+            <span>{skill.availability}</span>
+            <span aria-hidden="true">·</span>
             <code>${skill.commandName}</code>
-          </div>
-        </header>
+          </p>
+          <h2 id={`${skill.id}-title`}>{skill.name}</h2>
+          <p className="skills-collection-summary">{skill.summary}</p>
+        </div>
+        <a className="skills-collection-repository" href={skill.repositoryUrl} target="_blank" rel="noreferrer">
+          <GitBranch aria-hidden="true" size={19} />
+          View on GitHub
+          <ExternalLink aria-hidden="true" size={15} />
+        </a>
+      </header>
 
-        <div className="skill-problem-solution">
-          <section>
-            <span>The problem</span>
-            <h3>Finished-looking work can conceal unfinished thinking.</h3>
-            <p>{skill.problem}</p>
-          </section>
-          <section>
-            <span>The solution</span>
-            <h3>Turn ambiguity into justified decisions you can review and implement with your builder agent.</h3>
-            <p>{skill.solution}</p>
-          </section>
+      <section className="skills-collection-change" aria-labelledby={`${skill.id}-change-title`}>
+        <h3 id={`${skill.id}-change-title`}>It turns premature production into decisions a team can inspect.</h3>
+        <div className="skills-collection-change-path">
+          <p><strong>Before:</strong> {skill.before}</p>
+          <ArrowRight aria-hidden="true" size={26} />
+          <p><strong>After:</strong> {skill.after}</p>
+        </div>
+      </section>
+
+      <section className="skills-collection-simulation" aria-labelledby={`${skill.id}-simulation-title`}>
+        <div className="skills-collection-simulation-heading">
+          <h3 id={`${skill.id}-simulation-title`}>Three moments make the judgment visible.</h3>
+          <p>This representative, static walkthrough shows how the documented workflow responds to one ambiguous request.</p>
         </div>
 
-        <section className="skill-simulation" aria-labelledby="simulation-title">
-          <div className="simulation-intro">
-            <div>
-              <p>Short simulation</p>
-              <h3 id="simulation-title">See the workflow think before you install it.</h3>
-            </div>
-            <p>This is a representative, static walkthrough of the skill’s documented behavior.</p>
-          </div>
+        <blockquote className="skills-collection-request">
+          <p>“{skill.scenario}”</p>
+        </blockquote>
 
-          <blockquote className="simulation-prompt">
-            <span>You</span>
-            <p>“{skill.scenario}”</p>
-          </blockquote>
-
-          <div className="simulation-workspace">
-            <div className="simulation-steps" aria-label="Simulation steps">
-              {skill.simulation.map((item, index) => (
+        <div className="skills-collection-workspace">
+          <ol className="skills-collection-steps" aria-label="Choose a moment in the Design Planning workflow">
+            {skill.simulation.map((item, index) => (
+              <li key={item.label}>
                 <button
                   type="button"
-                  key={item.label}
                   className={activeStep === index ? "is-active" : ""}
+                  aria-controls={panelId}
                   aria-pressed={activeStep === index}
                   onClick={() => setActiveStep(index)}
                 >
-                  <span>0{index + 1}</span>{item.label}
+                  <span aria-hidden="true">{index + 1}</span>
+                  {item.label}
                 </button>
-              ))}
-            </div>
+              </li>
+            ))}
+          </ol>
 
-            <div className="simulation-response" aria-live="polite">
-              <div>
-                <span>What the skill does</span>
-                <p>{step.action}</p>
+          <div className="skills-collection-response" id={panelId} aria-live="polite">
+            <h4>{step.action}</h4>
+
+            {step.kind === "inspection" && (
+              <div className="skills-collection-inspection">
+                <ul>
+                  {step.findings.map((finding) => (
+                    <li key={finding}><Check aria-hidden="true" size={16} />{finding}</li>
+                  ))}
+                </ul>
+                <p>It asks next: <strong>{step.nextQuestion}</strong></p>
               </div>
-              {step.kind === "question" ? (
-                <blockquote className="simulation-question">
-                  <img src="./design-planning-scout.png" alt="Scout, the Design Planning border collie" />
-                  <div>
-                    <span><strong>Scout</strong><small>Design Planning asks</small></span>
-                    <p className="simulation-question-context">{step.context}</p>
-                    <div className="simulation-question-heading">
-                      <strong>{step.questionNumber}.</strong>
-                      <h4>{step.question}</h4>
-                    </div>
-                    <ul className="simulation-options">
-                      {step.options.map((option) => (
-                        <li className={option.recommended ? "is-recommended" : ""} key={option.title}>
-                          <div className="simulation-option-title">
-                            <h5>{option.title}</h5>
-                            {option.recommended && <span>Recommended</span>}
-                          </div>
-                          <p>{option.description}</p>
-                          {option.rationale && <p><strong>Why this is recommended:</strong> {option.rationale}</p>}
-                          <p><strong>Tradeoff:</strong> {option.tradeoff}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </blockquote>
-              ) : (
-                <div className="simulation-deliverable" aria-label="Design Planning output">
-                  <div className="simulation-deliverable-speaker">
-                    <img src="./design-planning-scout.png" alt="" />
-                    <span><strong>Scout</strong><small>Design Planning delivers</small></span>
-                  </div>
-                  <div className="simulation-output-document">
-                    <p><PackageCheck aria-hidden="true" size={18} />Final output</p>
-                    <h4>{step.deliverableTitle}</h4>
-                    <ul>
-                      {step.deliverableSections.map((section) => <li key={section}><Check aria-hidden="true" size={15} />{section}</li>)}
-                    </ul>
-                    <div className="simulation-output-handoff"><ArrowRight aria-hidden="true" size={17} /><span>{step.handoff}</span></div>
-                  </div>
-                </div>
-              )}
-              <p className="simulation-outcome"><Check aria-hidden="true" size={17} /><strong>Result:</strong> {step.outcome}</p>
-              <button
-                type="button"
-                onClick={() => setActiveStep((activeStep + 1) % skill.simulation.length)}
-              >
-                {activeStep === skill.simulation.length - 1 ? "Restart simulation" : "Next step"}
-                <ArrowRight aria-hidden="true" size={17} />
-              </button>
-            </div>
-          </div>
-        </section>
+            )}
 
-        <section className="skill-use" aria-labelledby="use-skill-title">
-          <div className="skill-use-heading">
-            <p>Use the real skill</p>
-            <h3 id="use-skill-title">Install it in the agent you already use.</h3>
-            <p>The repository is open source, MIT licensed, and includes marketplace support for Codex and Claude Code.</p>
-            <a href={skill.repositoryUrl} target="_blank" rel="noreferrer">
-              <GitBranch aria-hidden="true" size={19} />View the GitHub repository<ExternalLink aria-hidden="true" size={15} />
-            </a>
-          </div>
+            {step.kind === "recommendation" && (
+              <div className="skills-collection-recommendation-demo">
+                <ol className="skills-collection-dialogue" aria-label="Representative conversation between the Design Planning skill and a product owner">
+                  {step.conversation.map((turn, index) => (
+                    <li className={`is-${turn.speaker}`} key={`${turn.speaker}-${index}`}>
+                      <span className="skills-collection-speaker-mark" aria-hidden="true">
+                        {turn.speaker === "skill" ? "DP" : "PO"}
+                      </span>
+                      <div>
+                        <p className="skills-collection-speaker">
+                          <strong>{turn.label}</strong>
+                          <span>{turn.role}</span>
+                        </p>
+                        <p>{turn.message}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
 
-          <div className="install-options">
-            <article>
-              <h4>Codex</h4>
-              <p>Add the marketplace, install <strong>Design Planning</strong> from Plugins, then prompt the skill directly.</p>
-              <CommandLine id="codex-install" label="Add marketplace" value={skill.codexInstall} copied={copied} onCopy={copyCommand} />
-              <CommandLine id="codex-run" label="Try this prompt" value={skill.codexPrompt} copied={copied} onCopy={copyCommand} />
-            </article>
-            <article>
-              <h4>Claude Code</h4>
-              <p>Add the repository marketplace first, then install and run the design-planning plugin.</p>
-              <CommandLine id="claude-marketplace" label="Add marketplace" value={skill.claudeMarketplace} copied={copied} onCopy={copyCommand} />
-              <CommandLine id="claude-install" label="Install plugin" value={skill.claudeInstall} copied={copied} onCopy={copyCommand} />
-              <CommandLine id="claude-run" label="Run the skill" value={skill.claudeRun} copied={copied} onCopy={copyCommand} />
-            </article>
+                <fieldset className="skills-collection-decision">
+                  <legend>{step.question}</legend>
+                  <p className="skills-collection-decision-guidance">Compare the paths, see the skill&apos;s judgment, then choose what it should carry into the plan.</p>
+                  <div className="skills-collection-choice-list">
+                    {step.choices.map((choice) => {
+                      const isSelected = selectedChoiceId === choice.id;
+                      return (
+                        <button
+                          type="button"
+                          className={isSelected ? "is-selected" : ""}
+                          aria-pressed={isSelected}
+                          key={choice.id}
+                          onClick={() => setSelectedChoiceId(choice.id)}
+                        >
+                          <span className="skills-collection-choice-heading">
+                            <span aria-hidden="true" className="skills-collection-choice-control">{isSelected ? <Check size={15} /> : null}</span>
+                            <strong>{choice.title}</strong>
+                            {choice.recommended ? <span className="skills-collection-recommended">Skill recommends</span> : null}
+                          </span>
+                          <span className="skills-collection-choice-description">{choice.description}</span>
+                          <span className="skills-collection-choice-tradeoff"><strong>Trade-off:</strong> {choice.tradeoff}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </fieldset>
+
+                {selectedChoiceId ? (
+                  <div className="skills-collection-selection" role="status">
+                    <p><strong>You chose:</strong> {step.choices.find((choice) => choice.id === selectedChoiceId)?.title}</p>
+                    <p><strong>Design Planning:</strong> {step.confirmation}</p>
+                  </div>
+                ) : null}
+              </div>
+            )}
+
+            {step.kind === "output" && (
+              <div className="skills-collection-output">
+                <p><PackageCheck aria-hidden="true" size={19} /><strong>{step.deliverableTitle}</strong></p>
+                <ul>
+                  {step.deliverableSections.map((section) => (
+                    <li key={section}><Check aria-hidden="true" size={15} />{section}</li>
+                  ))}
+                </ul>
+                <p className="skills-collection-handoff"><ArrowRight aria-hidden="true" size={17} />{step.handoff}</p>
+              </div>
+            )}
+
+            <p className="skills-collection-outcome"><Check aria-hidden="true" size={17} />{step.outcome}</p>
+            <button
+              className="skills-collection-next"
+              type="button"
+              disabled={isDecisionPending}
+              onClick={() => {
+                if (activeStep === skill.simulation.length - 1) setSelectedChoiceId(null);
+                setActiveStep((activeStep + 1) % skill.simulation.length);
+              }}
+            >
+              {activeStep === skill.simulation.length - 1
+                ? "Restart walkthrough"
+                : isDecisionPending
+                  ? "Choose a direction to continue"
+                  : "Show the next moment"}
+              <ArrowRight aria-hidden="true" size={17} />
+            </button>
           </div>
-        </section>
-      </article>
-    </div>
+        </div>
+      </section>
+
+      <details className="skills-collection-install">
+        <summary>Install {skill.name} in Codex or Claude Code</summary>
+        <div className="skills-collection-install-content">
+          <div className="skills-collection-install-options">
+            <section aria-labelledby={`${skill.id}-codex-title`}>
+              <h3 id={`${skill.id}-codex-title`}>Codex</h3>
+              <p>Add the marketplace, install <strong>{skill.name}</strong> from Plugins, then prompt the skill directly.</p>
+              <CommandLine id={`${skill.id}-codex-install`} label="Add marketplace" value={skill.codexInstall} copied={copied} onCopy={onCopy} />
+              <CommandLine id={`${skill.id}-codex-run`} label="Try this prompt" value={skill.codexPrompt} copied={copied} onCopy={onCopy} />
+            </section>
+            <section aria-labelledby={`${skill.id}-claude-title`}>
+              <h3 id={`${skill.id}-claude-title`}>Claude Code</h3>
+              <p>Add the repository marketplace, then install and run the Design Planning plugin.</p>
+              <CommandLine id={`${skill.id}-claude-marketplace`} label="Add marketplace" value={skill.claudeMarketplace} copied={copied} onCopy={onCopy} />
+              <CommandLine id={`${skill.id}-claude-install`} label="Install plugin" value={skill.claudeInstall} copied={copied} onCopy={onCopy} />
+              <CommandLine id={`${skill.id}-claude-run`} label="Run the skill" value={skill.claudeRun} copied={copied} onCopy={onCopy} />
+            </section>
+          </div>
+        </div>
+      </details>
+    </article>
   );
 }
 
@@ -215,14 +300,15 @@ type CommandLineProps = {
 
 function CommandLine({ id, label, value, copied, onCopy }: CommandLineProps) {
   const isCopied = copied === id;
+
   return (
-    <div className="command-line">
+    <div className="skills-collection-command">
       <span>{label}</span>
       <div>
         <code>{value}</code>
         <button type="button" onClick={() => onCopy(id, value)} aria-label={`Copy ${label.toLowerCase()}`}>
           {isCopied ? <Check aria-hidden="true" size={17} /> : <Clipboard aria-hidden="true" size={17} />}
-          <span>{isCopied ? "Copied" : "Copy"}</span>
+          <span aria-live="polite">{isCopied ? "Copied" : "Copy"}</span>
         </button>
       </div>
     </div>

@@ -9,25 +9,12 @@ import { SourcesPage } from "./pages/SourcesPage";
 import { SkillsMarketPage } from "./pages/SkillsMarketPage";
 import { TransformationPage } from "./pages/TransformationPage";
 import { WorkbenchPage } from "./pages/WorkbenchPage";
+import { pageIds, routeDefinitions } from "./routes";
 import type { PageId } from "./types";
-
-const pages: PageId[] = ["home", "skills", "advocacy", "workbench", "sources", "method", "examples", "about", "transformation"];
-
-const pageTitles: Record<PageId, string> = {
-  home: "Mike Tagariello | AI transformation portfolio",
-  skills: "Skills market | Mike Tagariello",
-  advocacy: "Advocacy Workbench case study | Mike Tagariello",
-  workbench: "Build your advocacy prompt | Advocacy Workbench",
-  sources: "Evidence | Advocacy Workbench",
-  method: "Method | Advocacy Workbench",
-  examples: "Examples | Advocacy Workbench",
-  about: "About | Advocacy Workbench",
-  transformation: "Consulting Reformed | Transformation Factory",
-};
 
 function pageFromHash(): PageId {
   const value = window.location.hash.replace(/^#\/?/, "") || "home";
-  return pages.includes(value as PageId) ? value as PageId : "home";
+  return pageIds.includes(value as PageId) ? value as PageId : "home";
 }
 
 export default function App() {
@@ -37,21 +24,28 @@ export default function App() {
   useEffect(() => {
     const handleHashChange = () => {
       setPage(pageFromHash());
-      window.scrollTo({ top: 0, behavior: "instant" });
     };
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   useEffect(() => {
-    document.title = pageTitles[page];
+    document.title = routeDefinitions[page].title;
+    const resetScroll = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+    resetScroll();
+    const scrollFrame = window.requestAnimationFrame(resetScroll);
     if (pageMounted.current) {
       const heading = document.querySelector<HTMLElement>("#main-content h1");
       heading?.setAttribute("tabindex", "-1");
-      heading?.focus();
+      heading?.focus({ preventScroll: true });
     } else {
       pageMounted.current = true;
     }
+    return () => window.cancelAnimationFrame(scrollFrame);
   }, [page]);
 
   return (

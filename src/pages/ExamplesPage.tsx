@@ -1,4 +1,4 @@
-import { ArrowRight, Check, HeartHandshake, Landmark, Lightbulb, ListChecks, Quote, TriangleAlert } from "lucide-react";
+import { ArrowRight, Check, HeartHandshake, Landmark, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { demoWorkbenchState } from "../data/content";
 
@@ -11,7 +11,6 @@ const approaches = [
     Icon: Landmark,
     title: "Start with institutional purpose",
     summary: "Connect participation to effective, legitimate city government. Use evidence near the center, then make a focused ask.",
-    strengths: ["Best for a formal public record", "Strong connection to the audience's job", "Evidence carries the middle of the argument"],
     detailTitle: "Governance-first testimony",
     testimony: [
       {
@@ -40,8 +39,6 @@ const approaches = [
         note: "Name the action, decision-maker, reform model, and next democratic step.",
       },
     ],
-    opening: "City government works best when the people who rely on it have a meaningful voice in choosing its leadership.",
-    why: ["Begins with the commission's responsibility", "Moves naturally from government performance to participation", "Leaves room for qualified evidence", "Does not promise an automatic outcome"],
   },
   {
     id: "values" as ApproachId,
@@ -49,7 +46,6 @@ const approaches = [
     Icon: HeartHandshake,
     title: "Start with service",
     summary: "Use veteran and community experience to make the human reason for reform clear, then connect that story to voter voice and trust.",
-    strengths: ["Best for spoken testimony", "Strong personal credibility", "A memorable values-led opening"],
     detailTitle: "Values-first testimony",
     testimony: [
       {
@@ -78,17 +74,7 @@ const approaches = [
         note: "Return to the opening value and make the action unmistakable.",
       },
     ],
-    opening: "I am here because I believe service continues when we come home.",
-    why: ["Sounds like a person rather than a policy memo", "Makes veteran experience relevant without overexplaining it", "Creates an emotional reason to hear the evidence", "Returns to service in the final ask"],
   },
-];
-
-const anatomy = [
-  ["Open with purpose", "Give the audience a reason to care before explaining the policy."],
-  ["Show why you are here", "Use the part of your experience that makes this issue real to you."],
-  ["Connect to the audience", "Tie your concern to the decision-maker's actual responsibility."],
-  ["Use evidence carefully", "Choose one or two findings and keep their limitations attached."],
-  ["Make one clear ask", "End with the exact action this person or group can take."],
 ];
 
 export function ExamplesPage() {
@@ -100,49 +86,53 @@ export function ExamplesPage() {
     sessionStorage.setItem("vav-workbench-step", "0");
   };
 
-  return <section className="section-pad interior-page examples-page">
-    <div className="page-heading"><h1>Choose a testimony approach.</h1><a className="button button-primary" href="#/workbench" onClick={openNycExample}>Use the NYC example <ArrowRight aria-hidden="true" size={18} strokeWidth={2} /></a></div>
+  return <section className="adv-depth-page adv-examples-page">
+    <header className="adv-depth-header">
+      <div>
+        <h1>The same evidence can support two honest message strategies.</h1>
+        <p>Compare how institutional purpose and lived experience change the opening, sequence, and emphasis without changing the factual record.</p>
+      </div>
+    </header>
 
-    <fieldset className="example-directions">
+    <fieldset className="adv-approach-selector">
       <legend className="sr-only">Choose a testimony approach</legend>
       {approaches.map((approach) => {
         const isSelected = approach.id === selectedId;
         const inputId = `approach-${approach.id}`;
-        return <div className="example-option" key={approach.id}>
+        return <div className="adv-approach-option" key={approach.id}>
           <input id={inputId} type="radio" name="testimony-approach" value={approach.id} checked={isSelected} aria-labelledby={`${inputId}-title`} aria-describedby={`${inputId}-summary`} onChange={() => setSelectedId(approach.id)} />
-          <label className={`example-card ${isSelected ? "featured" : ""}`} htmlFor={inputId}>
-            <span className="example-icon" aria-hidden="true"><approach.Icon size={30} strokeWidth={1.7} /></span>
-            <strong className="example-card-title" id={`${inputId}-title`}>Approach {approach.number}: {approach.title}{isSelected && <> <Check aria-hidden="true" size={13} /> Selected</>}</strong>
-            <span className="example-card-summary" id={`${inputId}-summary`}>{approach.summary}</span>
-            <span className="example-card-strengths">{approach.strengths.map((strength) => <span className="example-card-strength" key={strength}><Check aria-hidden="true" size={14} strokeWidth={2} />{strength}</span>)}</span>
+          <label className={isSelected ? "selected" : ""} htmlFor={inputId}>
+            <approach.Icon aria-hidden="true" size={25} />
+            <span><strong id={`${inputId}-title`}>Approach {approach.number}: {approach.title}</strong><span id={`${inputId}-summary`}>{approach.summary}</span></span>
+            {isSelected && <Check aria-hidden="true" size={18} />}
           </label>
         </div>;
       })}
     </fieldset>
 
     <p className="sr-only" aria-live="polite">Selected: {selected.title}.</p>
-    <section className="full-testimony-section">
+    <section className="adv-testimony-section">
       <h2>{selected.detailTitle}</h2>
-      <div className="annotated-testimony">
-        <div className="testimony-script" aria-label={`${selected.detailTitle} script`}>
+      <div className="adv-annotated-testimony">
+        <div className="adv-testimony-script" aria-label={`${selected.detailTitle} script`}>
           {selected.testimony.map((section) => <p key={section.label}>{section.text}</p>)}
-          <div className="testimony-sources"><strong><TriangleAlert aria-hidden="true" size={15} />Evidence to verify before use</strong><span>Bipartisan Policy Center, 2024 · Evidence Review, pp. 6–7 and 14</span><span>Evidence Review executive summary, p. 1</span></div>
+          <div className="adv-testimony-warning"><TriangleAlert aria-hidden="true" size={18} /><p><strong>Evidence to verify before use:</strong> Bipartisan Policy Center, 2024, pp. 6–7 and 14; preserve the Evidence Review executive-summary qualification.</p></div>
         </div>
-        <ol className="annotation-rail" aria-label={`${selected.detailTitle} annotations`}>
+        <ol className="adv-annotation-rail" aria-label={`${selected.detailTitle} annotations`}>
           {selected.testimony.map((section, index) => <li key={section.label}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{section.label}</strong><p>{section.note}</p></div></li>)}
         </ol>
       </div>
     </section>
 
-    <section className="anatomy-section">
-      <span className="heading-icon"><ListChecks aria-hidden="true" size={24} strokeWidth={1.8} /></span>
-      <h2>What every short testimony needs to do.</h2>
-      <ol className="anatomy-list">{anatomy.map(([title, description], index) => <li key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{description}</p></li>)}</ol>
-    </section>
+    <div className="adv-example-action">
+      <div><h2>Build from the complete NYC example.</h2><p>The workbench opens with audience, values, evidence, and caveats already populated for review.</p></div>
+      <a className="button button-primary" href="#/workbench" onClick={openNycExample}>Open the NYC workbench <ArrowRight aria-hidden="true" size={18} /></a>
+    </div>
 
-    <section className="sample-annotation">
-      <div className="sample-copy"><Quote className="sample-quote-icon" aria-hidden="true" size={26} strokeWidth={1.6} /><blockquote>{selected.opening}</blockquote><p>This opening sets the direction for the selected approach before the policy details appear.</p></div>
-      <aside><span className="why-label"><Lightbulb aria-hidden="true" size={17} />Why it works</span><ul>{selected.why.map((reason) => <li key={reason}>{reason}</li>)}</ul></aside>
-    </section>
+    <nav className="adv-depth-links" aria-label="More Advocacy Workbench detail">
+      <a href="#/method">See the design method</a>
+      <a href="#/sources">Inspect the evidence records</a>
+      <a href="#/about">Review the pilot boundaries</a>
+    </nav>
   </section>;
 }

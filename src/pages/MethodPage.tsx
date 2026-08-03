@@ -1,33 +1,64 @@
-import { ArrowRight, FileCheck2, Lightbulb, ShieldAlert, Split } from "lucide-react";
-
-const methodSteps = [
-  ["01", "Set the assignment", "Define the real moment, goal, constraint, and action you want."],
-  ["02", "Know the audience and your story", "Use public facts to understand the audience, then choose the values and experience only you can bring."],
-  ["03", "Build the case", "Choose one main message and a small number of evidence claims with their limits attached."],
-  ["04", "Draft, adapt, and present", "Use the prompt in an AI writing tool, then make the result sound like you and fit the actual situation."],
-];
+import { ArrowRight, FileCheck2, Lightbulb, ShieldAlert } from "lucide-react";
+import { evidenceClaims, getEvidenceSourcesForClaim } from "../data/content";
 
 export function MethodPage() {
-  return <section className="section-pad interior-page method-page">
-    <div className="page-heading"><h1>Turn good advocacy judgment into a repeatable process.</h1></div>
-    <div className="method-flow">{methodSteps.map(([number, title, description]) => <article key={number}><span>{number}</span><div><h2>{title}</h2><p>{description}</p></div></article>)}</div>
-    <div className="method-principles">
-      <article>
-        <span className="heading-icon"><Split aria-hidden="true" size={24} strokeWidth={1.8} /></span>
-        <h2>Separate what you know from what you think it means.</h2>
-        <p>Public roles, statements, priorities, and actions form the factual record. The advocate then makes an explicit strategic judgment about what those facts mean for framing, objections, and messengers.</p>
-        <div className="mini-comparison">
-          <div><span className="comparison-label"><FileCheck2 aria-hidden="true" size={16} />Known public fact</span><p>The commission emphasizes effective government and outcomes for working people.</p></div>
-          <div><span className="comparison-label"><Lightbulb aria-hidden="true" size={16} />Strategic judgment</span><p>Lead with legitimacy, service delivery, and public mandate—not exclusion alone.</p></div>
+  const evidenceExample = evidenceClaims.find((item) => item.id === "design_specific_turnout") ?? evidenceClaims[0];
+  const sources = getEvidenceSourcesForClaim(evidenceExample);
+
+  return (
+    <section className="adv-depth-page adv-method-page">
+      <header className="adv-depth-header">
+        <div>
+          <h1>Two decisions keep an advocacy prompt honest.</h1>
+          <p>The workbench separates public facts from strategic interpretation and keeps every evidence limitation attached to the claim it qualifies.</p>
         </div>
-      </article>
-      <article>
-        <span className="heading-icon"><ShieldAlert aria-hidden="true" size={24} strokeWidth={1.8} /></span>
-        <h2>Keep the caveat with the claim.</h2>
-        <p>Evidence becomes less useful when a draft overstates it. Every claim record carries its best use, reform design, scope, and limitation into the final work packet.</p>
-        <blockquote>“The evidence does not support a simple claim that opening primaries increases turnout across all designs.”<cite>Evidence Review, executive summary</cite></blockquote>
-      </article>
-    </div>
-    <div className="method-cta"><h2>Try it with the NYC example.</h2><a className="button button-primary" href="#/workbench">Open the workbench <ArrowRight aria-hidden="true" size={18} strokeWidth={2} /></a></div>
-  </section>;
+        <a className="button button-primary" href="#/workbench">Walk through the NYC example <ArrowRight aria-hidden="true" size={18} /></a>
+      </header>
+
+      <section className="adv-method-example" aria-labelledby="audience-judgment-title">
+        <header>
+          <h2 id="audience-judgment-title">Use facts to understand the audience without pretending strategy is a fact.</h2>
+          <p>Both fields travel into the final packet, but they remain visibly different kinds of information.</p>
+        </header>
+        <div className="adv-method-pair">
+          <article>
+            <FileCheck2 aria-hidden="true" size={22} />
+            <h3>Known public fact</h3>
+            <p>The commission emphasizes effective government and outcomes for working people.</p>
+          </article>
+          <article>
+            <Lightbulb aria-hidden="true" size={22} />
+            <h3>Strategic judgment</h3>
+            <p>Lead with legitimacy, service delivery, and public mandate—not exclusion alone.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="adv-method-example" aria-labelledby="claim-caveat-title">
+        <header>
+          <h2 id="claim-caveat-title">A useful claim carries its limitation into the draft.</h2>
+          <p>The writer sees what the evidence can support and what it cannot promise before generating public-facing copy.</p>
+        </header>
+        <article className="adv-method-claim">
+          <h3>{evidenceExample.title}</h3>
+          <p>{evidenceExample.claim}</p>
+          <div><ShieldAlert aria-hidden="true" size={20} /><p><strong>Keep in mind:</strong> {evidenceExample.caveat}</p></div>
+          <details>
+            <summary>Review the source basis</summary>
+            <dl>
+              <div><dt>Best use</dt><dd>{evidenceExample.bestUse}</dd></div>
+              <div><dt>Reform type</dt><dd>{evidenceExample.reformType}</dd></div>
+            </dl>
+            {sources.map((source) => <p key={source.id}><cite>{source.title}</cite> — {source.locator}</p>)}
+          </details>
+        </article>
+      </section>
+
+      <nav className="adv-depth-links" aria-label="More Advocacy Workbench detail">
+        <a href="#/sources">Inspect every evidence record</a>
+        <a href="#/examples">See the method in testimony</a>
+        <a href="#/about">Review the pilot boundaries</a>
+      </nav>
+    </section>
+  );
 }

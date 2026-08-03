@@ -1,30 +1,28 @@
-# VAV Advocacy Workbench
+# Mike Tagariello AI transformation portfolio
 
-A founder-ready pilot that helps Veterans for All Voters volunteers turn a real advocacy assignment into a values-led, audience-aware, evidence-backed work packet.
+A static portfolio showing how Mike turns AI capabilities into better work and lasting value. The front page routes hiring decision-makers to three working examples:
 
-The same GitHub Pages site now includes a **Consulting Reformed** section for interview and portfolio audiences. It begins with a problem-first point of view on why AI deployments stall, then provides a guided Transformation Factory example that turns an illustrative Procurement Operations Manager posting into task hypotheses, transparent AI/O-ring judgments, a role-and-workflow design, and a downloadable pilot packet.
+- **Consulting Reformed:** an evidence-led method for moving from a job posting to task decisions, role redesign, controls, and a bounded pilot;
+- **Reusable AI skills:** a small collection of inspectable agent workflows, beginning with Design Planning;
+- **Advocacy Workbench:** a values-led product that turns audience context, lived experience, and qualified evidence into a reusable drafting packet.
 
-Open primaries and the New York City commission scenario are the first complete playbook. The structure is intended to expand to additional election-reform issues after volunteer testing.
+Each case is designed for a short hiring review. The main narrative shows the problem, Mike's contribution, a representative proof, and the next action. Detailed methodology, sources, and installation guidance remain available through progressive disclosure.
 
-## What the pilot does
+## Advocacy product
 
-- explains the value to VAV leadership up front;
-- guides a volunteer through four clear stages;
-- supports named public officials and institutions as audience personas;
-- distinguishes public facts from strategic judgment;
-- incorporates the VAV values and messaging guide;
-- connects evidence claims to their best use and caveats;
-- produces a copyable and downloadable work packet;
-- includes an annotated NYC testimony example and method guide.
-- lets visitors switch between the advocacy experience and the Consulting Reformed Transformation Factory demonstration;
+The Veterans for All Voters pilot remains a complete, functional product beneath the hiring-oriented case study. Open primaries and the New York City commission scenario are the first issue playbook.
 
-## What it does not do
+The product:
 
-- call an AI service;
-- ask for or store an API key;
-- create user accounts;
-- send form data to a server;
-- claim that every evidence record has completed underlying-source verification.
+- guides an advocate through four stages;
+- distinguishes known public facts from strategic judgment;
+- connects evidence claims to sources, best uses, reform types, caveats, and verification status;
+- generates a copyable and downloadable work packet;
+- keeps factual verification and final message decisions with the advocate.
+
+## Static by design
+
+The site does not call an AI service, collect API keys, create accounts, send form data to a server, or run analytics. Interactive demonstrations use prepared local data and browser-session state.
 
 ## Run locally
 
@@ -35,25 +33,15 @@ pnpm install
 pnpm dev
 ```
 
-The local address will be printed after the development server starts.
-
-## Validate the site
+## Validate
 
 ```text
 pnpm run build
 pnpm test
 ```
 
-The production site is generated in `dist/`.
-
-## GitHub Pages deployment
-
-The public portfolio is deployed from the [`portfolio`](https://github.com/mike-tag/portfolio) repository at:
-
-<https://mike-tag.github.io/portfolio/>
-
-The workflow in `.github/workflows/deploy.yml` builds, tests, and publishes the site whenever a change is pushed to `main`. The repository can grow to include additional public demos over time. Local source PDFs and Word documents are ignored by Git and are not included in the site.
+The production site is generated in `dist/` and uses reload-safe hash navigation for GitHub Pages.
 
 ## Evidence status
 
-`Synthesis checked` means a claim has been traced to the local evidence review and its page location. `Refresh needed` identifies a useful lead whose primary data or current figure must be checked before use. The next content milestone is to verify every underlying study, official dataset, and legal authority directly.
+`Source checked` means the underlying publication and locator have been reviewed while the stated caveat still applies. `Refresh needed` identifies a current figure, commentary, or research lead that must be confirmed against the latest primary source before public use.
