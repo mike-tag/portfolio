@@ -1,6 +1,6 @@
 import type { PageId } from "./types";
 
-export type SiteSurface = "portfolio-home" | "portfolio-case" | "advocacy-product";
+export type SiteSurface = "portfolio-home" | "portfolio-case" | "advocacy-product" | "presentation";
 
 export type RouteDefinition = {
   title: string;
@@ -17,6 +17,10 @@ export const routeDefinitions: Record<PageId, RouteDefinition> = {
     title: "Consulting Reformed | Mike Tagariello",
     surface: "portfolio-case",
     projectLabel: "Role redesign",
+  },
+  "the-build": {
+    title: "The Build | Mike Tagariello",
+    surface: "presentation",
   },
   skills: {
     title: "Reusable AI skills | Mike Tagariello",

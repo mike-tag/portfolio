@@ -26,16 +26,18 @@ export function SiteLayout({ page, children }: SiteLayoutProps) {
   const isPortfolioHome = route.surface === "portfolio-home";
   const isPortfolioCase = route.surface === "portfolio-case";
   const isAdvocacyProduct = route.surface === "advocacy-product";
+  const isPresentation = route.surface === "presentation";
   const shellClass = [
     isPortfolioHome ? "gateway-shell" : "",
     isPortfolioCase ? "portfolio-case-shell" : "",
+    isPresentation ? "the-build-shell" : "",
     page === "transformation" ? "transformation-shell" : "",
   ].filter(Boolean).join(" ");
 
   return (
     <div className={`site-shell ${shellClass}`}>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      {!isPortfolioHome && <header className={`site-header ${isPortfolioCase ? "portfolio-case-header" : ""}`}>
+      {!isPortfolioHome && !isPresentation && <header className={`site-header ${isPortfolioCase ? "portfolio-case-header" : ""}`}>
         {isPortfolioCase ? (
           <a className="brand portfolio-case-brand" href="#/" aria-label="Mike Tagariello portfolio home">
             <span className="brand-mark portfolio-profile-mark" aria-hidden="true">
@@ -75,7 +77,7 @@ export function SiteLayout({ page, children }: SiteLayoutProps) {
         </div>
       </header>}
       <main id="main-content">{children}</main>
-      <footer className="site-footer">
+      {!isPresentation && <footer className="site-footer">
         <div>
           {isPortfolioHome || isPortfolioCase ? (
             <span className="footer-profile" aria-hidden="true">
@@ -87,7 +89,7 @@ export function SiteLayout({ page, children }: SiteLayoutProps) {
           <p><strong>{isPortfolioHome || isPortfolioCase ? "Mike Tagariello" : "Veterans for All Voters Advocacy Workbench"}</strong><br />{isPortfolioHome || isPortfolioCase ? "Practical systems for complex change" : "Open primaries example"}</p>
         </div>
         <p className="footer-privacy"><ShieldCheck aria-hidden="true" size={20} strokeWidth={1.7} /><span>{isPortfolioHome || isPortfolioCase ? "These static demonstrations make no network calls." : "This beta creates a work packet and drafting prompt. It does not send your information anywhere."}</span></p>
-      </footer>
+      </footer>}
     </div>
   );
 }

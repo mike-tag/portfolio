@@ -33,12 +33,13 @@ test("link-sharing metadata is production-ready", async () => {
 });
 
 test("visible interface copy uses sentence case without eyebrow tiers", async () => {
-  const [styles, redesign, advocacy, transformation, skills, about, sources, method, examples, workbench, layout] = await Promise.all([
+  const [styles, redesign, advocacy, transformation, skills, theBuild, about, sources, method, examples, workbench, layout] = await Promise.all([
     read("src/styles.css"),
     read("src/redesign.css"),
     read("src/pages/AdvocacyCaseStudyPage.tsx"),
     read("src/pages/TransformationPage.tsx"),
     read("src/pages/SkillsMarketPage.tsx"),
+    read("src/pages/TheBuildPage.tsx"),
     read("src/pages/AboutPage.tsx"),
     read("src/pages/SourcesPage.tsx"),
     read("src/pages/MethodPage.tsx"),
@@ -47,9 +48,64 @@ test("visible interface copy uses sentence case without eyebrow tiers", async ()
     read("src/components/SiteLayout.tsx"),
   ]);
   assert.doesNotMatch(`${styles}\n${redesign}`, /text-transform:\s*uppercase/);
-  const pages = [advocacy, transformation, skills, about, sources, method, examples, workbench, layout].join("\n");
+  const pages = [advocacy, transformation, skills, theBuild, about, sources, method, examples, workbench, layout].join("\n");
   assert.doesNotMatch(pages, /className="[^"]*(?:eyebrow|kicker|document-label|source-category|approach-choice)/);
   assert.doesNotMatch(pages, />The problem<|>The solution<|>Our approach<|>The outcome</);
+});
+
+test("The Build presentation is an unlisted, complete operating-model narrative", async () => {
+  const [app, routes, layout, page, css] = await Promise.all([
+    read("src/App.tsx"),
+    read("src/routes.ts"),
+    read("src/components/SiteLayout.tsx"),
+    read("src/pages/TheBuildPage.tsx"),
+    read("src/pages/TheBuildPage.css"),
+  ]);
+  assert.match(app, /page === "the-build"/);
+  assert.match(routes, /"the-build": \{[\s\S]*?surface: "presentation"/);
+  assert.match(layout, /route\.surface === "presentation"/);
+  const portfolioNav = layout.match(/const portfolioNavItems[\s\S]*?\];/)?.[0] ?? "";
+  const advocacyNav = layout.match(/const advocacyNavItems[\s\S]*?\];/)?.[0] ?? "";
+  assert.doesNotMatch(`${portfolioNav}\n${advocacyNav}`, /the-build/);
+  for (const statement of [
+    "Reejig has built an exceptional Work Map",
+    "clear, resourced path from insight to deployed value",
+    "The workflow is",
+    "Select the workflows worth building",
+    "And Build Studio",
+    "The Build owns every build path",
+    "Handoff package and engineering depth changes",
+    "Measure how the work changes",
+    "Certification should make the evidence visible",
+    "Every build improves the next",
+    "Every workflow should create ongoing value",
+    "Commercialize access, activation, and upkeep",
+    "A deployed workflow is a maintained product",
+    "Engineering enters when judgment demands it",
+  ]) assert.match(page, new RegExp(statement));
+  assert.equal((page.match(/title: "(?:No-code build|Low-code build|Engineering-supported build|Full system integration)"/g) || []).length, 4);
+  assert.ok(page.indexOf('title: "Pick-and-build"') < page.indexOf('title: "Library subscription"'));
+  assert.match(page, /Prototype in development/);
+  assert.match(page, /Start with activation, then lead into subscription\./);
+  assert.match(page, /Bring in deeper engineering expertise before risk becomes rework\. \(Or better yet, get in front of it\.\)/);
+  assert.doesNotMatch(page, /Reuse creates new evidence/);
+  assert.doesNotMatch(page, /Known · Inferred · Unknown/);
+  assert.doesNotMatch(page, /Time · quality · throughput · risk/);
+  assert.doesNotMatch(page, /Measure changed work—not shipped software|The Build owns the outcome|The engineering depth changes\. Accountability does not\.|Every build improves the next one\.|Every workflow should create value twice\.|This is how I would lead The Build\.|Start with subscription plus activation\.|I stay close enough to the build/);
+  for (const icon of ["Clock3", "BadgeCheck", "Gauge", "ShieldAlert", "RefreshCw"]) {
+    assert.match(page, new RegExp(icon));
+  }
+  assert.equal((page.match(/className="the-build-talking-point(?: the-build-talking-point--icon)?"/g) || []).length, 5);
+  for (const stage of ["Select", "Build", "Prove", "Certify", "Discussion"]) {
+    assert.match(page, new RegExp(`label: "${stage}"`));
+  }
+  assert.match(page, /data-state=\{state\}/);
+  assert.doesNotMatch(`${page}\n${css}`, /fetch\s*\(|api\.openai\.com|OPENAI_API_KEY/);
+  assert.match(css, /\.the-build-page/);
+  assert.match(css, /\.the-build-stage-trail/);
+  assert.match(css, /\.the-build-outcome__icons/);
+  assert.match(css, /\.the-build-screen \.the-build-talking-point/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
 test("the route hierarchy separates the portfolio from Advocacy product depth", async () => {

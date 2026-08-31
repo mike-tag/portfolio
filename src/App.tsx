@@ -8,6 +8,7 @@ import { MethodPage } from "./pages/MethodPage";
 import { SourcesPage } from "./pages/SourcesPage";
 import { SkillsMarketPage } from "./pages/SkillsMarketPage";
 import { TransformationPage } from "./pages/TransformationPage";
+import { TheBuildPage } from "./pages/TheBuildPage";
 import { WorkbenchPage } from "./pages/WorkbenchPage";
 import { pageIds, routeDefinitions } from "./routes";
 import type { PageId } from "./types";
@@ -59,6 +60,7 @@ export default function App() {
       {page === "examples" && <ExamplesPage />}
       {page === "about" && <AboutPage />}
       {page === "transformation" && <TransformationPage />}
+      {page === "the-build" && <TheBuildPage />}
     </SiteLayout>
   );
 }
