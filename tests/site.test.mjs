@@ -130,8 +130,10 @@ test("the route hierarchy separates the portfolio from Advocacy product depth", 
   assert.match(navigation, /aria-current/);
   assert.match(navigation, /inAgentDemo/);
   assert.doesNotMatch(navigation, /the-build|Organization|Workflow|Design Planning/);
-  const demo = await read("feasibility-agent/src/PortfolioApp.tsx");
-  assert.match(demo, /PortfolioNavigation/);
+  const demo = await read("dist/integration-agents/index.html");
+  assert.match(demo, /Portfolio home/);
+  assert.match(demo, /Recorded runs/);
+  assert.match(demo, /connect-src 'none'/);
 
 });
 
