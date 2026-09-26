@@ -1,0 +1,376 @@
+{
+  "url": "https://integration-agent-demo.onrender.com",
+  "scenario": "valid",
+  "httpStatus": 200,
+  "elapsedMs": 5137,
+  "events": [
+    {
+      "type": "progress",
+      "label": "Request accepted",
+      "phase": "investigate",
+      "atMs": 84
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /recruiting/demo-001",
+        "detail": {
+          "url": "http://127.0.0.1:36973/recruiting/demo-001",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "id": "demo-001",
+            "name": "Fictional applicant",
+            "screening": "Awaiting update",
+            "revision": 0
+          }
+        }
+      },
+      "atMs": 156
+    },
+    {
+      "type": "progress",
+      "label": "Agent choosing an action",
+      "atMs": 156
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "action",
+        "title": "inspect_contract",
+        "detail": {}
+      },
+      "atMs": 2346
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /contract",
+        "detail": {
+          "url": "http://127.0.0.1:36973/contract",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "service": "Screening test service — simulated vendor, fictional data",
+            "method": "GET",
+            "path": "/orders/demo-001/status",
+            "required": {
+              "orderId": "demo-001",
+              "screeningStatus": [
+                "pending",
+                "complete"
+              ],
+              "sourceChangedAt": "ISO timestamp"
+            },
+            "mapping": {
+              "pending": "Screening pending",
+              "complete": "Screening complete — review required"
+            },
+            "destination": "PATCH /recruiting/demo-001",
+            "rule": "Completion is not hiring clearance. An HTTP 200 alone is insufficient."
+          }
+        }
+      },
+      "atMs": 2348
+    },
+    {
+      "type": "progress",
+      "label": "Agent choosing an action",
+      "atMs": 2348
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "action",
+        "title": "probe_status",
+        "detail": {}
+      },
+      "atMs": 3533
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /orders/demo-001/status",
+        "detail": {
+          "url": "http://127.0.0.1:36973/orders/demo-001/status",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "orderId": "demo-001",
+            "sourceChangedAt": "2026-09-08T23:23:59.112Z",
+            "screeningStatus": "complete"
+          }
+        }
+      },
+      "atMs": 3537
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "checks",
+        "title": "Response validation",
+        "detail": {
+          "checks": [
+            {
+              "label": "HTTP 200",
+              "passed": true
+            },
+            {
+              "label": "Matching order ID",
+              "passed": true
+            },
+            {
+              "label": "Recognized screening status",
+              "passed": true
+            },
+            {
+              "label": "Valid source timestamp",
+              "passed": true
+            }
+          ]
+        }
+      },
+      "atMs": 3537
+    },
+    {
+      "type": "progress",
+      "label": "Agent choosing an action",
+      "atMs": 3537
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "action",
+        "title": "update_record",
+        "detail": {
+          "reason": "The documented status response returned HTTP 200, matched orderId demo-001, used the recognized status complete, and included a valid ISO sourceChangedAt timestamp. Per the contract, this maps to “Screening complete — review required,” not hiring clearance."
+        }
+      },
+      "atMs": 5132
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "PATCH /recruiting/demo-001",
+        "detail": {
+          "url": "http://127.0.0.1:36973/recruiting/demo-001",
+          "method": "PATCH",
+          "body": {
+            "screening": "Screening complete — review required"
+          },
+          "status": 200,
+          "response": {
+            "id": "demo-001",
+            "name": "Fictional applicant",
+            "screening": "Screening complete — review required",
+            "revision": 1
+          }
+        }
+      },
+      "atMs": 5133
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /recruiting/demo-001",
+        "detail": {
+          "url": "http://127.0.0.1:36973/recruiting/demo-001",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "id": "demo-001",
+            "name": "Fictional applicant",
+            "screening": "Screening complete — review required",
+            "revision": 1
+          }
+        }
+      },
+      "atMs": 5136
+    },
+    {
+      "type": "complete",
+      "result": {
+        "mode": "live_test_service",
+        "scenario": "valid",
+        "outcome": "updated",
+        "reason": "The documented status response returned HTTP 200, matched orderId demo-001, used the recognized status complete, and included a valid ISO sourceChangedAt timestamp. Per the contract, this maps to “Screening complete — review required,” not hiring clearance.",
+        "before": {
+          "id": "demo-001",
+          "name": "Fictional applicant",
+          "screening": "Awaiting update",
+          "revision": 0
+        },
+        "after": {
+          "id": "demo-001",
+          "name": "Fictional applicant",
+          "screening": "Screening complete — review required",
+          "revision": 1
+        },
+        "checks": [
+          {
+            "label": "HTTP 200",
+            "passed": true
+          },
+          {
+            "label": "Matching order ID",
+            "passed": true
+          },
+          {
+            "label": "Recognized screening status",
+            "passed": true
+          },
+          {
+            "label": "Valid source timestamp",
+            "passed": true
+          }
+        ],
+        "activity": [
+          {
+            "kind": "http",
+            "title": "GET /recruiting/demo-001",
+            "detail": {
+              "url": "http://127.0.0.1:36973/recruiting/demo-001",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "id": "demo-001",
+                "name": "Fictional applicant",
+                "screening": "Awaiting update",
+                "revision": 0
+              }
+            }
+          },
+          {
+            "kind": "action",
+            "title": "inspect_contract",
+            "detail": {}
+          },
+          {
+            "kind": "http",
+            "title": "GET /contract",
+            "detail": {
+              "url": "http://127.0.0.1:36973/contract",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "service": "Screening test service — simulated vendor, fictional data",
+                "method": "GET",
+                "path": "/orders/demo-001/status",
+                "required": {
+                  "orderId": "demo-001",
+                  "screeningStatus": [
+                    "pending",
+                    "complete"
+                  ],
+                  "sourceChangedAt": "ISO timestamp"
+                },
+                "mapping": {
+                  "pending": "Screening pending",
+                  "complete": "Screening complete — review required"
+                },
+                "destination": "PATCH /recruiting/demo-001",
+                "rule": "Completion is not hiring clearance. An HTTP 200 alone is insufficient."
+              }
+            }
+          },
+          {
+            "kind": "action",
+            "title": "probe_status",
+            "detail": {}
+          },
+          {
+            "kind": "http",
+            "title": "GET /orders/demo-001/status",
+            "detail": {
+              "url": "http://127.0.0.1:36973/orders/demo-001/status",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "orderId": "demo-001",
+                "sourceChangedAt": "2026-09-08T23:23:59.112Z",
+                "screeningStatus": "complete"
+              }
+            }
+          },
+          {
+            "kind": "checks",
+            "title": "Response validation",
+            "detail": {
+              "checks": [
+                {
+                  "label": "HTTP 200",
+                  "passed": true
+                },
+                {
+                  "label": "Matching order ID",
+                  "passed": true
+                },
+                {
+                  "label": "Recognized screening status",
+                  "passed": true
+                },
+                {
+                  "label": "Valid source timestamp",
+                  "passed": true
+                }
+              ]
+            }
+          },
+          {
+            "kind": "action",
+            "title": "update_record",
+            "detail": {
+              "reason": "The documented status response returned HTTP 200, matched orderId demo-001, used the recognized status complete, and included a valid ISO sourceChangedAt timestamp. Per the contract, this maps to “Screening complete — review required,” not hiring clearance."
+            }
+          },
+          {
+            "kind": "http",
+            "title": "PATCH /recruiting/demo-001",
+            "detail": {
+              "url": "http://127.0.0.1:36973/recruiting/demo-001",
+              "method": "PATCH",
+              "body": {
+                "screening": "Screening complete — review required"
+              },
+              "status": 200,
+              "response": {
+                "id": "demo-001",
+                "name": "Fictional applicant",
+                "screening": "Screening complete — review required",
+                "revision": 1
+              }
+            }
+          },
+          {
+            "kind": "http",
+            "title": "GET /recruiting/demo-001",
+            "detail": {
+              "url": "http://127.0.0.1:36973/recruiting/demo-001",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "id": "demo-001",
+                "name": "Fictional applicant",
+                "screening": "Screening complete — review required",
+                "revision": 1
+              }
+            }
+          }
+        ],
+        "usage": {
+          "modelRequests": 3,
+          "toolCalls": 3,
+          "inputTokens": 1363,
+          "outputTokens": 129
+        },
+        "completedAt": "2026-09-08T23:24:00.713Z"
+      },
+      "atMs": 5136
+    }
+  ]
+}

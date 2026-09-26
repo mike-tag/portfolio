@@ -22,13 +22,17 @@ export const routeDefinitions: Record<PageId, RouteDefinition> = {
     title: "The Build | Mike Tagariello",
     surface: "presentation",
   },
+  "enterprise-build": {
+    title: "Enterprise AI delivery | Mike Tagariello",
+    surface: "presentation",
+  },
   skills: {
     title: "Reusable AI skills | Mike Tagariello",
     surface: "portfolio-case",
     projectLabel: "Reusable expertise",
   },
   advocacy: {
-    title: "Advocacy Workbench case study | Mike Tagariello",
+    title: "Communications workbench model | Mike Tagariello",
     surface: "portfolio-case",
     projectLabel: "Usable workflows",
   },

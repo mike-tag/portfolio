@@ -1,0 +1,371 @@
+{
+  "url": "https://integration-agent-demo.onrender.com",
+  "scenario": "feasibility-case-3",
+  "testCase": {
+    "number": 3,
+    "name": "Five-minute guarantee requested",
+    "edited": false
+  },
+  "httpStatus": 200,
+  "elapsedMs": 13450,
+  "events": [
+    {
+      "type": "progress",
+      "label": "Request accepted",
+      "phase": "investigate",
+      "atMs": 90
+    },
+    {
+      "type": "progress",
+      "label": "Choosing the next step",
+      "phase": "investigate",
+      "atMs": 90
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "model",
+        "title": "Model request 1",
+        "detail": {
+          "status": "completed",
+          "inputTokens": 837,
+          "outputTokens": 29
+        }
+      },
+      "atMs": 1675
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "tool",
+        "title": "search_references",
+        "detail": {
+          "arguments": {
+            "query": "HireRight API screening status update webhook delivery timing status change"
+          },
+          "result": {
+            "status": "matches",
+            "matches": [
+              {
+                "id": "push-updates",
+                "title": "Receive status changes",
+                "bestUse": "Evaluate push delivery dependencies and recovery questions."
+              },
+              {
+                "id": "status-lookup",
+                "title": "Retrieve status for one order",
+                "bestUse": "Identify the candidate operation for a known order."
+              },
+              {
+                "id": "access",
+                "title": "Access and identity requirements",
+                "bestUse": "Identify access checks before a sandbox request."
+              },
+              {
+                "id": "status-meaning",
+                "title": "Completion and adjudication are distinct",
+                "bestUse": "Prevent an order-completion signal being interpreted as hiring clearance."
+              }
+            ]
+          }
+        }
+      },
+      "atMs": 1675
+    },
+    {
+      "type": "progress",
+      "label": "Choosing the next step",
+      "phase": "investigate",
+      "atMs": 1675
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "model",
+        "title": "Model request 2",
+        "detail": {
+          "status": "completed",
+          "inputTokens": 992,
+          "outputTokens": 20
+        }
+      },
+      "atMs": 2894
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "tool",
+        "title": "read_reference",
+        "detail": {
+          "arguments": {
+            "id": "push-updates"
+          },
+          "result": {
+            "status": "found",
+            "id": "push-updates",
+            "sourceId": "updates",
+            "locator": "Status Message: PUSH Approach → Overview; Acknowledgements; Redelivery",
+            "title": "Receive status changes",
+            "text": "HireRight recommends push updates to a client HTTPS endpoint. A successful HTTP acknowledgement signals receipt. Redelivery is optional and must be configured.",
+            "bestUse": "Evaluate push delivery dependencies and recovery questions.",
+            "reformType": "Integration feasibility",
+            "verificationStatus": "Documentation reviewed; delivery and timing not tested.",
+            "source": {
+              "title": "HireRight status updates",
+              "url": "https://stage-developer.hireright.com/documentation/status-updates",
+              "checked": "2026-09-07",
+              "caveat": "Public staging-portal documentation; no customer-specific timing guarantee has been established."
+            }
+          }
+        }
+      },
+      "atMs": 2894
+    },
+    {
+      "type": "progress",
+      "label": "Choosing the next step",
+      "phase": "investigate",
+      "atMs": 2894
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "model",
+        "title": "Model request 3",
+        "detail": {
+          "status": "completed",
+          "inputTokens": 1176,
+          "outputTokens": 20
+        }
+      },
+      "atMs": 4103
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "tool",
+        "title": "read_reference",
+        "detail": {
+          "arguments": {
+            "id": "status-lookup"
+          },
+          "result": {
+            "status": "found",
+            "id": "status-lookup",
+            "sourceId": "overview",
+            "locator": "Common Operations → Background & Drug Screening",
+            "title": "Retrieve status for one order",
+            "text": "GET /orders/{id}/status retrieves an order summary, including order status, adjudication status, and product statuses.",
+            "bestUse": "Identify the candidate operation for a known order.",
+            "reformType": "Integration feasibility",
+            "verificationStatus": "Documentation reviewed; endpoint not executed.",
+            "source": {
+              "title": "HireRight Connect overview",
+              "url": "https://stage-developer.hireright.com/documentation/overview",
+              "checked": "2026-09-07",
+              "caveat": "Public staging-portal documentation; customer access and current configuration are unverified."
+            }
+          }
+        }
+      },
+      "atMs": 4103
+    },
+    {
+      "type": "progress",
+      "label": "Preparing assessment",
+      "phase": "investigate",
+      "atMs": 4103
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "model",
+        "title": "Model request 4",
+        "detail": {
+          "status": "completed",
+          "inputTokens": 1350,
+          "outputTokens": 660
+        }
+      },
+      "atMs": 13449
+    },
+    {
+      "type": "progress",
+      "label": "Checking structure and citations",
+      "phase": "validate",
+      "atMs": 13449
+    },
+    {
+      "type": "complete",
+      "result": {
+        "mode": "live",
+        "model": "gpt-5.6-terra",
+        "request": "Fictional enterprise scenario: A sponsor requests a guaranteed five-minute HireRight screening-status update in the recruiting system. API access, destination capabilities, and delivery timing have not been tested. Can we promise this? Investigate the evidence and recommend the next validation step.",
+        "assessment": {
+          "decision": "validate_dependency",
+          "summary": "No—five-minute status visibility in the recruiting system cannot be promised. HireRight documentation supports a push approach to a client HTTPS endpoint, but neither customer access/configuration nor destination-system receipt, processing, display behavior, or timing has been tested. Because the requirement is change-to-display, end-to-end measurement must begin at HireRight’s actual status-change time; without a trustworthy source-event time, the five-minute outcome cannot be established.",
+          "endpoint": "A customer-provided HTTPS endpoint for HireRight status pushes is the candidate delivery path. A documented status lookup, GET /orders/{id}/status, may support reconciliation for a known order but does not establish timely delivery or display.",
+          "expectedResult": "Validation should produce evidence that a status change is pushed, acknowledged, processed by the recruiting integration, and visibly updated in the recruiting system within five minutes measured from the vendor status-change time—not merely from message receipt.",
+          "evidence": [
+            {
+              "claim": "HireRight recommends pushing status updates to a client HTTPS endpoint; a successful HTTP acknowledgement only signals receipt, and redelivery is optional and requires configuration.",
+              "referenceIds": [
+                "push-updates"
+              ]
+            },
+            {
+              "claim": "HireRight documents GET /orders/{id}/status for retrieving an order summary with order, adjudication, and product statuses; the endpoint has not been executed for this customer.",
+              "referenceIds": [
+                "status-lookup"
+              ]
+            }
+          ],
+          "unknowns": [
+            "Whether the sponsor has enabled/configured HireRight push updates, including redelivery, and has credentials and a non-production test setup.",
+            "Whether the recruiting system exposes an integration endpoint and can process, persist, and visibly display the relevant status update.",
+            "The actual delivery, downstream processing, retry, and display latencies under representative conditions.",
+            "Whether a trustworthy HireRight status-change timestamp is available to measure vendor-change-to-display timing.",
+            "Which status constitutes the requested business update; an order completion/status signal must not be treated as hiring clearance."
+          ],
+          "nextTest": "The sponsor’s HireRight integration administrator and recruiting-system technical owner should jointly run one non-production status-change test after confirming push configuration and a reachable HTTPS receiver. Capture the vendor’s authoritative status-change time (if available), receiver arrival and acknowledgement times, integration processing time, and the recruiting-system visible-update time. Expected evidence: an end-to-end timestamped trace showing the selected status reaches visible display within five minutes, plus behavior for a failed acknowledgement/redelivery scenario. If no trustworthy source-event time is available, record that only receipt-to-display latency was measured and do not claim the five-minute end-to-end guarantee.",
+          "questions": [
+            "Can the sponsor provide non-production HireRight access/configuration and a recruiting-system technical owner with a reachable test endpoint?",
+            "What exact screening status must be displayed, and is there an authoritative vendor status-change timestamp available for measurement?"
+          ]
+        },
+        "activity": [
+          {
+            "kind": "model",
+            "title": "Model request 1",
+            "detail": {
+              "status": "completed",
+              "inputTokens": 837,
+              "outputTokens": 29
+            }
+          },
+          {
+            "kind": "tool",
+            "title": "search_references",
+            "detail": {
+              "arguments": {
+                "query": "HireRight API screening status update webhook delivery timing status change"
+              },
+              "result": {
+                "status": "matches",
+                "matches": [
+                  {
+                    "id": "push-updates",
+                    "title": "Receive status changes",
+                    "bestUse": "Evaluate push delivery dependencies and recovery questions."
+                  },
+                  {
+                    "id": "status-lookup",
+                    "title": "Retrieve status for one order",
+                    "bestUse": "Identify the candidate operation for a known order."
+                  },
+                  {
+                    "id": "access",
+                    "title": "Access and identity requirements",
+                    "bestUse": "Identify access checks before a sandbox request."
+                  },
+                  {
+                    "id": "status-meaning",
+                    "title": "Completion and adjudication are distinct",
+                    "bestUse": "Prevent an order-completion signal being interpreted as hiring clearance."
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "model",
+            "title": "Model request 2",
+            "detail": {
+              "status": "completed",
+              "inputTokens": 992,
+              "outputTokens": 20
+            }
+          },
+          {
+            "kind": "tool",
+            "title": "read_reference",
+            "detail": {
+              "arguments": {
+                "id": "push-updates"
+              },
+              "result": {
+                "status": "found",
+                "id": "push-updates",
+                "sourceId": "updates",
+                "locator": "Status Message: PUSH Approach → Overview; Acknowledgements; Redelivery",
+                "title": "Receive status changes",
+                "text": "HireRight recommends push updates to a client HTTPS endpoint. A successful HTTP acknowledgement signals receipt. Redelivery is optional and must be configured.",
+                "bestUse": "Evaluate push delivery dependencies and recovery questions.",
+                "reformType": "Integration feasibility",
+                "verificationStatus": "Documentation reviewed; delivery and timing not tested.",
+                "source": {
+                  "title": "HireRight status updates",
+                  "url": "https://stage-developer.hireright.com/documentation/status-updates",
+                  "checked": "2026-09-07",
+                  "caveat": "Public staging-portal documentation; no customer-specific timing guarantee has been established."
+                }
+              }
+            }
+          },
+          {
+            "kind": "model",
+            "title": "Model request 3",
+            "detail": {
+              "status": "completed",
+              "inputTokens": 1176,
+              "outputTokens": 20
+            }
+          },
+          {
+            "kind": "tool",
+            "title": "read_reference",
+            "detail": {
+              "arguments": {
+                "id": "status-lookup"
+              },
+              "result": {
+                "status": "found",
+                "id": "status-lookup",
+                "sourceId": "overview",
+                "locator": "Common Operations → Background & Drug Screening",
+                "title": "Retrieve status for one order",
+                "text": "GET /orders/{id}/status retrieves an order summary, including order status, adjudication status, and product statuses.",
+                "bestUse": "Identify the candidate operation for a known order.",
+                "reformType": "Integration feasibility",
+                "verificationStatus": "Documentation reviewed; endpoint not executed.",
+                "source": {
+                  "title": "HireRight Connect overview",
+                  "url": "https://stage-developer.hireright.com/documentation/overview",
+                  "checked": "2026-09-07",
+                  "caveat": "Public staging-portal documentation; customer access and current configuration are unverified."
+                }
+              }
+            }
+          },
+          {
+            "kind": "model",
+            "title": "Model request 4",
+            "detail": {
+              "status": "completed",
+              "inputTokens": 1350,
+              "outputTokens": 660
+            }
+          }
+        ],
+        "usage": {
+          "inputTokens": 4355,
+          "outputTokens": 729,
+          "modelRequests": 4,
+          "toolCalls": 3
+        },
+        "completedAt": "2026-09-09T01:12:50.676Z"
+      },
+      "atMs": 13450
+    }
+  ]
+}

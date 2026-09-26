@@ -6,7 +6,7 @@ export function AboutPage() {
       <header className="adv-depth-header">
         <div>
           <h1>What this independent pilot proves—and what it does not.</h1>
-          <p>The open primaries playbook demonstrates a repeatable way to prepare values-led, audience-aware, evidence-backed advocacy. It is not an official Veterans for All Voters production service.</p>
+          <p>This pilot applies a communications workbench model to open primaries advocacy: connecting purpose, audience, evidence, and human review. It is not an official Veterans for All Voters production service.</p>
         </div>
         <a className="button button-primary" href="#/workbench">Try the pilot <ArrowRight aria-hidden="true" size={18} /></a>
       </header>

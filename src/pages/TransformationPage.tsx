@@ -179,20 +179,14 @@ This packet demonstrates a method. Its mappings, scores, controls, and role reco
     <div className="cr-case-page">
       <section className="cr-case-hero" aria-labelledby="cr-case-title">
         <div className="cr-case-hero-copy">
-          <h1 id="cr-case-title">AI transformation starts with redesigning how work gets done.</h1>
-          <p className="cr-case-diagnosis">
-            Isolated pilots can prove that a model helps with a task. They do not decide how the surrounding role,
-            workflow, controls, and accountability should change.
-          </p>
-          <p>
-            The Transformation Factory does this across roles throughout an organization.
-          </p>
+          <h1 id="cr-case-title">I redesign work around people, AI, and clear responsibility.</h1>
+          <p className="cr-case-diagnosis">I built this interactive method to turn a job description into a task map, a redesigned role, and a pilot plan. Follow a sample procurement role and inspect the decisions.</p>
           <button
             className="cr-case-button"
             type="button"
             onClick={() => document.querySelector("#transformation-walkthrough")?.scrollIntoView()}
           >
-            Walk through the decision system
+            Follow a role redesign
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>

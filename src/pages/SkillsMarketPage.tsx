@@ -14,6 +14,12 @@ import type { MarketSkill } from "../data/skills";
 export function SkillsMarketPage() {
   const [copied, setCopied] = useState<string | null>(null);
 
+  function exploreExample() {
+    const heading = document.getElementById(`${marketSkills[0].id}-simulation-title`);
+    heading?.focus({ preventScroll: true });
+    heading?.scrollIntoView({ block: "start" });
+  }
+
   async function copyCommand(id: string, value: string) {
     try {
       if (!navigator.clipboard?.writeText) throw new Error("Clipboard API unavailable");
@@ -38,7 +44,11 @@ export function SkillsMarketPage() {
   return (
     <div className="skills-collection-page">
       <section className="skills-collection-hero" aria-labelledby="skills-collection-title">
-        <h1 id="skills-collection-title">I turn task-level expertise into reusable AI skills.</h1>
+        <div className="skills-collection-intro">
+          <h1 id="skills-collection-title">I make expert methods easier to reuse with AI.</h1>
+          <p className="portfolio-entry-summary">I published Design Planning to help people work through design decisions with an AI collaborator. Try the short example to see how it asks questions and explains tradeoffs, then inspect or install the skill.</p>
+          <button className="portfolio-entry-action" type="button" onClick={exploreExample}>Try the design-planning example <ArrowRight aria-hidden="true" size={18} /></button>
+        </div>
         <figure className="skills-collection-lifecycle">
           <figcaption>How expertise becomes a shared skill</figcaption>
           <ol>
@@ -138,7 +148,7 @@ function SkillShowcase({ skill, copied, onCopy }: SkillShowcaseProps) {
 
       <section className="skills-collection-simulation" aria-labelledby={`${skill.id}-simulation-title`}>
         <div className="skills-collection-simulation-heading">
-          <h3 id={`${skill.id}-simulation-title`}>Three moments make the judgment visible.</h3>
+          <h3 id={`${skill.id}-simulation-title`} tabIndex={-1}>Three moments make the judgment visible.</h3>
           <p>This representative, static walkthrough shows how the documented workflow responds to one ambiguous request.</p>
         </div>
 

@@ -9,7 +9,7 @@ export function MethodPage() {
     <section className="adv-depth-page adv-method-page">
       <header className="adv-depth-header">
         <div>
-          <h1>Two decisions keep an advocacy prompt honest.</h1>
+          <h1>Two decisions keep a communication prompt honest.</h1>
           <p>The workbench separates public facts from strategic interpretation and keeps every evidence limitation attached to the claim it qualifies.</p>
         </div>
         <a className="button button-primary" href="#/workbench">Walk through the NYC example <ArrowRight aria-hidden="true" size={18} /></a>

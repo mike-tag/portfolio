@@ -1,4 +1,3 @@
-import { ArrowLeft } from "lucide-react";
 import { PortfolioActions } from "./PortfolioActions";
 
 type PortfolioCaseClosingProps = {
@@ -17,10 +16,6 @@ export function PortfolioCaseClosing({
         <p>{description}</p>
       </div>
       <PortfolioActions className="portfolio-case-closing-actions" />
-      <a className="portfolio-case-back" href="#/">
-        <ArrowLeft aria-hidden="true" size={17} />
-        Return to the portfolio
-      </a>
     </section>
   );
 }

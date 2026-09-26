@@ -24,7 +24,7 @@ const workflowStages = [
     Icon: LayoutTemplate,
   },
   {
-    title: "The handoff keeps the advocate in control.",
+    title: "The handoff keeps the communicator in control.",
     description: "A sourced prompt, preserved caveats, fact-check list, and explicit human review make the output ready to inspect—not ready to send.",
     Icon: ClipboardCheck,
   },
@@ -32,23 +32,23 @@ const workflowStages = [
 
 const productDecisions = [
   {
-    title: "Start with VAV values, not policy mechanics.",
-    description: "Service, voter voice, trust, authentic stories, common ground, accountability, and practical action shape the message.",
+    title: "Start with shared values and a clear purpose.",
+    description: "In the advocacy example, VAV values—service, voter voice, trust, authentic stories, common ground, accountability, and practical action—shape the message.",
     Icon: HeartHandshake,
   },
   {
     title: "Separate public facts from strategic judgment.",
-    description: "The tool distinguishes what is known about an audience from an advocate's interpretation of what may resonate.",
+    description: "The workbench distinguishes what is known about an audience from a communicator's interpretation of what may resonate.",
     Icon: UsersRound,
   },
   {
     title: "Carry the conditions with every claim.",
-    description: "Evidence retains its source locator, best use, caveat, reform type, and verification status instead of becoming an unqualified promise.",
+    description: "In this pilot, evidence retains its source locator, best use, caveat, reform type, and verification status instead of becoming an unqualified promise.",
     Icon: BookOpenCheck,
   },
   {
     title: "Make human review part of the product.",
-    description: "The advocate owns the personal story, checks every fact, and decides what is appropriate to present.",
+    description: "The person communicating owns the story, checks every fact, and approves the final message.",
     Icon: UserRoundCheck,
   },
 ];
@@ -58,19 +58,19 @@ export function AdvocacyCaseStudyPage() {
     <div className="avcase-page">
       <section className="avcase-hero" aria-labelledby="avcase-title">
         <div className="avcase-hero-copy">
-          <h1 id="avcase-title">I turn judgment-heavy workflows into usable systems.</h1>
-          <p>This case study shows how I turned an advocacy workflow—not just its final prompt—into a system that keeps values, audience context, evidence, and human judgment connected.</p>
+          <h1 id="avcase-title">I make communication easier.</h1>
+          <p>I built a communications workbench model that guides people from a goal, an audience, and evidence to a draft they can review. The Advocacy Workbench is the working example: a testimony workflow that brings personal stories and qualified sources together.</p>
           <div className="avcase-hero-actions">
             <button
               className="avcase-primary-action"
               type="button"
               onClick={() => document.getElementById("advocacy-structure")?.scrollIntoView()}
             >
-              Read the case study
+              See how I designed the workflow
               <ArrowDown aria-hidden="true" size={18} />
             </button>
             <a className="avcase-secondary-action" href="#/workbench">
-              Jump to the working prototype
+              Try the advocacy example
               <ArrowRight aria-hidden="true" size={19} />
             </a>
           </div>
@@ -126,10 +126,10 @@ export function AdvocacyCaseStudyPage() {
 
       <section className="avcase-proof" aria-labelledby="avcase-proof-title">
         <div>
-          <h2 id="avcase-proof-title">The workbench is the proof.</h2>
-          <p>Build a sample work packet to see how values, audience context, personal story, qualified evidence, and human review stay connected.</p>
+          <h2 id="avcase-proof-title">Advocacy is the working example.</h2>
+          <p>The model connects a communication goal, audience context, message, supporting evidence, and human review. Try the open primaries playbook to prepare a testimony prompt.</p>
           <a className="avcase-primary-action avcase-proof-action" href="#/workbench">
-            Explore the working prototype
+            Try the advocacy example
             <Sparkles aria-hidden="true" size={19} />
           </a>
         </div>

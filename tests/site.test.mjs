@@ -118,28 +118,21 @@ test("the route hierarchy separates the portfolio from Advocacy product depth", 
   assert.match(app, /pageIds/);
   assert.equal((routes.match(/surface: "portfolio-case"/g) || []).length, 3);
   assert.equal((routes.match(/surface: "advocacy-product"/g) || []).length, 5);
-  assert.match(layout, /Portfolio home/);
-  for (const [level, project] of [["Organization", "Role redesign"], ["Workflow", "Advocacy Workbench"], ["Task", "Design Planning"]]) {
-    assert.match(layout, new RegExp(`level: "${level}", project: "${project}"`));
+  const navigation = await read("src/components/PortfolioNavigation.tsx");
+  const destinations = await read("src/data/portfolio.ts");
+  assert.match(layout, /PortfolioNavigation page={page}/);
+  assert.match(layout, /page !== "the-build"/);
+  for (const label of ["Reinvent the work", "Build the system", "Bring people along"]) assert.ok(destinations.includes(label));
+  for (const id of ["transformation", "enterprise-build", "feasibility", "integration", "advocacy", "skills", "workbench", "sources", "method", "examples", "about"]) {
+    assert.ok(destinations.includes('id: "' + id + '"'));
   }
-  for (const label of ["Role redesign", "Usable workflows", "Reusable expertise"]) {
-    assert.match(routes, new RegExp(`projectLabel: "${label}"`));
-  }
-  const roleIndex = layout.indexOf('id: "transformation", level: "Organization"');
-  const workflowIndex = layout.indexOf('id: "advocacy", level: "Workflow"');
-  const expertiseIndex = layout.indexOf('id: "skills", level: "Task"');
-  assert.ok(roleIndex < workflowIndex && workflowIndex < expertiseIndex, "portfolio links should tell the role, workflow, expertise story in order");
-  const advocacyNav = layout.match(/const advocacyNavItems[\s\S]*?\];/)?.[0] ?? "";
-  assert.equal((advocacyNav.match(/id: "/g) || []).length, 3);
-  for (const label of ["Case study", "Try the workbench", "Evidence"]) assert.match(advocacyNav, new RegExp(`label: "${label}"`));
-  assert.doesNotMatch(advocacyNav, /Method|Examples|About/);
-  assert.match(layout, /route\.surface === "portfolio-case"/);
-  assert.match(layout, /route\.surface === "advocacy-product"/);
-  assert.match(layout, /className="footer-profile"/);
-  assert.match(layout, /className="brand-mark portfolio-profile-mark"/);
-  assert.match(layout, /mike-tagariello-headshot-illustrated\.png/);
-  assert.match(layout, /<img src="\.\/mike-tagariello-headshot-illustrated\.png" alt=""/);
-  assert.doesNotMatch(layout, /MikeSigil/);
+  assert.match(navigation, /Portfolio home/);
+  assert.match(navigation, /aria-current/);
+  assert.match(navigation, /inAgentDemo/);
+  assert.doesNotMatch(navigation, /the-build|Organization|Workflow|Design Planning/);
+  const demo = await read("feasibility-agent/src/PortfolioApp.tsx");
+  assert.match(demo, /PortfolioNavigation/);
+
 });
 
 test("portfolio proofs and case-study titles share consistent headline scales", async () => {
@@ -160,9 +153,9 @@ test("portfolio proofs and case-study titles share consistent headline scales", 
 });
 
 test("portfolio navigation uses a panel state instead of underlines", async () => {
-  const styles = await read("src/components/site-layout.css");
-  assert.match(styles, /\.portfolio-case-nav a[\s\S]*?text-decoration:\s*none/);
-  assert.match(styles, /\.portfolio-case-nav a\[aria-current="page"\][\s\S]*?border-color:[\s\S]*?background:/);
+  const styles = await read("src/components/portfolio-navigation.css");
+  assert.match(styles, /\.portfolio-navigation a[\s\S]*?text-decoration:\s*none/);
+  assert.match(styles, /\.portfolio-navigation a\[aria-current="page"\][\s\S]*?border-color:[\s\S]*?background:/);
   assert.doesNotMatch(styles, /a\[aria-current="page"\]::after/);
 });
 
@@ -187,8 +180,6 @@ test("the front page routes each hiring need to focused proof and next actions",
   assert.match(app, /SkillsMarketPage/);
   assert.match(app, /AdvocacyCaseStudyPage/);
   assert.match(app, /ExperiencePage/);
-  assert.match(chooser, /I need to turn AI potential into a practical role redesign/);
-  assert.match(chooser, /I need to make a clear 60-second case for voter reform/);
   assert.match(chooser, /I turn AI capabilities into better work and lasting value/);
   assert.match(chooser, /mike-tagariello-headshot-illustrated\.png/);
   assert.doesNotMatch(chooser, /Professional headshot forthcoming/);
@@ -200,19 +191,17 @@ test("the front page routes each hiring need to focused proof and next actions",
   assert.match(chooser, /<strong>50k\+<\/strong><span>People reached in just one project/);
   assert.match(chooser, /U\.S\. Air Force veteran/);
   assert.match(chooser, /Columbia University graduate/);
-  assert.match(chooser, /href: "#\/transformation"/);
-  assert.match(chooser, /href: "#\/advocacy"/);
-  assert.match(chooser, /href: "#\/skills"/);
+  const destinations = await read("src/data/portfolio.ts");
+  assert.match(chooser, /portfolioSections\.map/);
+  assert.match(chooser, /portfolioHref\(link\.id\)/);
   assert.match(chooser, /How I work with AI/);
-  for (const level of ["Organization", "Workflow", "Task"]) assert.match(chooser, new RegExp(level));
-  assert.match(chooser, /Three independent levels of AI integration/);
-  const depthMap = chooser.match(/const portfolioDepth = \[[\s\S]*?\];/)?.[0] ?? "";
-  assert.doesNotMatch(depthMap, /project:/);
-  for (const detail of ["Align people, roles, and governance", "Redesign how work gets done", "Make expert methods reusable"]) {
-    assert.match(depthMap, new RegExp(detail));
+  for (const title of ["Reinvent how work gets done", "Build the system that makes it real", "Bring people along with the change"]) {
+    assert.ok(destinations.includes(title));
   }
-  assert.match(chooser, /Explore and install skills/);
-  assert.match(chooser, /I need an AI collaborator that understands design principles and leaves me with a usable plan/);
+  for (const image of ["reinvent-work.png", "build-system.png", "bring-people-along.png"]) {
+    assert.ok((await readBuffer(`public/work-story/${image}`)).length > 0);
+  }
+  assert.match(destinations, /Reuse expert methods/);
   assert.match(actions, /https:\/\/www\.linkedin\.com\/in\/miketagariello\//);
   assert.match(actions, /Connect with Mike on LinkedIn/);
   assert.match(actions, /\.\/mike-tagariello-resume\.pdf/);
@@ -227,10 +216,10 @@ test("the transformation case shows one proof, one walkthrough, and optional dep
     read("src/data/transformation.ts"),
     read("src/pages/TransformationPage.css"),
   ]);
-  assert.match(page, /AI transformation starts with redesigning how work gets done/);
+  assert.match(page, /I redesign work around people, AI, and clear responsibility/);
   assert.doesNotMatch(page, /Choose your lens/);
   assert.match(page, /From role intake to governed pilots/);
-  assert.match(page, /The Transformation Factory does this across roles throughout an organization/);
+  assert.match(page, /Follow a sample procurement role and inspect the decisions/);
   assert.match(page, /Four stages turn a role's work into governed process pilots/);
   for (const stage of ["Validate the work", "Map the decisions", "Redesign the role", "Plan role pilots"]) {
     assert.match(page, new RegExp(stage));
@@ -265,7 +254,7 @@ test("the skills page stays an expandable collection with a three-moment demonst
     read("src/data/skills.ts"),
     read("src/pages/SkillsMarketPage.css"),
   ]);
-  assert.match(page, /I turn task-level expertise into reusable AI skills/);
+  assert.match(page, /I make expert methods easier to reuse with AI/);
   assert.match(page, /How expertise becomes a shared skill/);
   for (const stage of ["Find the judgment", "Encode the method", "Publish the skill", "Learn through reuse"]) assert.match(page, new RegExp(stage));
   assert.match(page, /<figure className="skills-collection-lifecycle">/);
@@ -314,16 +303,16 @@ test("the Advocacy landing page is a hiring-manager case study that protects the
   const app = await read("src/App.tsx");
   const workbench = await read("src/pages/WorkbenchPage.tsx");
   assert.match(app, /AdvocacyCaseStudyPage/);
-  assert.match(advocacy, /I turn judgment-heavy workflows into usable systems/);
-  assert.match(advocacy, /Read the case study/);
-  assert.match(advocacy, /Jump to the working prototype/);
+  assert.match(advocacy, /I make communication easier/);
+  assert.match(advocacy, /See how I designed the workflow/);
+  assert.match(advocacy, /Try the advocacy example/);
   assert.doesNotMatch(advocacy, /See what I changed/);
-  assert.match(advocacy, /Explore the working prototype/);
+  assert.match(advocacy, /communications workbench model/);
   assert.match(advocacy, /A repeatable structure makes the work transferable/);
   assert.equal((advocacy.match(/title: "/g) || []).length, 7);
   assert.match(advocacy, /Product strategy, research synthesis, workflow design, UX direction, and agent-assisted prototyping with Codex/);
   assert.match(advocacy, /I designed the judgment around the prompt, not just the prompt/);
-  assert.match(advocacy, /The workbench is the proof/);
+  assert.match(advocacy, /Advocacy is the working example/);
   assert.match(advocacy, /href="#\/sources"/);
   assert.match(advocacy, /href="#\/method"/);
   assert.match(advocacy, /href="#\/examples"/);
@@ -380,7 +369,7 @@ test("Advocacy support pages keep essential meaning visible and technical depth 
     assert.match(sources, new RegExp(field));
   }
   assert.match(sources, /source\.locator/);
-  assert.match(method, /Two decisions keep an advocacy prompt honest/);
+  assert.match(method, /Two decisions keep a communication prompt honest/);
   assert.match(method, /Known public fact/);
   assert.match(method, /Strategic judgment/);
   assert.match(method, /A useful claim carries its limitation into the draft/);
@@ -455,7 +444,7 @@ test("purposeful icons appear across every site section", async () => {
   assert.match(method, /ShieldAlert/);
   assert.match(examples, /Landmark/);
   assert.match(about, /Laptop/);
-  assert.match(layout, /House/);
+  assert.match(layout, /ShieldCheck/);
   for (const valueId of ["service", "voter_agency", "common_ground", "practical_action", "authentic_voice", "trust"]) {
     assert.match(valueIcons, new RegExp(valueId));
   }

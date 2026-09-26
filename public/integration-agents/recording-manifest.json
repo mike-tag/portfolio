@@ -1,0 +1,50 @@
+[
+  {
+    "kind": "endpoint",
+    "label": "Valid response",
+    "hostedUrl": "https://integration-agent-demo.onrender.com",
+    "file": "hosted-valid-2026-09-08T23-24-01-974Z.json",
+    "sha256": "ef7297aa35855a04fa1d2237ab355ce00797fe8d40d3db899ef9a40dee7d3c86",
+    "completedAt": "2026-09-08T23:24:00.713Z",
+    "elapsedMs": 5137
+  },
+  {
+    "kind": "endpoint",
+    "label": "Missing status field",
+    "hostedUrl": "https://integration-agent-demo.onrender.com",
+    "file": "hosted-broken-2026-09-08T23-24-17-379Z.json",
+    "sha256": "e0ce69794d91a634cf52acae234e174fa1ea7052f6da6797cf116592564c15fc",
+    "completedAt": "2026-09-08T23:24:16.117Z",
+    "elapsedMs": 4894
+  },
+  {
+    "kind": "feasibility",
+    "label": "Case 1 · API access unknown",
+    "hostedUrl": "https://integration-agent-demo.onrender.com",
+    "file": "hosted-feasibility-2026-09-08T23-24-41-706Z.json",
+    "sha256": "1b31f4514ae1d7540e08c367b6b0775f01b64cf9aa554d6ba7b18b59a0926050",
+    "completedAt": "2026-09-08T23:24:40.444Z",
+    "elapsedMs": 13816,
+    "caseIdentity": "Exact recorded request matched to scenarios.json"
+  },
+  {
+    "kind": "feasibility",
+    "label": "Case 2 · Sandbox access confirmed",
+    "hostedUrl": "https://integration-agent-demo.onrender.com",
+    "file": "hosted-feasibility-case-2-2026-09-09T01-12-26-709Z.json",
+    "sha256": "b81eba401e2acd1f7ee1db534e899d17a3b3a7af6943e6bbfc63b009c0a6ba72",
+    "completedAt": "2026-09-09T01:12:26.717Z",
+    "elapsedMs": 19963,
+    "caseIdentity": "Saved case metadata checked against the recorded request"
+  },
+  {
+    "kind": "feasibility",
+    "label": "Case 3 · Five-minute guarantee requested",
+    "hostedUrl": "https://integration-agent-demo.onrender.com",
+    "file": "hosted-feasibility-case-3-2026-09-09T01-12-50-668Z.json",
+    "sha256": "683b5a13f1e357591b81e2afc37b5e0baa43e530aec7cc1b8a41e684f3f08b73",
+    "completedAt": "2026-09-09T01:12:50.676Z",
+    "elapsedMs": 13450,
+    "caseIdentity": "Saved case metadata checked against the recorded request"
+  }
+]

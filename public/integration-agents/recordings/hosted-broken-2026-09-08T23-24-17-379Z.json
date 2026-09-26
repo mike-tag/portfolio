@@ -1,0 +1,334 @@
+{
+  "url": "https://integration-agent-demo.onrender.com",
+  "scenario": "broken",
+  "httpStatus": 200,
+  "elapsedMs": 4894,
+  "events": [
+    {
+      "type": "progress",
+      "label": "Request accepted",
+      "phase": "investigate",
+      "atMs": 110
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /recruiting/demo-001",
+        "detail": {
+          "url": "http://127.0.0.1:40539/recruiting/demo-001",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "id": "demo-001",
+            "name": "Fictional applicant",
+            "screening": "Awaiting update",
+            "revision": 0
+          }
+        }
+      },
+      "atMs": 113
+    },
+    {
+      "type": "progress",
+      "label": "Agent choosing an action",
+      "atMs": 113
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "action",
+        "title": "inspect_contract",
+        "detail": {}
+      },
+      "atMs": 1461
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /contract",
+        "detail": {
+          "url": "http://127.0.0.1:40539/contract",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "service": "Screening test service — simulated vendor, fictional data",
+            "method": "GET",
+            "path": "/orders/demo-001/status",
+            "required": {
+              "orderId": "demo-001",
+              "screeningStatus": [
+                "pending",
+                "complete"
+              ],
+              "sourceChangedAt": "ISO timestamp"
+            },
+            "mapping": {
+              "pending": "Screening pending",
+              "complete": "Screening complete — review required"
+            },
+            "destination": "PATCH /recruiting/demo-001",
+            "rule": "Completion is not hiring clearance. An HTTP 200 alone is insufficient."
+          }
+        }
+      },
+      "atMs": 1462
+    },
+    {
+      "type": "progress",
+      "label": "Agent choosing an action",
+      "atMs": 1462
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "action",
+        "title": "probe_status",
+        "detail": {}
+      },
+      "atMs": 2845
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /orders/demo-001/status",
+        "detail": {
+          "url": "http://127.0.0.1:40539/orders/demo-001/status",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "orderId": "demo-001",
+            "sourceChangedAt": "2026-09-08T23:24:14.070Z"
+          }
+        }
+      },
+      "atMs": 2845
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "checks",
+        "title": "Response validation",
+        "detail": {
+          "checks": [
+            {
+              "label": "HTTP 200",
+              "passed": true
+            },
+            {
+              "label": "Matching order ID",
+              "passed": true
+            },
+            {
+              "label": "Recognized screening status",
+              "passed": false
+            },
+            {
+              "label": "Valid source timestamp",
+              "passed": true
+            }
+          ]
+        }
+      },
+      "atMs": 2845
+    },
+    {
+      "type": "progress",
+      "label": "Agent choosing an action",
+      "atMs": 2845
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "action",
+        "title": "block_update",
+        "detail": {
+          "reason": "Blocked: although the endpoint returned HTTP 200, the response omitted a recognized screeningStatus. The required order ID and sourceChangedAt were present, but not every deterministic response check passed."
+        }
+      },
+      "atMs": 4891
+    },
+    {
+      "type": "activity",
+      "item": {
+        "kind": "http",
+        "title": "GET /recruiting/demo-001",
+        "detail": {
+          "url": "http://127.0.0.1:40539/recruiting/demo-001",
+          "method": "GET",
+          "status": 200,
+          "response": {
+            "id": "demo-001",
+            "name": "Fictional applicant",
+            "screening": "Awaiting update",
+            "revision": 0
+          }
+        }
+      },
+      "atMs": 4894
+    },
+    {
+      "type": "complete",
+      "result": {
+        "mode": "live_test_service",
+        "scenario": "broken",
+        "outcome": "blocked",
+        "reason": "Blocked: although the endpoint returned HTTP 200, the response omitted a recognized screeningStatus. The required order ID and sourceChangedAt were present, but not every deterministic response check passed.",
+        "before": {
+          "id": "demo-001",
+          "name": "Fictional applicant",
+          "screening": "Awaiting update",
+          "revision": 0
+        },
+        "after": {
+          "id": "demo-001",
+          "name": "Fictional applicant",
+          "screening": "Awaiting update",
+          "revision": 0
+        },
+        "checks": [
+          {
+            "label": "HTTP 200",
+            "passed": true
+          },
+          {
+            "label": "Matching order ID",
+            "passed": true
+          },
+          {
+            "label": "Recognized screening status",
+            "passed": false
+          },
+          {
+            "label": "Valid source timestamp",
+            "passed": true
+          }
+        ],
+        "activity": [
+          {
+            "kind": "http",
+            "title": "GET /recruiting/demo-001",
+            "detail": {
+              "url": "http://127.0.0.1:40539/recruiting/demo-001",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "id": "demo-001",
+                "name": "Fictional applicant",
+                "screening": "Awaiting update",
+                "revision": 0
+              }
+            }
+          },
+          {
+            "kind": "action",
+            "title": "inspect_contract",
+            "detail": {}
+          },
+          {
+            "kind": "http",
+            "title": "GET /contract",
+            "detail": {
+              "url": "http://127.0.0.1:40539/contract",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "service": "Screening test service — simulated vendor, fictional data",
+                "method": "GET",
+                "path": "/orders/demo-001/status",
+                "required": {
+                  "orderId": "demo-001",
+                  "screeningStatus": [
+                    "pending",
+                    "complete"
+                  ],
+                  "sourceChangedAt": "ISO timestamp"
+                },
+                "mapping": {
+                  "pending": "Screening pending",
+                  "complete": "Screening complete — review required"
+                },
+                "destination": "PATCH /recruiting/demo-001",
+                "rule": "Completion is not hiring clearance. An HTTP 200 alone is insufficient."
+              }
+            }
+          },
+          {
+            "kind": "action",
+            "title": "probe_status",
+            "detail": {}
+          },
+          {
+            "kind": "http",
+            "title": "GET /orders/demo-001/status",
+            "detail": {
+              "url": "http://127.0.0.1:40539/orders/demo-001/status",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "orderId": "demo-001",
+                "sourceChangedAt": "2026-09-08T23:24:14.070Z"
+              }
+            }
+          },
+          {
+            "kind": "checks",
+            "title": "Response validation",
+            "detail": {
+              "checks": [
+                {
+                  "label": "HTTP 200",
+                  "passed": true
+                },
+                {
+                  "label": "Matching order ID",
+                  "passed": true
+                },
+                {
+                  "label": "Recognized screening status",
+                  "passed": false
+                },
+                {
+                  "label": "Valid source timestamp",
+                  "passed": true
+                }
+              ]
+            }
+          },
+          {
+            "kind": "action",
+            "title": "block_update",
+            "detail": {
+              "reason": "Blocked: although the endpoint returned HTTP 200, the response omitted a recognized screeningStatus. The required order ID and sourceChangedAt were present, but not every deterministic response check passed."
+            }
+          },
+          {
+            "kind": "http",
+            "title": "GET /recruiting/demo-001",
+            "detail": {
+              "url": "http://127.0.0.1:40539/recruiting/demo-001",
+              "method": "GET",
+              "status": 200,
+              "response": {
+                "id": "demo-001",
+                "name": "Fictional applicant",
+                "screening": "Awaiting update",
+                "revision": 0
+              }
+            }
+          }
+        ],
+        "usage": {
+          "modelRequests": 3,
+          "toolCalls": 3,
+          "inputTokens": 1353,
+          "outputTokens": 111
+        },
+        "completedAt": "2026-09-08T23:24:16.117Z"
+      },
+      "atMs": 4894
+    }
+  ]
+}
